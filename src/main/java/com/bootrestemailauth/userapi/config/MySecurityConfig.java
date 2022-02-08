@@ -1,6 +1,8 @@
 package com.bootrestemailauth.userapi.config;
 
 
+import org.hibernate.SessionFactory;
+import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import javax.xml.crypto.dsig.spec.HMACParameterSpec;
+
 import com.bootrestemailauth.userapi.services.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
@@ -27,6 +31,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationFilter jwtFilter;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
@@ -35,7 +40,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/register","/verify-email","/image/").permitAll() //one doubt of image returning
+                .antMatchers("/register","/verify-email","/image/**").permitAll() //one doubt of image returning
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -51,11 +56,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // bcrypt encoding algorithm
     }
 
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
+    
 }
