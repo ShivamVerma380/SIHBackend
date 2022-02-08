@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Component
-public interface UserDao extends CrudRepository<JwtRequest,Integer>{
+public interface UserDao extends CrudRepository<JwtRequest,Long>{
 
     public  JwtRequest getJwtRequestById(int id);
 
