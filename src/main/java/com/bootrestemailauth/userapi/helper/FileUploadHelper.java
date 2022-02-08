@@ -16,7 +16,7 @@ public class FileUploadHelper {
     //static path
     //private String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\bootrestbook\\src\\main\\resources\\static\\image";
     
-    private String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\bootrestemailauthentication\\userapi\\src\\main\\resources\\static\\image";
+    private String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image";
 
 
     //Dynamic file path
@@ -26,10 +26,20 @@ public class FileUploadHelper {
 
     }
 
-    public boolean isFileUploaded(MultipartFile multipartFile){
+    public boolean isFileUploaded(MultipartFile multipartFile, String email){
         boolean isUploaded=false;
         try{
-            Files.copy(multipartFile.getInputStream(),Paths.get(uploadDir+File.separator+multipartFile.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+            String ext = multipartFile.getOriginalFilename();
+                int i = 0;
+                for(; i < ext.length(); i++){
+                    if(ext.charAt(i) == '.'){
+                        break;
+                    }
+                }
+                // System.out.println(i);
+                ext = ext.substring(i+1);
+                // System.out.println(ext);
+            Files.copy(multipartFile.getInputStream(),Paths.get(uploadDir+File.separator+email+"."+ext),StandardCopyOption.REPLACE_EXISTING);
             isUploaded = true;
         }catch(Exception e){
             e.printStackTrace();

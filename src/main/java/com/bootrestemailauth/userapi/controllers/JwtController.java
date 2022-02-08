@@ -85,8 +85,18 @@ public class JwtController {
         String imgUrl=null;
         try {
 
-            if(fileUploadHelper.isFileUploaded(file)){
-                imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(file.getOriginalFilename()).toUriString();
+            if(fileUploadHelper.isFileUploaded(file, email)){
+                String ext = file.getOriginalFilename();
+                int i = 0;
+                for(; i < ext.length(); i++){
+                    if(ext.charAt(i) == '.'){
+                        break;
+                    }
+                }
+                // System.out.println(i);
+                ext = ext.substring(i+1);
+                // System.out.println(ext);
+                imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
             }
 
             Session session = entityManager.unwrap(Session.class);
