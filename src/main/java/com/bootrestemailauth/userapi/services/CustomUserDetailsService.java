@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 //CustomUserDetailsService has to override loadByUsername function provided by spring security...
 
@@ -29,6 +30,8 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     @Autowired
     public JwtUtil jwtUiUtil;
+
+    
 
 
 
@@ -68,7 +71,6 @@ public class CustomUserDetailsService implements UserDetailsService{
         }
 
     }
-    
-    
+
 
 }
