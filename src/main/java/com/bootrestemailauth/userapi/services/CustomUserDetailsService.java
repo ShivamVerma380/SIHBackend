@@ -3,7 +3,7 @@ package com.bootrestemailauth.userapi.services;
 import java.util.ArrayList;
 
 import com.bootrestemailauth.userapi.dao.UserDao;
-import com.bootrestemailauth.userapi.entities.JwtRequest;
+import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 //CustomUserDetailsService has to override loadByUsername function provided by spring security...
 
@@ -26,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDao userDao;
 
     @Autowired
-    public JwtRequest user;
+    public UserRequest user;
 
     @Autowired
     public JwtUtil jwtUiUtil;
@@ -42,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
         try {
            // user = userDao.getUserByEmail(email);
-            user = userDao.getJwtRequestByuseremail(useremail); // get_ClassName_By_variablename
+            user = userDao.getUserRequestByuseremail(useremail); // get_ClassName_By_variablename
             
         } catch (Exception e) {
             e.printStackTrace();
