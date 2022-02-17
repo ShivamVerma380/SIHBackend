@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @Component
 @Table(name="users")
-public class JwtRequest {
+public class UserRequest {
     
     @Id   //represents primary key
     @GeneratedValue(strategy = GenerationType.AUTO) //auto generate id
@@ -46,10 +46,10 @@ public class JwtRequest {
     @Column(name="img_url")
     private String imgUrl;
 
-    public JwtRequest() {
+    public UserRequest() {
     }
 
-    public JwtRequest(int id, String useremail, String name, String password, Blob img, String imgUrl) {
+    public UserRequest(int id, String useremail, String name, String password, Blob img, String imgUrl) {
         this.id = id;
         this.useremail = useremail;
         this.name = name;
@@ -110,11 +110,6 @@ public class JwtRequest {
     public String toString() {
         return "JwtRequest [id=" + id + ", img=" + img + ", imgUrl=" + imgUrl + ", name=" + name + ", password="
                 + password + ", useremail=" + useremail + "]";
-    }
-
-    
-
-    
-    
+    }    
 
 }
