@@ -7,13 +7,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
+import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
-import com.bootrestemailauth.userapi.entities.JwtRequest;
+import com.bootrestemailauth.userapi.entities.AdminRequest;
+import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.entities.JwtResponse;
 import com.bootrestemailauth.userapi.entities.UpdatePassword;
 import com.bootrestemailauth.userapi.helper.FileUploadHelper;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
+import com.bootrestemailauth.userapi.services.CustomAdminDetailsService;
 import com.bootrestemailauth.userapi.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +42,10 @@ import org.hibernate.*;
 public class JwtController {
     
     @Autowired
-    public JwtRequest jwtRequest;
+    public UserRequest jwtRequest;
+
+    @Autowired
+    public AdminRequest admin;
 
     @Autowired
     public MySecurityConfig mySecurityConfig;
@@ -59,10 +65,16 @@ public class JwtController {
     public UserDao userDao;
 
     @Autowired
+    public AdminDao adminDao;
+
+    @Autowired
     public AuthenticationManager authenticationManager;
 
     @Autowired
     public CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    public CustomAdminDetailsService customAdminDetailsService;
 
     @Autowired
     public JwtUtil jwtUtil;
@@ -81,65 +93,120 @@ public class JwtController {
     
     //@Transactional //Without this error is coming
     @PostMapping("/register")
-    public ResponseEntity<?> addUser(@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file){
+    public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file){
         String imgUrl=null;
-        try {
-
-            if(fileUploadHelper.isFileUploaded(file, email)){
-                String ext = file.getOriginalFilename();
-                int i = 0;
-                for(; i < ext.length(); i++){
-                    if(ext.charAt(i) == '.'){
-                        break;
+        
+        if(role.equalsIgnoreCase("Admin")){
+            try {
+                System.out.println("In admin");
+                if(fileUploadHelper.isFileUploaded(file, email)){
+    
+                    String ext = file.getOriginalFilename();
+                    int i=0;
+                    for(;i<ext.length();i++){
+                        if(ext.charAt(i)=='.') break;
                     }
+    
+                    ext = ext.substring(i+1);
+    
+                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
                 }
-                // System.out.println(i);
-                ext = ext.substring(i+1);
-                // System.out.println(ext);
-                imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
+
+                String encodedPassword = mySecurityConfig.passwordEncoder().encode(password);
+                
+                admin.setEmail(email);
+                admin.setName(name);
+                admin.setPassword(encodedPassword);
+                admin.setImg_url(imgUrl);
+                admin.setAadhar_number(null);
+                admin.setPhoneNos(null);
+
+                AdminRequest existingAdmin = adminDao.getAdminRequestByemail(email);
+
+                if(existingAdmin!=null){
+                    jwtResponse.setToken("null");
+                    jwtResponse.setMessage("Admin already exists");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+                }
+
+                adminDao.save(admin);
+                
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                jwtResponse.setMessage(e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
             }
-
-            Session session = entityManager.unwrap(Session.class);
-
-            Blob imageData = session.getLobHelper().createBlob(file.getInputStream(),file.getSize());
-            System.out.println(imageData);
+            //admin has been authenticated successfully
             
+            UserDetails userDetails = customAdminDetailsService.loadUserByUsername(admin.getEmail()); //username == email
             
+            String token = jwtUtil.generateToken(userDetails);
 
-            String encodedPassword = mySecurityConfig.passwordEncoder().encode(password); // bcrypt encoded password
-            
-            jwtRequest.setId(12);
-            jwtRequest.setUseremail(email);
-            jwtRequest.setPassword(encodedPassword);
-            jwtRequest.setName(name);
-            jwtRequest.setImg(imageData);
-            jwtRequest.setImgUrl(imgUrl);
+            jwtResponse.setMessage("Admin Registered successfully");
+            jwtResponse.setToken(token);
 
-            JwtRequest existingUser = userDao.getJwtRequestByuseremail(email); // userDao.get_ClassName_By_variablename
-            if(existingUser!=null){
-                jwtResponse.setMessage("User already exists!!");
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+            return ResponseEntity.ok(jwtResponse);
+        }else{
+            try {
+                if(fileUploadHelper.isFileUploaded(file, email)){
+    
+                    String ext = file.getOriginalFilename();
+                    int i=0;
+                    for(;i<ext.length();i++){
+                        if(ext.charAt(i)=='.') break;
+                    }
+    
+                    ext = ext.substring(i+1);
+    
+                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
+                }
+    
+                Session session = entityManager.unwrap(Session.class);
+    
+                Blob imageData = session.getLobHelper().createBlob(file.getInputStream(),file.getSize());
+                System.out.println(imageData);
+                
+                
+    
+                String encodedPassword = mySecurityConfig.passwordEncoder().encode(password); // bcrypt encoded password
+                
+                jwtRequest.setId(12);
+                jwtRequest.setUseremail(email);
+                jwtRequest.setPassword(encodedPassword);
+                jwtRequest.setName(name);
+                jwtRequest.setImg(imageData);
+                jwtRequest.setImgUrl(imgUrl);
+    
+                UserRequest existingUser = userDao.getUserRequestByuseremail(email); // userDao.get_ClassName_By_variablename
+                if(existingUser!=null){
+                    jwtResponse.setMessage("User already exists!!");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+                }
+                
+                userDao.save(jwtRequest);
+    
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
+    
+            } catch (Exception e) {
+                e.printStackTrace();
+                jwtResponse.setMessage(e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
             }
+            //Now user is authenticated
+    
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtRequest.getUseremail());
             
-            userDao.save(jwtRequest);
-
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            jwtResponse.setMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
+            String token = jwtUtil.generateToken(userDetails);
+            
+            jwtResponse.setMessage("User Registered Successfully");
+            jwtResponse.setToken(token);
+    
+            return ResponseEntity.ok(jwtResponse);
         }
-        //Now user is authenticated
 
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtRequest.getUseremail());
         
-        String token = jwtUtil.generateToken(userDetails);
-        
-        jwtResponse.setMessage("User Registered Successfully");
-        jwtResponse.setToken(token);
-
-        return ResponseEntity.ok(jwtResponse);
 
     }
 
@@ -150,7 +217,7 @@ public class JwtController {
             String jwtToken = aurhorization.substring(7);
             String email_registered = jwtUtil.extractUsername(jwtToken);
             
-            JwtRequest userDetails = userDao.getJwtRequestByuseremail(email_registered);
+            UserRequest userDetails = userDao.getUserRequestByuseremail(email_registered);
 
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
