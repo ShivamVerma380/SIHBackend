@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.entities.BlobResponse;
-import com.bootrestemailauth.userapi.entities.JwtRequest;
+import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,7 +36,7 @@ public class UserController {
     public UserDao userDao;
 
     @Autowired
-    public JwtRequest jwtRequest;
+    public UserRequest jwtRequest;
 
     @Autowired
     public JwtUtil jwtUtil;
@@ -52,10 +52,10 @@ public class UserController {
 
     
     @GetMapping("/users")
-    public ResponseEntity<List<JwtRequest>> getUsers(){
+    public ResponseEntity<List<UserRequest>> getUsers(){
 
         try {
-            List<JwtRequest> list = (List<JwtRequest>)userDao.findAll();
+            List<UserRequest> list = (List<UserRequest>)userDao.findAll();
             if(list==null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         
@@ -73,7 +73,7 @@ public class UserController {
 
         try {
 
-            jwtRequest = userDao.getJwtRequestByuseremail(useremail);
+            jwtRequest = userDao.getUserRequestByuseremail(useremail);
             if(jwtRequest==null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.ok(jwtRequest);
@@ -93,7 +93,7 @@ public class UserController {
             
             String jwtToken = authorization.substring(7);
             String email = jwtUtil.extractUsername(jwtToken);
-            jwtRequest = userDao.getJwtRequestByuseremail(email);
+            jwtRequest = userDao.getUserRequestByuseremail(email);
             // int blobLength = (int) jwtRequest.getImg().length();
             // byte[] blobAsBytes = jwtRequest.getImg().getBytes(1, blobLength);
             // String s = new String(blobAsBytes);
@@ -124,7 +124,7 @@ public class UserController {
             
             String jwtToken = authorization.substring(7); //Get token which is present after Bearer_ 
             String useremail = jwtUtil.extractUsername(jwtToken); //extract user email from jwtToken
-            jwtRequest = userDao.getJwtRequestByuseremail(useremail); //extract that useremail wala person from db
+            jwtRequest = userDao.getUserRequestByuseremail(useremail); //extract that useremail wala person from db
         
             
             String encodedPass = mySecurityConfig.passwordEncoder().encode(new_password); //encode new password B-Crypt encoding algo
@@ -141,6 +141,5 @@ public class UserController {
     }
 
     //Baaki codes like update profile images n all ya update name vagere baad mein add kardege...
-    // OKAY!!!
 
 }
