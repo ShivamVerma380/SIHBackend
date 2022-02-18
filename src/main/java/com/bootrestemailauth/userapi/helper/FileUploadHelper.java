@@ -16,7 +16,7 @@ public class FileUploadHelper {
     //static path
     //private String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\bootrestbook\\src\\main\\resources\\static\\image";
     
-    private String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image";
+    
 
 
     //Dynamic file path
@@ -26,8 +26,9 @@ public class FileUploadHelper {
 
     }
 
-    public boolean isFileUploaded(MultipartFile multipartFile, String email){
+    public boolean isFileUploaded(MultipartFile multipartFile, String email, String role){
         boolean isUploaded=false;
+        String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
         try{
             String ext = multipartFile.getOriginalFilename();
                 int i = 0;

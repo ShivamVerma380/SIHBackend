@@ -99,7 +99,7 @@ public class JwtController {
         if(role.equalsIgnoreCase("Admin")){
             try {
                 System.out.println("In admin");
-                if(fileUploadHelper.isFileUploaded(file, email)){
+                if(fileUploadHelper.isFileUploaded(file, email, role)){
     
                     String ext = file.getOriginalFilename();
                     int i=0;
@@ -109,7 +109,7 @@ public class JwtController {
     
                     ext = ext.substring(i+1);
     
-                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
+                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/admin/").path(email).path(".").path(ext).toUriString();
                 }
 
                 String encodedPassword = mySecurityConfig.passwordEncoder().encode(password);
@@ -150,7 +150,7 @@ public class JwtController {
             return ResponseEntity.ok(jwtResponse);
         }else{
             try {
-                if(fileUploadHelper.isFileUploaded(file, email)){
+                if(fileUploadHelper.isFileUploaded(file, email, role)){
     
                     String ext = file.getOriginalFilename();
                     int i=0;
@@ -160,7 +160,7 @@ public class JwtController {
     
                     ext = ext.substring(i+1);
     
-                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(email).path(".").path(ext).toUriString();
+                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/user/").path(email).path(".").path(ext).toUriString();
                 }
     
                 Session session = entityManager.unwrap(Session.class);
