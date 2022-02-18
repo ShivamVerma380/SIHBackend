@@ -16,7 +16,6 @@ import com.bootrestemailauth.userapi.entities.UpdatePassword;
 import com.bootrestemailauth.userapi.helper.FileUploadHelper;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
-import com.bootrestemailauth.userapi.services.CustomAdminDetailsService;
 import com.bootrestemailauth.userapi.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,9 +71,6 @@ public class JwtController {
 
     @Autowired
     public CustomUserDetailsService customUserDetailsService;
-
-    @Autowired
-    public CustomAdminDetailsService customAdminDetailsService;
 
     @Autowired
     public JwtUtil jwtUtil;
@@ -134,13 +130,13 @@ public class JwtController {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
 
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 jwtResponse.setMessage(e.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
+                return ResponseEntity.ok(jwtResponse);
             }
             //admin has been authenticated successfully
             
-            UserDetails userDetails = customAdminDetailsService.loadUserByUsername(admin.getEmail()); //username == email
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(admin.getEmail()); //username == email
             
             String token = jwtUtil.generateToken(userDetails);
 

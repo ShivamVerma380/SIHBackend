@@ -2,7 +2,9 @@ package com.bootrestemailauth.userapi.services;
 
 import java.util.ArrayList;
 
+import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
+import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 
@@ -25,38 +27,41 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDao userDao;
 
     @Autowired
-    public UserRequest user;
+    public UserRequest userRequest;
 
     @Autowired
     public JwtUtil jwtUiUtil;
 
-    
+    @Autowired
+    public AdminDao adminDao;
 
+    @Autowired
+    public AdminRequest adminRequest;
 
+    public UserRequest findByUsername(String email){
+        return userDao.getUserRequestByuseremail(email);
+    }
 
+    public AdminRequest findByAdminname(String email){
+        return adminDao.getAdminRequestByemail(email);
+    }
     @Override
     public UserDetails loadUserByUsername(String useremail) throws UsernameNotFoundException {
        //username means email 
-        user = null;
+        userRequest = findByUsername(useremail);
+        if(userRequest != null){
 
-        try {
-           // user = userDao.getUserByEmail(email);
-            user = userDao.getUserRequestByuseremail(useremail); // get_ClassName_By_variablename
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+            return new User(userRequest.getUseremail(), userRequest.getPassword(), new ArrayList<>()); 
+        }
 
+        adminRequest = findByAdminname(useremail);
+        if(adminRequest != null){
+
+            return new User(adminRequest.getEmail(), adminRequest.getPassword(), new ArrayList<>()); 
         }
-        if(user!=null){
-            return new User(user.getUseremail(), user.getPassword(), new ArrayList<>());
-        }else{
-            try {
-                throw new UsernameNotFoundException("User not found");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        else{
+            throw new UsernameNotFoundException("User not found");
         }
-        return null;
     }
 
     public ResponseEntity<?> getUserByToken(String token){
