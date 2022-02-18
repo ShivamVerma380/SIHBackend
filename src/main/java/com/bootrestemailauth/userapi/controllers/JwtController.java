@@ -207,34 +207,53 @@ public class JwtController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String aurhorization,@RequestParam("email") String email,@RequestParam("password") String password){
+    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String aurhorization,@RequestParam("email") String email,@RequestParam("password") String password, @RequestParam("role") String role){
         try {
             
             String jwtToken = aurhorization.substring(7);
             String email_registered = jwtUtil.extractUsername(jwtToken);
-            
-            UserRequest userDetails = userDao.getUserRequestByuseremail(email_registered);
-
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-            
-
-            if(email.equals(userDetails.getUseremail()) && bCryptPasswordEncoder.matches(password,userDetails.getPassword())){
-                jwtResponse.setMessage("User logged in successfully");
-                jwtResponse.setToken(jwtToken);
-                return ResponseEntity.ok(jwtResponse);
-
-            }else{
-                jwtResponse.setMessage("Bad Credentials");
-                jwtResponse.setToken(null);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtResponse);
+            if(role.equalsIgnoreCase("user")){
+                UserRequest userDetails = userDao.getUserRequestByuseremail(email_registered);
+                if(userDetails != null){
+                    if(email.equals(userDetails.getUseremail()) && bCryptPasswordEncoder.matches(password,userDetails.getPassword())){
+                        jwtResponse.setMessage("User logged in successfully");
+                        jwtResponse.setToken(jwtToken);
+                        return ResponseEntity.ok(jwtResponse);
+        
+                    }else{
+                        jwtResponse.setMessage("Bad Credentials");
+                        jwtResponse.setToken(null);
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtResponse);
+                    }
+                }
             }
+            if(role.equalsIgnoreCase("admin")){
+                AdminRequest adminDetails = adminDao.getAdminRequestByemail(email_registered);
+                if(adminDetails!=null){
+                    if(email.equals(adminDetails.getEmail()) && bCryptPasswordEncoder.matches(password,adminDetails.getPassword())){
+                        jwtResponse.setMessage("Admin logged in successfully");
+                        jwtResponse.setToken(jwtToken);
+                        return ResponseEntity.ok(jwtResponse);
+        
+                    }else{
+                        jwtResponse.setMessage("Bad Credentials");
+                        jwtResponse.setToken(null);
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtResponse);
+                    }
+                }
+            }      
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            jwtResponse.setToken(null);
+            jwtResponse.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
         }
+        jwtResponse.setMessage("Not found");
+        jwtResponse.setToken(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jwtResponse);
         
     }
 
