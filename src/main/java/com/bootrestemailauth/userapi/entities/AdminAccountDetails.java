@@ -15,19 +15,19 @@ public class AdminAccountDetails {
     @Column(name = "admin_id")
     private int adminId;   
     
-    @Column(name = "account_number")
+    @Column(name = "account_number",unique = true,nullable = false)
     private String accountNo;
 
-    @Column(name = "ifsc_code")
+    @Column(name = "ifsc_code",nullable = false)
     private String ifsc_code;
 
-    @Column(name = "bank_name")
+    @Column(name = "bank_name",nullable = false)
     private String bank_name;
 
-    @Column(name = "branch_name")
+    @Column(name = "branch_name",nullable = false)
     private String branch_name;
 
-    @Column(name = "account_holder_name")
+    @Column(name = "account_holder_name",nullable = false)
     private String acc_holder_name;
 
     public AdminAccountDetails() {
