@@ -1,6 +1,6 @@
 package com.bootrestemailauth.userapi.dao;
 
-import com.bootrestemailauth.userapi.entities.JwtRequest;
+import com.bootrestemailauth.userapi.entities.UserRequest;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -8,11 +8,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Component
-public interface UserDao extends CrudRepository<JwtRequest,Long>{
+public interface UserDao extends CrudRepository<UserRequest,Long>{
 
-    public  JwtRequest getJwtRequestById(int id);
+    //public  UserRequest getJwtRequestById(int id);
 
-    public JwtRequest getJwtRequestByuseremail(String useremail);
+    //public UserRequest getJwtRequestByuseremail(String useremail);
+
+    public UserRequest getUserRequestById(int id);
+
+    public UserRequest getUserRequestByuseremail(String god);
     //always name methods with get_Entityname_By_variable_name;
 
 }
