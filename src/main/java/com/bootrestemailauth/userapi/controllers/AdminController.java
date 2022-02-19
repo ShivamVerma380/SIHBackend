@@ -7,6 +7,7 @@ import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
+import com.bootrestemailauth.userapi.services.MonumentService;
 import com.bootrestemailauth.userapi.services.VerifyMonumentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class AdminController {
 
     @Autowired
     public VerifyMonumentService verifyMonumentService;
+
+    @Autowired
+    public MonumentService monumentService;
 
     @PostMapping("/admin/accountDetails")
     public ResponseEntity<?> addBankDetails(@RequestHeader("Authorization") String authorization,@RequestParam("account_no") String accountNo,@RequestParam("ifsc_code") String ifsc_code,@RequestParam("bank_name") String bank_name,@RequestParam("branch_name") String branch_name,@RequestParam("acc_holder_name") String acc_holder_name){
@@ -86,5 +90,12 @@ public class AdminController {
         //respect for giving auto parameters .. vscode is god
 
     }
+
+    @PostMapping("/add-monument")  //ye function admin kabhi nai call karega ye apan karege for setting required values in monument table and other values will be updated later by admin.
+    public ResponseEntity<?> addMonument(@RequestHeader("Authorization") String authorization,@RequestParam("monument_name") String monument_name,@RequestParam("website") String website,@RequestParam("monument_image") MultipartFile monumentImage,@RequestParam("monument_location") String monument_location,@RequestParam("monument_poa") MultipartFile monument_poa,@RequestParam("monument_type") String monument_type,@RequestParam("admin_aadhar") String admin_aadhar,@RequestParam("admin_phone")String admin_phone){
+    
+        return monumentService.addMonument(authorization, monument_name, website, monumentImage, monument_location, monument_poa, monument_type, admin_aadhar, admin_phone);
+    }
+
 
 }

@@ -87,7 +87,7 @@ public class VerifyMonumentService {
 
             //email with attachment
 
-            if(verifyMonumentHelper.isEmailSent(monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar,monument_type)){
+            if(verifyMonumentHelper.isEmailSent(registered_email,monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar,monument_type)){
                 responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email sent");
             }else{
                 responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email not sent");

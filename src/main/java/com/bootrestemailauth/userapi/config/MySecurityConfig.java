@@ -40,7 +40,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/register","/verify-email","/image/admin/**","/image/user/**").permitAll() //one doubt of image returning
+                .antMatchers("/register","/verify-email","/image/admin/**","/image/user/**","/image/monument/**").permitAll() //one doubt of image returning
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

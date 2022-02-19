@@ -52,7 +52,7 @@ public class VerifyMonumentHelper {
         return messageBodyPart;
     }
 
-    public boolean isEmailSent(String monument_name,String website, MultipartFile monumentImage,String monument_location, String admin_phone,MultipartFile monument_poa,String admin_aadhar,String monument_type){
+    public boolean isEmailSent(String registered_email,String monument_name,String website, MultipartFile monumentImage,String monument_location, String admin_phone,MultipartFile monument_poa,String admin_aadhar,String monument_type){
 
         try {
             //gmail port setting
@@ -92,7 +92,7 @@ public class VerifyMonumentHelper {
             MimeMultipart multipart = new MimeMultipart();
             m.setContent(multipart);
 
-            String mssg = "Monument/Museum name : "+monument_name+"\nMonument_Type : "+monument_type+"\n Website Link : "+website+"\nMonument/Museum Location : "+monument_location+"\nContact Details : "+admin_phone+"\nAdmin Aadhar : "+admin_aadhar;
+            String mssg = "Email : "+registered_email+"\nMonument name : "+monument_name+"\nMonument_Type : "+monument_type+"\nWebsite Link : "+website+"\nMonumentLocation : "+monument_location+"\nContact Details : "+admin_phone+"\nAdmin Aadhar : "+admin_aadhar;
             
 
             MimeBodyPart messageBodyPart1 = createTextPart(mssg);

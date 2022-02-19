@@ -47,5 +47,26 @@ public class FileUploadHelper {
         }
         return isUploaded;
     }
+
+    public boolean isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name){
+        boolean isUploaded=false;
+        String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\monument";
+        try{
+            String ext = multipartFile.getOriginalFilename();
+                int i = 0;
+                for(; i < ext.length(); i++){
+                    if(ext.charAt(i) == '.'){
+                        break;
+                    }
+                }
+                ext = ext.substring(i+1);
+            Files.copy(multipartFile.getInputStream(),Paths.get(uploadDir+File.separator+monument_name+"_"+file_name+"."+ext),StandardCopyOption.REPLACE_EXISTING);
+            isUploaded = true;
+        }catch(Exception e){
+            e.printStackTrace();
+            isUploaded = false;
+        }
+        return isUploaded;
+    }
     
 }
