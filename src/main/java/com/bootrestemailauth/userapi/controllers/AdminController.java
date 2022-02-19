@@ -79,10 +79,10 @@ public class AdminController {
     }
 
     @PostMapping("/admin/verify-monument")
-    public ResponseEntity<?> verifyMonument(@RequestHeader("Authorization") String authorization,@RequestParam("monument_name") String monument_name,@RequestParam("website") String website,@RequestParam("monument_image") MultipartFile monumentImage,@RequestParam("monument_location") String monument_location,@RequestParam("admin_phone") String admin_phone,@RequestParam("monument_poa") MultipartFile monument_poa,@RequestParam("admin_aadhar") String admin_aadhar){
+    public ResponseEntity<?> verifyMonument(@RequestHeader("Authorization") String authorization,@RequestParam("monument_name") String monument_name,@RequestParam("website") String website,@RequestParam("monument_image") MultipartFile monumentImage,@RequestParam("monument_location") String monument_location,@RequestParam("admin_phone") String admin_phone,@RequestParam("monument_poa") MultipartFile monument_poa,@RequestParam("admin_aadhar") String admin_aadhar, @RequestParam("monument_type") String monument_type){
         
         //return verifyMonumentService.verifyMonument(authorization, monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar);
-        return verifyMonumentService.verifyMonument(authorization, monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar);   
+        return verifyMonumentService.verifyMonument(authorization, monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar,monument_type);   
         //respect for giving auto parameters .. vscode is god
 
     }

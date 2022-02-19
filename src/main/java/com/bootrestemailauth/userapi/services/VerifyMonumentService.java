@@ -53,7 +53,7 @@ public class VerifyMonumentService {
 
     
 
-    public ResponseEntity<?> verifyMonument(String authorization,String monument_name,String website, MultipartFile monumentImage,String monument_location, String admin_phone,MultipartFile monument_poa,String admin_aadhar){
+    public ResponseEntity<?> verifyMonument(String authorization,String monument_name,String website, MultipartFile monumentImage,String monument_location, String admin_phone,MultipartFile monument_poa,String admin_aadhar,String monument_type){
 
         try {
 
@@ -80,13 +80,14 @@ public class VerifyMonumentService {
             monumentVerificationRequest.setMonumentName(monument_name);
             monumentVerificationRequest.setMonument_location(monument_location);
             monumentVerificationRequest.setWebsiteLink(website);
+            monumentVerificationRequest.setMonumentType(monument_type);
             monumentVerificationRequest.setUpdate_status("Verification Under Progress"); 
 
             monumentVerificationRequestDao.save(monumentVerificationRequest);
 
             //email with attachment
 
-            if(verifyMonumentHelper.isEmailSent(monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar)){
+            if(verifyMonumentHelper.isEmailSent(monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar,monument_type)){
                 responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email sent");
             }else{
                 responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email not sent");

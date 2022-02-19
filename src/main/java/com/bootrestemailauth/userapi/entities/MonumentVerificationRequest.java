@@ -49,12 +49,15 @@ public class MonumentVerificationRequest {
     @Column(name = "update_status")
     private String update_status;
 
+    @Column(name = "monument_type",nullable = false)
+    private String monumentType;   // will store whether monument is museum/ heritage site.
+
     public MonumentVerificationRequest() {
     }
 
     public MonumentVerificationRequest(int adminId, String monumentName, String websiteLink, Blob monument_image,
             String monument_location, String adminPhoneNo, Blob power_of_attorney, String admin_aadhar,
-            String update_status) {
+            String update_status, String monumentType) {
         this.adminId = adminId;
         this.monumentName = monumentName;
         this.websiteLink = websiteLink;
@@ -64,6 +67,7 @@ public class MonumentVerificationRequest {
         this.power_of_attorney = power_of_attorney;
         this.admin_aadhar = admin_aadhar;
         this.update_status = update_status;
+        this.monumentType = monumentType;
     }
 
     public int getAdminId() {
@@ -138,13 +142,24 @@ public class MonumentVerificationRequest {
         this.update_status = update_status;
     }
 
+    public String getMonumentType() {
+        return monumentType;
+    }
+
+    public void setMonumentType(String monumentType) {
+        this.monumentType = monumentType;
+    }
+
     @Override
     public String toString() {
         return "MonumentVerificationRequest [adminId=" + adminId + ", adminPhoneNo=" + adminPhoneNo + ", admin_aadhar="
-                + admin_aadhar + ", monumentName=" + monumentName + ", monument_image=" + monument_image
-                + ", monument_location=" + monument_location + ", power_of_attorney=" + power_of_attorney
-                + ", update_status=" + update_status + ", websiteLink=" + websiteLink + "]";
+                + admin_aadhar + ", monumentName=" + monumentName + ", monumentType=" + monumentType
+                + ", monument_image=" + monument_image + ", monument_location=" + monument_location
+                + ", power_of_attorney=" + power_of_attorney + ", update_status=" + update_status + ", websiteLink="
+                + websiteLink + "]";
     }
+
+    
 
     
 
