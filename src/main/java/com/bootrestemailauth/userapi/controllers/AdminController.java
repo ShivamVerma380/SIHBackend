@@ -5,7 +5,9 @@ import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.entities.AdminAccountDetails;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
+import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
+import com.bootrestemailauth.userapi.services.VerifyMonumentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,9 @@ public class AdminController {
 
     @Autowired
     public ResponseMessage adminAccountDetailsResponse;
+
+    @Autowired
+    public VerifyMonumentService verifyMonumentService;
 
     @PostMapping("/admin/accountDetails")
     public ResponseEntity<?> addBankDetails(@RequestHeader("Authorization") String authorization,@RequestParam("account_no") String accountNo,@RequestParam("ifsc_code") String ifsc_code,@RequestParam("bank_name") String bank_name,@RequestParam("branch_name") String branch_name,@RequestParam("acc_holder_name") String acc_holder_name){
@@ -76,7 +81,9 @@ public class AdminController {
     @PostMapping("/admin/verify-monument")
     public ResponseEntity<?> verifyMonument(@RequestHeader("Authorization") String authorization,@RequestParam("monument_name") String monument_name,@RequestParam("website") String website,@RequestParam("monument_image") MultipartFile monumentImage,@RequestParam("monument_location") String monument_location,@RequestParam("admin_phone") String admin_phone,@RequestParam("monument_poa") MultipartFile monument_poa,@RequestParam("admin_aadhar") String admin_aadhar){
         
-        return null;
+        //return verifyMonumentService.verifyMonument(authorization, monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar);
+        return verifyMonumentService.verifyMonument(authorization, monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar);   
+        //respect for giving auto parameters .. vscode is god
 
     }
 

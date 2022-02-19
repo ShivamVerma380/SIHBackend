@@ -1,12 +1,18 @@
 package com.bootrestemailauth.userapi.services;
 
+import java.sql.Blob;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import com.bootrestemailauth.userapi.helper.LobHelper;
 import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.MonumentVerificationRequestDao;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
-import com.bootrestemailauth.userapi.entities.MonumentVerificationResponse;
+import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +29,7 @@ public class VerifyMonumentService {
     public MonumentVerificationRequest monumentVerificationRequest;
 
     @Autowired
-    public MonumentVerificationResponse monumentVerificationResponse;
+    public ResponseMessage responseMessage;
 
     @Autowired
     public MonumentVerificationRequestDao monumentVerificationRequestDao;
@@ -33,7 +39,13 @@ public class VerifyMonumentService {
 
 
     @Autowired
+    public LobHelper lobHelper;
+
+    @Autowired
     public AdminDao adminDao;
+
+    @PersistenceContext
+    public EntityManager entityManager;
 
     
 
@@ -46,20 +58,36 @@ public class VerifyMonumentService {
 
             adminRequest = adminDao.getAdminRequestByemail(registered_email);
             if(adminRequest==null){
-                monumentVerificationResponse.setStatus("Admin Does not exist with corressponding token");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(monumentVerificationResponse);
+                responseMessage.setMessage("Admin Does not exist with corressponding token");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
             }
 
+            Session session = entityManager.unwrap(Session.class);
+            Blob monumentImageData = session.getLobHelper().createBlob(monumentImage.getInputStream(),monumentImage.getSize());
+
+            //Session session2 = entityManager.unwrap(Session.class);
+
+            Blob monumentPoaData = session.getLobHelper().createBlob(monument_poa.getInputStream(),monument_poa.getSize());
             monumentVerificationRequest.setAdminId(adminRequest.getId());
-                        
+            monumentVerificationRequest.setMonument_image(monumentImageData);    
+            monumentVerificationRequest.setPower_of_attorney(monumentPoaData);
+            monumentVerificationRequest.setAdminPhoneNo(admin_phone);
+            monumentVerificationRequest.setAdmin_aadhar(admin_aadhar);
+            monumentVerificationRequest.setMonumentName(monument_name);
+            monumentVerificationRequest.setMonument_location(monument_location);
+            monumentVerificationRequest.setWebsiteLink(website);
+            monumentVerificationRequest.setUpdate_status("Verification Under Progress"); 
 
+            monumentVerificationRequestDao.save(monumentVerificationRequest);
 
-            
-            
+            responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!!");
+            //return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+            return ResponseEntity.ok(responseMessage);
         } catch (Exception e) {
-
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
         }
-        return null;
     }
 
 }

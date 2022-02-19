@@ -205,6 +205,7 @@ public class JwtController {
             } catch (Exception e) {
                 e.printStackTrace();
                 jwtResponse.setMessage(e.getMessage());
+                jwtResponse.setToken(null);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtResponse);
             }
             //Now user is authenticated

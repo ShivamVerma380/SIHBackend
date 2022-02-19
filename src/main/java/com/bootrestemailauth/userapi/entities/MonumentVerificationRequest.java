@@ -1,9 +1,14 @@
 package com.bootrestemailauth.userapi.entities;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.springframework.stereotype.Component;
 
@@ -22,8 +27,10 @@ public class MonumentVerificationRequest {
     @Column(name = "website",unique=true,nullable = false)
     private String websiteLink;
 
-    @Column(name = "monument_image_url",nullable = false)
-    private String monument_image_url;
+    @Lob
+    @JsonBackReference  // If ye nai lagaya toh blob image jackson exception throw karra n recursion hora
+    @Column(name = "monument_image",nullable = false)
+    private Blob monument_image;
 
     @Column(name="monument_location",nullable = false)
     private String monument_location;
@@ -31,8 +38,10 @@ public class MonumentVerificationRequest {
     @Column(name = "admin_phone",nullable = false,unique = true)
     private String adminPhoneNo;
 
-    @Column(name = "monument_poa",nullable = false,unique = true)
-    private String power_of_attorney_url;
+    @Lob
+    @JsonBackReference  // If ye nai lagaya toh blob image jackson exception throw karra n recursion hora
+    @Column(name = "monument_poa",nullable = false)
+    private Blob power_of_attorney;
 
     @Column(name = "admin_aadhar",nullable = false,unique = true)
     private String admin_aadhar;
@@ -43,16 +52,16 @@ public class MonumentVerificationRequest {
     public MonumentVerificationRequest() {
     }
 
-    public MonumentVerificationRequest(int adminId, String monumentName, String websiteLink, String monument_image_url,
-            String monument_location, String adminPhoneNo, String power_of_attorney_url, String admin_aadhar,
+    public MonumentVerificationRequest(int adminId, String monumentName, String websiteLink, Blob monument_image,
+            String monument_location, String adminPhoneNo, Blob power_of_attorney, String admin_aadhar,
             String update_status) {
         this.adminId = adminId;
         this.monumentName = monumentName;
         this.websiteLink = websiteLink;
-        this.monument_image_url = monument_image_url;
+        this.monument_image = monument_image;
         this.monument_location = monument_location;
         this.adminPhoneNo = adminPhoneNo;
-        this.power_of_attorney_url = power_of_attorney_url;
+        this.power_of_attorney = power_of_attorney;
         this.admin_aadhar = admin_aadhar;
         this.update_status = update_status;
     }
@@ -81,12 +90,12 @@ public class MonumentVerificationRequest {
         this.websiteLink = websiteLink;
     }
 
-    public String getMonument_image_url() {
-        return monument_image_url;
+    public Blob getMonument_image() {
+        return monument_image;
     }
 
-    public void setMonument_image_url(String monument_image_url) {
-        this.monument_image_url = monument_image_url;
+    public void setMonument_image(Blob monument_image) {
+        this.monument_image = monument_image;
     }
 
     public String getMonument_location() {
@@ -105,12 +114,12 @@ public class MonumentVerificationRequest {
         this.adminPhoneNo = adminPhoneNo;
     }
 
-    public String getPower_of_attorney_url() {
-        return power_of_attorney_url;
+    public Blob getPower_of_attorney() {
+        return power_of_attorney;
     }
 
-    public void setPower_of_attorney_url(String power_of_attorney_url) {
-        this.power_of_attorney_url = power_of_attorney_url;
+    public void setPower_of_attorney(Blob power_of_attorney) {
+        this.power_of_attorney = power_of_attorney;
     }
 
     public String getAdmin_aadhar() {
@@ -132,10 +141,12 @@ public class MonumentVerificationRequest {
     @Override
     public String toString() {
         return "MonumentVerificationRequest [adminId=" + adminId + ", adminPhoneNo=" + adminPhoneNo + ", admin_aadhar="
-                + admin_aadhar + ", monumentName=" + monumentName + ", monument_image_url=" + monument_image_url
-                + ", monument_location=" + monument_location + ", power_of_attorney_url=" + power_of_attorney_url
+                + admin_aadhar + ", monumentName=" + monumentName + ", monument_image=" + monument_image
+                + ", monument_location=" + monument_location + ", power_of_attorney=" + power_of_attorney
                 + ", update_status=" + update_status + ", websiteLink=" + websiteLink + "]";
     }
+
+    
 
     
 
