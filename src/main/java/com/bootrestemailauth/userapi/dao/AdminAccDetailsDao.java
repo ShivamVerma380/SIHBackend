@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface AdminAccDetailsDao extends CrudRepository<AdminAccountDetails,Integer> {
     
     public AdminAccountDetails getAdminAccountDetailsByadminId(int adminId);
+
+    public AdminAccountDetails getAdminAccountDetailsByaccountNo(String accountNo);
 }

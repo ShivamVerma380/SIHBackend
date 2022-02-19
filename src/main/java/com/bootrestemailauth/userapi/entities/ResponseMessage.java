@@ -3,14 +3,14 @@ package com.bootrestemailauth.userapi.entities;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdminAccountDetailsResponse {
+public class ResponseMessage {
     
     private String message;
 
-    public AdminAccountDetailsResponse() {
+    public ResponseMessage() {
     }
 
-    public AdminAccountDetailsResponse(String message) {
+    public ResponseMessage(String message) {
         this.message = message;
     }
 
@@ -24,7 +24,7 @@ public class AdminAccountDetailsResponse {
 
     @Override
     public String toString() {
-        return "AdminAccountDetailsResponse [message=" + message + "]";
+        return "Response [message=" + message + "]";
     }
     
 }

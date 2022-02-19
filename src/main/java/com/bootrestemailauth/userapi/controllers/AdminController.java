@@ -3,7 +3,7 @@ package com.bootrestemailauth.userapi.controllers;
 import com.bootrestemailauth.userapi.dao.AdminAccDetailsDao;
 import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.entities.AdminAccountDetails;
-import com.bootrestemailauth.userapi.entities.AdminAccountDetailsResponse;
+import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class AdminController {
@@ -33,7 +34,7 @@ public class AdminController {
     public JwtUtil jwtUtil;
 
     @Autowired
-    public AdminAccountDetailsResponse adminAccountDetailsResponse;
+    public ResponseMessage adminAccountDetailsResponse;
 
     @PostMapping("/admin/accountDetails")
     public ResponseEntity<?> addBankDetails(@RequestHeader("Authorization") String authorization,@RequestParam("account_no") String accountNo,@RequestParam("ifsc_code") String ifsc_code,@RequestParam("bank_name") String bank_name,@RequestParam("branch_name") String branch_name,@RequestParam("acc_holder_name") String acc_holder_name){
@@ -69,6 +70,13 @@ public class AdminController {
 
             return ResponseEntity.ok(adminAccountDetailsResponse);
         }
+
+    }
+
+    @PostMapping("/admin/verify-monument")
+    public ResponseEntity<?> verifyMonument(@RequestHeader("Authorization") String authorization,@RequestParam("monument_name") String monument_name,@RequestParam("website") String website,@RequestParam("monument_image") MultipartFile monumentImage,@RequestParam("monument_location") String monument_location,@RequestParam("admin_phone") String admin_phone,@RequestParam("monument_poa") MultipartFile monument_poa,@RequestParam("admin_aadhar") String admin_aadhar){
+        
+        return null;
 
     }
 

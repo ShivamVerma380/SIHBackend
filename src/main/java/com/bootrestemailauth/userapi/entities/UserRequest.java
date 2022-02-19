@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Component
-@Table(name="users")
+@Table(name="user_registration")
 public class UserRequest {
     
     @Id   //represents primary key

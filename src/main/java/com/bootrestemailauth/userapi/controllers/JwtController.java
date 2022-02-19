@@ -95,6 +95,12 @@ public class JwtController {
         if(role.equalsIgnoreCase("Admin")){
             try {
                 System.out.println("In admin");
+                jwtRequest = userDao.getUserRequestByuseremail(email);
+                if(jwtRequest!=null){
+                    jwtResponse.setToken(null);
+                    jwtResponse.setMessage("This email id is already registered with user role");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+                }
                 if(fileUploadHelper.isFileUploaded(file, email, role)){
     
                     String ext = file.getOriginalFilename();
@@ -146,6 +152,17 @@ public class JwtController {
             return ResponseEntity.ok(jwtResponse);
         }else{
             try {
+
+                admin = adminDao.getAdminRequestByemail(email);
+
+                if(admin!=null){
+                    jwtResponse.setToken(null);
+                    jwtResponse.setMessage("Thisemail id is already registered with admin role");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+                }
+
+                
+
                 if(fileUploadHelper.isFileUploaded(file, email, role)){
     
                     String ext = file.getOriginalFilename();
