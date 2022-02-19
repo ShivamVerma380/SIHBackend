@@ -5,6 +5,7 @@ import java.sql.Blob;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.bootrestemailauth.userapi.helper.LobHelper;
+import com.bootrestemailauth.userapi.helper.VerifyMonumentHelper;
 import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.MonumentVerificationRequestDao;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
@@ -47,6 +48,9 @@ public class VerifyMonumentService {
     @PersistenceContext
     public EntityManager entityManager;
 
+    @Autowired
+    public VerifyMonumentHelper verifyMonumentHelper;
+
     
 
     public ResponseEntity<?> verifyMonument(String authorization,String monument_name,String website, MultipartFile monumentImage,String monument_location, String admin_phone,MultipartFile monument_poa,String admin_aadhar){
@@ -80,7 +84,15 @@ public class VerifyMonumentService {
 
             monumentVerificationRequestDao.save(monumentVerificationRequest);
 
-            responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!!");
+            //email with attachment
+
+            if(verifyMonumentHelper.isEmailSent(monument_name, website, monumentImage, monument_location, admin_phone, monument_poa, admin_aadhar)){
+                responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email sent");
+            }else{
+                responseMessage.setMessage("Monument Verification is in progress.We will update your verification status soon!! and email not sent");
+            }
+
+            
             //return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
             return ResponseEntity.ok(responseMessage);
         } catch (Exception e) {
