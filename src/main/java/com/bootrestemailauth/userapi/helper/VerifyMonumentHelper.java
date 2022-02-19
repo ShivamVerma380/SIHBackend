@@ -37,7 +37,7 @@ public class VerifyMonumentHelper {
         return messageBodyPart;
     }
  
-    private MimeBodyPart createAttachmentPart(MultipartFile attachment) throws MessagingException, IllegalStateException, IOException {
+    private MimeBodyPart createAttachmentPart(MultipartFile attachment,String name) throws MessagingException, IllegalStateException, IOException {
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         
         File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+attachment.getOriginalFilename());
@@ -46,7 +46,7 @@ public class VerifyMonumentHelper {
         FileDataSource source = new FileDataSource(convFile);
 
         messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(attachment.getOriginalFilename());
+        messageBodyPart.setFileName(name);
         messageBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
         messageBodyPart.setHeader("Content-Type", attachment.getContentType());
         return messageBodyPart;
@@ -100,10 +100,10 @@ public class VerifyMonumentHelper {
 
             
 
-            MimeBodyPart messaageBodyPart7 = createAttachmentPart(monumentImage);
+            MimeBodyPart messaageBodyPart7 = createAttachmentPart(monumentImage,"Image");
             multipart.addBodyPart(messaageBodyPart7);
 
-            MimeBodyPart messageBodyPart6 = createAttachmentPart(monument_poa);
+            MimeBodyPart messageBodyPart6 = createAttachmentPart(monument_poa,"POA");
             multipart.addBodyPart(messageBodyPart6);
 
             //Step 3: Transport mail
