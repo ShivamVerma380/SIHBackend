@@ -1,6 +1,7 @@
 package com.bootrestemailauth.userapi.services;
 
 import java.sql.Blob;
+import java.sql.Time;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,6 +57,8 @@ public class MonumentService {
 
     @Autowired
     public MonumentVerificationRequestDao monumentVerificationRequestDao;
+
+
 
     @Autowired
     public LobHelper lobHelper;
@@ -129,6 +132,61 @@ public class MonumentService {
 
             responseMessage.setMessage("Monument verified and added successfully");
             return ResponseEntity.ok(responseMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
+        }
+
+    }
+
+    public ResponseEntity<?> addmonumentInfo(String authorization,String monument_name,MultipartFile video,Time opening_time, Time closing_time , String description,double indian_adult, double indian_child,double foreign_adult, double foreign_child,String closed_day){
+
+        try {
+
+            String jwtToken = authorization.substring(7);
+            String registered_email = jwtUtil.extractUsername(jwtToken);
+            adminRequest = adminDao.getAdminRequestByemail(registered_email);
+
+            monument = monumentDao.getMonumentBymonumentName(monument_name);
+
+            if(adminRequest.getId()!=monument.getAdminId()){
+                responseMessage.setMessage("You don't have permission to chnage this monument information");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseMessage);
+            }
+
+            //video url generation
+            if(fileUploadHelper.isMonumentFileUploaded(video, monument_name, "video")){
+                String ext = video.getOriginalFilename();
+                int i=0;
+                for(;i<ext.length();i++){
+                    if(ext.charAt(i)=='.') break;
+                }
+    
+                ext = ext.substring(i+1);
+    
+                String monumentVideoUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/monument/").path(monument_name).path("_").path("video").path(".").path(ext).toUriString();
+
+                
+                
+                monument.setMonumentPreviewUrl(monumentVideoUrl);
+            }
+
+            
+            monument.setClosedDay(closed_day);
+            monument.setClosingTime(closing_time);
+            monument.setOpeningTime(opening_time);
+            monument.setIndianAdultFare(indian_adult);
+            monument.setIndianChildFare(indian_child);
+            monument.setForeignAdultFare(foreign_adult);
+            monument.setForeignChildFare(foreign_child);
+            monument.setMonumentDescription(description);
+
+            monumentDao.save(monument); //for update and creating monument save func is used for dao
+
+            responseMessage.setMessage("Information saved successfully!!");
+            return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+            
         } catch (Exception e) {
             e.printStackTrace();
             responseMessage.setMessage(e.getMessage());
