@@ -10,7 +10,7 @@ import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.MonumentDao;
 import com.bootrestemailauth.userapi.dao.MonumentVerificationRequestDao;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
-import com.bootrestemailauth.userapi.entities.Monument;
+import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.helper.FileUploadHelper;
@@ -41,7 +41,7 @@ public class MonumentService {
     public JwtUtil jwtUtil;
 
     @Autowired
-    public Monument monument;
+    public MonumentRequest monument;
 
     @Autowired
     public MonumentDao monumentDao;
@@ -85,20 +85,24 @@ public class MonumentService {
             adminDao.save(adminRequest);
 
             //Step 2: Add info in monument table
+            // int adminID =adminRequest.getId();
+            // monument.setAdminId(adminID);
 
-            monument.setAdminId(adminRequest.getId());
-            monument.setMonumentName(monument_name);
-            monument.setMonumentType(monument_type);
-            monument.setWebsiteLink(website);
-            monument.setMonumentLocation(monument_location);
+            // monument.setMonumentName(monument_name);
+            // monument.setMonumentType(monument_type);
+            // monument.setWebsiteLink(website);
+            // monument.setMonumentLocation(monument_location);
+
+            
 
             Session session = entityManager.unwrap(Session.class);
             Blob monumentPoaData = session.getLobHelper().createBlob(monument_poa.getInputStream(),monument_poa.getSize());
-            monument.setMonumentPOA(monumentPoaData);
+            //monument.setMonumentPOA(monumentPoaData);
 
             //2a: Id code
              
             //2b: File upload and urls store
+            String monumentImgUrl ;
             if(fileUploadHelper.isMonumentFileUploaded(monumentImage, monument_name, "image")){
                 String ext = monumentImage.getOriginalFilename();
                 int i=0;
@@ -108,7 +112,7 @@ public class MonumentService {
     
                 ext = ext.substring(i+1);
     
-                String monumentImgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/monument/").path(monument_name).path("_").path("image").path(".").path(ext).toUriString();
+                monumentImgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/monument/").path(monument_name).path("_").path("image").path(".").path(ext).toUriString();
 
                 
                 
@@ -121,8 +125,8 @@ public class MonumentService {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(responseMessage);
             }
 
-            
-            monumentDao.save(monument);
+            MonumentRequest mon = new MonumentRequest(adminRequest.getId(), monument_name, monumentImgUrl, monumentPoaData, website, monument_type, monument_location);
+            monumentDao.save(mon);
 
             //Step 3: Monument Verification Table se delete karna hai
 
@@ -148,7 +152,7 @@ public class MonumentService {
             String registered_email = jwtUtil.extractUsername(jwtToken);
             adminRequest = adminDao.getAdminRequestByemail(registered_email);
 
-            monument = monumentDao.getMonumentBymonumentName(monument_name);
+            monument = monumentDao.getMonumentRequestBymonumentName(monument_name);
 
             if(adminRequest.getId()!=monument.getAdminId()){
                 responseMessage.setMessage("You don't have permission to chnage this monument information");

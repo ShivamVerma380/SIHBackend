@@ -41,10 +41,16 @@ import org.hibernate.*;
 public class JwtController {
     
     @Autowired
-    public UserRequest jwtRequest;
+    public UserRequest userRequest;
+
+    @Autowired
+    public UserRequest userRequest1;
 
     @Autowired
     public AdminRequest admin;
+
+    @Autowired
+    public AdminRequest admin1;
 
     @Autowired
     public MySecurityConfig mySecurityConfig;
@@ -89,14 +95,14 @@ public class JwtController {
     
     //@Transactional //Without this error is coming
     @PostMapping("/register")
-    public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file){
+    public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file, UserRequest userRequest2){
         String imgUrl=null;
         
         if(role.equalsIgnoreCase("Admin")){
             try {
                 System.out.println("In admin");
-                jwtRequest = userDao.getUserRequestByuseremail(email);
-                if(jwtRequest!=null){
+                userRequest1 = userDao.getUserRequestByuseremail(email);
+                if(userRequest1!=null){
                     jwtResponse.setToken(null);
                     jwtResponse.setMessage("This email id is already registered with user role");
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
@@ -112,6 +118,7 @@ public class JwtController {
                     ext = ext.substring(i+1);
     
                     imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/admin/").path(email).path(".").path(ext).toUriString();
+                    System.out.println(imgUrl);
                 }
 
                 String encodedPassword = mySecurityConfig.passwordEncoder().encode(password);
@@ -122,6 +129,7 @@ public class JwtController {
                 admin.setImg_url(imgUrl);
                 admin.setAadhar_number(null);
                 admin.setPhoneNos(null);
+                System.out.println(admin.toString());
 
                 AdminRequest existingAdmin = adminDao.getAdminRequestByemail(email);
 
@@ -132,6 +140,7 @@ public class JwtController {
                 }
 
                 adminDao.save(admin);
+                System.out.println("*******************************");
                 
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
 
@@ -153,11 +162,11 @@ public class JwtController {
         }else{
             try {
 
-                admin = adminDao.getAdminRequestByemail(email);
+                admin1 = adminDao.getAdminRequestByemail(email);
 
-                if(admin!=null){
+                if(admin1!=null){
                     jwtResponse.setToken(null);
-                    jwtResponse.setMessage("Thisemail id is already registered with admin role");
+                    jwtResponse.setMessage("This email id is already registered with admin role");
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
                 }
 
@@ -185,12 +194,12 @@ public class JwtController {
     
                 String encodedPassword = mySecurityConfig.passwordEncoder().encode(password); // bcrypt encoded password
                 
-                jwtRequest.setId(12);
-                jwtRequest.setUseremail(email);
-                jwtRequest.setPassword(encodedPassword);
-                jwtRequest.setName(name);
-                jwtRequest.setImg(imageData);
-                jwtRequest.setImgUrl(imgUrl);
+                // userRequest.setId(12);
+                userRequest.setUseremail(email);
+                userRequest.setPassword(encodedPassword);
+                userRequest.setName(name);
+                userRequest.setImg(imageData);
+                userRequest.setImgUrl(imgUrl);
     
                 UserRequest existingUser = userDao.getUserRequestByuseremail(email); // userDao.get_ClassName_By_variablename
                 if(existingUser!=null){
@@ -198,7 +207,7 @@ public class JwtController {
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
                 }
                 
-                userDao.save(jwtRequest);
+                userDao.save(userRequest);
     
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
     
@@ -210,7 +219,7 @@ public class JwtController {
             }
             //Now user is authenticated
     
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtRequest.getUseremail());
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(userRequest.getUseremail());
             
             String token = jwtUtil.generateToken(userDetails);
             

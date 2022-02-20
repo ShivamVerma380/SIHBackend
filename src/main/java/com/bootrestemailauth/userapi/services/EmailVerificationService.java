@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailVerificationService {
     
-
+    
     @Autowired
     public OtpResponse otpResponse;
 

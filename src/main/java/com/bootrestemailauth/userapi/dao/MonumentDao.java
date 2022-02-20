@@ -1,6 +1,7 @@
 package com.bootrestemailauth.userapi.dao;
 
-import com.bootrestemailauth.userapi.entities.Monument;
+
+import com.bootrestemailauth.userapi.entities.MonumentRequest;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -8,10 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Component
-public interface MonumentDao extends CrudRepository<Monument,String> {
+public interface MonumentDao extends CrudRepository<MonumentRequest,String> {
     
 
-    public Monument getMonumentBymonumentId(String monumentId);
+    public MonumentRequest getMonumentRequestByadminId(int adminId);
 
-    public Monument getMonumentBymonumentName(String monumentName);
+    public MonumentRequest getMonumentRequestBymonumentName(String monumentName);
 }

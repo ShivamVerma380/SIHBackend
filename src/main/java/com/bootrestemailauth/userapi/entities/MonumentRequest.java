@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 @Entity
 @Component
 @Table(name="monument")
-public class Monument {
+public class MonumentRequest {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="monument_id")
     private int monumentId;
 
-    @Column(name="admin_id")
+    @Column(name="admin_id",unique = false)
     private int adminId;
 
     @Column(name="preview")
@@ -72,14 +72,29 @@ public class Monument {
     @Column(name = "location")
     private String monumentLocation;
 
-    public Monument() {
+    public MonumentRequest() {
     }
     
     
-
+    
     
 
-    public Monument(int monumentId, int adminId, String monumentPreviewUrl, Time openingTime, Time closingTime,
+    public MonumentRequest( int adminId, String monumentName, String monumentImageUrl, Blob monumentPOA,
+            String websiteLink, String monumentType, String monumentLocation) {
+        this.adminId = adminId;
+        this.monumentName = monumentName;
+        this.monumentImageUrl = monumentImageUrl;
+        this.monumentPOA = monumentPOA;
+        this.websiteLink = websiteLink;
+        this.monumentType = monumentType;
+        this.monumentLocation = monumentLocation;
+    }
+
+
+
+
+
+    public MonumentRequest(int monumentId, int adminId, String monumentPreviewUrl, Time openingTime, Time closingTime,
             String monumentName, String monumentImageUrl, Blob monumentPOA, String monumentDescription,
             double indianAdultFare, double indianChildFare, double foreignAdultFare, double foreignChildFare,
             String closedDay, String websiteLink, String monumentType, String monumentLocation) {
