@@ -2,6 +2,7 @@ package com.bootrestemailauth.userapi.services;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -75,9 +76,28 @@ public class MonumentService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         
-
-
     }
+
+    public ResponseEntity<?> getMonumentsByType(String type){
+        try {
+            List<MonumentRequest> monuments = (List<MonumentRequest>) monumentDao.findAll();
+            if(monuments==null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+            List<MonumentRequest> answer = new ArrayList<>();
+            for(int i=0;i<monuments.size();i++){
+                if(monuments.get(i).getMonumentType().equalsIgnoreCase(type)){
+                    answer.add(monuments.get(i));
+                }
+            }
+            return ResponseEntity.ok(answer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        
+    }
+
 
     public ResponseEntity<?> addMonument(String authorization,String monument_name, String website,MultipartFile monumentImage, String monument_location, MultipartFile monument_poa, String monument_type,String admin_aadhar,String admin_phone){
 
