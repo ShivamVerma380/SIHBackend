@@ -13,4 +13,6 @@ public interface TicketQRDetailsDao extends CrudRepository<TicketQrRequest, Inte
     // public TicketQrRequest getTicketQrRequestBymonument_id(int monument_id);
     // public TicketQrRequest getTicketQrRequestByuser_id(int user_id);
     public TicketQrRequest getTicketQrRequestByid(int id);
+
+    public List<TicketQrRequest> getTicketQrRequestByuserId(int userId);
 }

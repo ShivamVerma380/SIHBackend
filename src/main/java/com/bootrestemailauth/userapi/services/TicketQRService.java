@@ -1,16 +1,18 @@
 package com.bootrestemailauth.userapi.services;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.bootrestemailauth.userapi.dao.MonumentDao;
 import com.bootrestemailauth.userapi.dao.TicketQRDetailsDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
+import com.bootrestemailauth.userapi.dao.VisitedQrTicketDao;
 import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.TicketQrRequest;
 import com.bootrestemailauth.userapi.entities.UserRequest;
+import com.bootrestemailauth.userapi.entities.VisitedQrTicketsRequests;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
-import com.bootrestemailauth.userapi.helper.QRUploadHelper;
 import com.bootrestemailauth.userapi.helper.QRUploadHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.google.zxing.BarcodeFormat;  
-import com.google.zxing.EncodeHintType;  
-import com.google.zxing.MultiFormatWriter;  
-import com.google.zxing.NotFoundException;  
-import com.google.zxing.WriterException;  
-import com.google.zxing.client.j2se.MatrixToImageWriter;  
-import com.google.zxing.common.BitMatrix;  
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;  
+  
 
 @Component
 public class TicketQRService {
@@ -53,6 +47,12 @@ public class TicketQRService {
 
     @Autowired
     public TicketQRDetailsDao ticketQRDetailsDao;
+
+    @Autowired
+    public VisitedQrTicketsRequests visitedQrTicketsRequests;
+
+    @Autowired
+    public VisitedQrTicketDao visitedQrTicketDao;
 
     @Autowired
     public QRUploadHelper qRUploadHelper;
@@ -88,7 +88,6 @@ public class TicketQRService {
                 ticketRequest.setFare(fare);
                 ticketRequest.setMonument_id(monumentID);
                 ticketRequest.setNoOfTickets(no_of_tickets);
-                ticketRequest.setScanned(false);
                 ticketRequest.setUser_id(userID);
 
                 ticketQRDetailsDao.save(ticketRequest);
@@ -105,6 +104,53 @@ public class TicketQRService {
 
         }
         catch(Exception e){
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
+        }
+    }
+
+
+    public ResponseEntity<?> removeQRticket(String authorization,String monument_name,Date date_of_visit){
+        try {
+            String jwtToken = authorization.substring(7);
+            String registered_email = jwtUtil.extractUsername(jwtToken);
+            userRequest =  userDao.getUserRequestByuseremail(registered_email);
+            if(userRequest==null){
+                responseMessage.setMessage("User does not exist with this account");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
+
+            }
+            monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
+            List<TicketQrRequest> qrList= ticketQRDetailsDao.getTicketQrRequestByuserId(userRequest.getId());
+
+
+            System.out.println(qrList.toString());
+            for(int i=0;i<qrList.size();i++){
+
+                System.out.println("In for loop\n\n");
+                int current_monument_id = qrList.get(i).getMonument_id();
+                Date current_date = qrList.get(i).getDate_of_visit();
+                int req_monId = monumentRequest.getMonumentId();
+                System.out.println("Current Monument Id +"+current_monument_id+"\nReq monument Id:"+monumentRequest.getMonumentId());
+                System.out.println("Current Date Id +"+current_date+"\nReq Date Id:"+date_of_visit);
+                if(current_monument_id==monumentRequest.getMonumentId() && (current_date.compareTo(date_of_visit)==0)){
+                    System.out.println("In if lopp\n\n");
+                    visitedQrTicketsRequests.setDate_of_visit(date_of_visit);
+                    visitedQrTicketsRequests.setFare(qrList.get(i).getFare());
+                    visitedQrTicketsRequests.setMonument_id(current_monument_id);
+                    visitedQrTicketsRequests.setNoOfTickets(qrList.get(i).getNoOfTickets());
+                    visitedQrTicketsRequests.setUser_id(userRequest.getId());
+                    //System.out.println();
+                    visitedQrTicketDao.save(visitedQrTicketsRequests);
+                    ticketQRDetailsDao.delete(qrList.get(i));
+                }
+
+            }
+
+            responseMessage.setMessage("QR ticket removed successfully");
+            return ResponseEntity.ok(responseMessage);
+        } catch (Exception e) {
             e.printStackTrace();
             responseMessage.setMessage(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
