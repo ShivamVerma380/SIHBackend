@@ -74,12 +74,11 @@ public class TicketQRService {
             if(males != 0) msg += "\nNumber of Male gender count: "+males;
             if(females != 0) msg += "\nNumber of Female gender count: "+females;
             msg += "\nNumber of Tickets: "+no_of_tickets+"\nCalculated Fare: "+fare+"\nDate of Visit: "+date_of_visit+"\nBILL AMOUNT: PAID ONLINE";
-            
-            if(qRUploadHelper.isQRUploaded(msg)){
+            monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
+            int monumentID=monumentRequest.getMonumentId();
+            int userID=userRequest.getId();
+            if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date_of_visit)){
                 
-                monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
-                int monumentID=monumentRequest.getMonumentId();
-                int userID=userRequest.getId();
                 ticketRequest.setDate_of_visit(date_of_visit);
                 ticketRequest.setFare(fare);
                 ticketRequest.setMonument_id(monumentID);
