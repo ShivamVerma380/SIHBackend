@@ -2,6 +2,7 @@ package com.bootrestemailauth.userapi.services;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -62,6 +63,21 @@ public class MonumentService {
 
     @Autowired
     public LobHelper lobHelper;
+
+    public ResponseEntity<?> getAllMonuments(){
+        try {
+            List<MonumentRequest> monuments = (List<MonumentRequest>) monumentDao.findAll();
+            if(monuments==null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok(monuments);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        
+
+
+    }
 
     public ResponseEntity<?> addMonument(String authorization,String monument_name, String website,MultipartFile monumentImage, String monument_location, MultipartFile monument_poa, String monument_type,String admin_aadhar,String admin_phone){
 

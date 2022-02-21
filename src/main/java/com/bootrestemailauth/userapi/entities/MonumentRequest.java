@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -43,6 +45,7 @@ public class MonumentRequest {
 
     @Lob
     @Column(name = "poa")
+    @JsonBackReference
     private Blob monumentPOA;
 
     @Column(name = "description")

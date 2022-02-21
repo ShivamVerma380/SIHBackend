@@ -15,4 +15,6 @@ public interface MonumentDao extends CrudRepository<MonumentRequest,String> {
     public MonumentRequest getMonumentRequestByadminId(int adminId);
 
     public MonumentRequest getMonumentRequestBymonumentName(String monumentName);
+
+    
 }

@@ -14,6 +14,7 @@ import com.bootrestemailauth.userapi.services.VerifyMonumentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,5 +107,8 @@ public class AdminController {
         return monumentService.addmonumentInfo(authorization, monument_name, video, opening_time, closing_time, description, indian_adult, indian_child, foreign_adult, foreign_child, closed_day);
     }
     
-
+    @GetMapping("/monuments")
+    public ResponseEntity<?> getAllMonuments(){
+        return monumentService.getAllMonuments();
+    }
 }
