@@ -117,7 +117,11 @@ public class AdminController {
         return adminService.getMonumentsByadminId(authorization);
     }
 
+    @GetMapping("/admin/accountDetails")
+    public ResponseEntity<?> getAccountDetails(@RequestHeader("Authorization") String authorization){
+        return adminService.getAccountDetails(authorization);
 
+    }
 
     // @GetMapping("/monuments/{type}")
     // public ResponseEntity<?>(@PathVariable("type") String type){

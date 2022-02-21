@@ -1,7 +1,9 @@
 package com.bootrestemailauth.userapi.services;
 
+import com.bootrestemailauth.userapi.dao.AdminAccDetailsDao;
 import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.dao.MonumentDao;
+import com.bootrestemailauth.userapi.entities.AdminAccountDetails;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
@@ -27,6 +29,12 @@ public class AdminService {
 
     @Autowired
     public MonumentDao monumentDao;
+
+    @Autowired
+    public AdminAccountDetails adminAccountDetails;
+
+    @Autowired
+    public AdminAccDetailsDao accDetailsDao;
 
     public ResponseEntity<?> getMonumentsByadminId(String authorization){
 
@@ -56,6 +64,24 @@ public class AdminService {
 
         
 
+    }
+
+    public ResponseEntity<?> getAccountDetails(String authorization){
+        try {
+            String jwtToken = authorization.substring(7);
+            String reg_email = jwtUtil.extractUsername(jwtToken);
+            adminRequest = adminDao.getAdminRequestByemail(reg_email);
+            if(adminRequest==null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            adminAccountDetails = accDetailsDao.getAdminAccountDetailsByadminId(adminRequest.getId());
+            return ResponseEntity.ok(adminAccountDetails);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
