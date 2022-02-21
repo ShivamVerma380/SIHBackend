@@ -9,6 +9,7 @@ import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
+import com.bootrestemailauth.userapi.services.AdminService;
 import com.bootrestemailauth.userapi.services.MonumentService;
 import com.bootrestemailauth.userapi.services.VerifyMonumentService;
 
@@ -50,6 +51,9 @@ public class AdminController {
 
     @Autowired
     public MonumentService monumentService;
+
+    @Autowired
+    public AdminService adminService;
 
     @PostMapping("/admin/accountDetails")
     public ResponseEntity<?> addBankDetails(@RequestHeader("Authorization") String authorization,@RequestParam("account_no") String accountNo,@RequestParam("ifsc_code") String ifsc_code,@RequestParam("bank_name") String bank_name,@RequestParam("branch_name") String branch_name,@RequestParam("acc_holder_name") String acc_holder_name){
@@ -108,8 +112,10 @@ public class AdminController {
         return monumentService.addmonumentInfo(authorization, monument_name, video, opening_time, closing_time, description, indian_adult, indian_child, foreign_adult, foreign_child, closed_day);
     }
     
-    
-
+    @GetMapping("/admin/monuments")
+    public ResponseEntity<?> getMonumentsByadminId(@RequestHeader("Authorization")String authorization){
+        return adminService.getMonumentsByadminId(authorization);
+    }
 
 
 
