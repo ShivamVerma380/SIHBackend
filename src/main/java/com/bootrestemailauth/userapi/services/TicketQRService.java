@@ -1,5 +1,7 @@
 package com.bootrestemailauth.userapi.services;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.List;
 
@@ -142,8 +144,12 @@ public class TicketQRService {
                     visitedQrTicketsRequests.setNoOfTickets(qrList.get(i).getNoOfTickets());
                     visitedQrTicketsRequests.setUser_id(userRequest.getId());
                     //System.out.println();
+                    // C:\Users\shiva\SpringBoot-VSCode\SIHBackend\src\main\resources\static\image\QRcode\3_2_1998-03-12.jpg
                     visitedQrTicketDao.save(visitedQrTicketsRequests);
                     ticketQRDetailsDao.delete(qrList.get(i));
+                    //String QRUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/QRcode/").path(current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg").toUriString();
+                   String QRUrl = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg";
+                    Files.deleteIfExists(Paths.get(QRUrl));
                 }
 
             }
