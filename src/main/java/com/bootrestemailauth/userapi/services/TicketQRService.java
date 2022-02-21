@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.google.zxing.BarcodeFormat;  
 import com.google.zxing.EncodeHintType;  
 import com.google.zxing.MultiFormatWriter;  
@@ -78,7 +80,10 @@ public class TicketQRService {
             int monumentID=monumentRequest.getMonumentId();
             int userID=userRequest.getId();
             if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date_of_visit)){
+    
+                String QRUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/QRcode/").path(monumentID+"_"+userID+"_"+date_of_visit+".jpg").toUriString();
                 
+                ticketRequest.setQr_code(QRUrl);
                 ticketRequest.setDate_of_visit(date_of_visit);
                 ticketRequest.setFare(fare);
                 ticketRequest.setMonument_id(monumentID);
