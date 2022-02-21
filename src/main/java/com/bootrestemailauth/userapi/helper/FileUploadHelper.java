@@ -29,7 +29,7 @@ public class FileUploadHelper {
 
     public boolean isFileUploaded(MultipartFile multipartFile, String email, String role){
         boolean isUploaded=false;
-        String uploadDir = "D:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
+        String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
         try{
             String ext = multipartFile.getOriginalFilename();
                 int i = 0;
