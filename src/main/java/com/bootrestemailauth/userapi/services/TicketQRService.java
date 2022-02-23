@@ -151,7 +151,6 @@ public class TicketQRService {
                    String QRUrl = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg";
                     Files.deleteIfExists(Paths.get(QRUrl));
                 }
-
             }
 
             responseMessage.setMessage("QR ticket removed successfully");

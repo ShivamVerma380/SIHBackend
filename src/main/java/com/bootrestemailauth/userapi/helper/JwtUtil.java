@@ -2,8 +2,12 @@ package com.bootrestemailauth.userapi.helper;
 
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +22,26 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String SECRET_KEY = "secret";
+    private String SECRET_KEY;
+
+    private int jwtExpirationinMs;
+
+    private int refreshExpirationinMs;
+
+    @Value("${jwt.secret}")
+	public void setSecret(String secret) {
+		this.SECRET_KEY = secret;
+	}
+	
+	@Value("${jwt.expirationInMs}")
+	public void setJwtExpirationInMs(int jwtExpirationInMs) {
+		this.jwtExpirationinMs = jwtExpirationInMs;
+	}
+
+	@Value("${jwt.refreshexpirationInMs}")
+	public void setRefreshExpirationDateInMs(int refreshExpirationInMs){
+		this.refreshExpirationinMs = refreshExpirationInMs;
+	}
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -48,12 +71,34 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 300000000))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationinMs))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token) {
+        // try {
+        //     final String username = extractUsername(token);
+        //     return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        // } catch (ExpiredJwtException expiredJwtException) {
+        //     //TODO: handle exception
+        //     //throw new Exception(header,claims,"Token has expired",expiredJwtException);
+        // }
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+			return true;
+            
+        } catch (ExpiredJwtException e) {
+            throw e;
+        }
+        // final String username = extractUsername(token);
+        // return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+
+		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + refreshExpirationinMs))
+				.signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
+
+	}
 }

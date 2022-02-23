@@ -34,14 +34,20 @@ public class QRUploadHelper {
     }  
     public boolean isQRUploaded(String msg,int monument_id,int user_id,Date date_of_visit) throws IOException{
         
-        String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\Qr_code\\";
+        //String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\Qr_code\\";
+        String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\Qr_code\\";
         try{
-            MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
-            Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
+            // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
+            // Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
+            MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("C:/Users/shiva/SpringBoot-VSCode/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
+            Path targetDir = Paths.get("C:/Users/shiva/SpringBoot-VSCode/SIHBackend/src/main/resources/static/image/QRcode/"); 
+
             Path target = targetDir.resolve(monument_id+"_"+user_id+"_"+date_of_visit+".jpg");// create new path ending with `name` content
             System.out.println("copying into " + target);
             Files.copy(multipartFile.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
-            uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+monument_id+"_"+user_id+"_"+date_of_visit+".jpg";
+            //uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+monument_id+"_"+user_id+"_"+date_of_visit+".jpg";
+            uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+monument_id+"_"+user_id+"_"+date_of_visit+".jpg";
+            
             //Encoding charset to be used  
             String charset = "UTF-8";  
             Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();  

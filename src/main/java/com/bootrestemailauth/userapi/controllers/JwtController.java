@@ -2,9 +2,13 @@ package com.bootrestemailauth.userapi.controllers;
 
 import java.io.FileInputStream;
 import java.sql.Blob;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.AdminDao;
@@ -35,6 +39,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import io.jsonwebtoken.impl.DefaultClaims;
+
 import org.hibernate.*;
 
 @RestController
@@ -282,6 +289,29 @@ public class JwtController {
         jwtResponse.setToken(null);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jwtResponse);
         
+    }
+
+    @GetMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) throws Exception{
+        // From the HttpRequest get the claims
+        DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
+
+        Map<String,Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
+
+        String token = jwtUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
+
+        jwtResponse.setMessage("Token refreshed successfully!!");
+        jwtResponse.setToken(token);
+        return ResponseEntity.ok(jwtResponse);
+
+    }
+
+    private Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {
+        Map<String, Object> expectedMap = new HashMap<String, Object>();
+		for (Entry<String, Object> entry : claims.entrySet()) {
+			expectedMap.put(entry.getKey(), entry.getValue());
+		}
+		return expectedMap;
     }
 
     
