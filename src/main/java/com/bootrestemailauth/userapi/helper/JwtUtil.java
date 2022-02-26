@@ -22,26 +22,13 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String SECRET_KEY;
+    private String SECRET_KEY = "sihbackend2022";
 
-    private int jwtExpirationinMs;
+    private int jwtExpirationinMs = 18000000;
 
-    private int refreshExpirationinMs;
+    private int refreshExpirationinMs =  20000000;
 
-    @Value("${jwt.secret}")
-	public void setSecret(String secret) {
-		this.SECRET_KEY = secret;
-	}
-	
-	@Value("${jwt.expirationInMs}")
-	public void setJwtExpirationInMs(int jwtExpirationInMs) {
-		this.jwtExpirationinMs = jwtExpirationInMs;
-	}
-
-	@Value("${jwt.refreshexpirationInMs}")
-	public void setRefreshExpirationDateInMs(int refreshExpirationInMs){
-		this.refreshExpirationinMs = refreshExpirationInMs;
-	}
+    
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

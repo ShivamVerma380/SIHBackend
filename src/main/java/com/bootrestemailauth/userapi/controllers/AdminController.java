@@ -5,9 +5,8 @@ import java.sql.Time;
 import com.bootrestemailauth.userapi.dao.AdminAccDetailsDao;
 import com.bootrestemailauth.userapi.dao.AdminDao;
 import com.bootrestemailauth.userapi.entities.AdminAccountDetails;
-import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
-import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
+import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.services.AdminService;
 import com.bootrestemailauth.userapi.services.MonumentService;
@@ -16,13 +15,11 @@ import com.bootrestemailauth.userapi.services.VerifyMonumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
