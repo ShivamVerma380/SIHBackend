@@ -147,7 +147,7 @@ public class JwtController {
                 }
 
                 adminDao.save(admin);
-                System.out.println("*******************************");
+                System.out.println("***********");
                 
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password)); //spring security
 
