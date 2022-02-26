@@ -24,9 +24,9 @@ public class JwtUtil {
 
     private String SECRET_KEY = "sihbackend2022";
 
-    private int jwtExpirationinMs = 18000000;
+    private int jwtExpirationinMs = 86400000;  
 
-    private int refreshExpirationinMs =  20000000;
+    private int refreshExpirationinMs =  99999999;
 
     
 
@@ -55,7 +55,7 @@ public class JwtUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims, String subject) {  //subject ==> username(email id)
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationinMs))

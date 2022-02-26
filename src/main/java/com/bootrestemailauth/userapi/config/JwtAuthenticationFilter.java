@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
         } catch (ExpiredJwtException e) {
             String isRefreshToken = request.getHeader("isRefreshToken"); // either true or false
-            String requestPath = request.getRequestURL().toString(); // request url i.e. http://localhost:8080/refresh-token
+            String requestPath = request.getRequestURL().toString(); // request url i.e. http://localhost:8080/api/refresh-token
             
             if(isRefreshToken.equalsIgnoreCase("true") && requestPath.contains("refresh-token")){
                 allowForRefreshToken(e, request);

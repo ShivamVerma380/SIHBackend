@@ -21,6 +21,8 @@ import com.bootrestemailauth.userapi.helper.FileUploadHelper;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
 import com.bootrestemailauth.userapi.services.CustomUserDetailsService;
+import com.bootrestemailauth.userapi.services.PasswordService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,6 +92,9 @@ public class JwtController {
 
     @Autowired
     public FileUploadHelper fileUploadHelper;
+
+    @Autowired
+    public PasswordService passwordService;
 
     
 
@@ -241,10 +246,10 @@ public class JwtController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String aurhorization,@RequestParam("email") String email,@RequestParam("password") String password, @RequestParam("role") String role){
+    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String authorization,@RequestParam("email") String email,@RequestParam("password") String password, @RequestParam("role") String role){
         try {
             
-            String jwtToken = aurhorization.substring(7);
+            String jwtToken = authorization.substring(7);
             String email_registered = jwtUtil.extractUsername(jwtToken);
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             if(role.equalsIgnoreCase("user")){
@@ -298,12 +303,22 @@ public class JwtController {
 
         Map<String,Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
 
-        String token = jwtUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
+        String token = jwtUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString()); 
 
         jwtResponse.setMessage("Token refreshed successfully!!");
         jwtResponse.setToken(token);
         return ResponseEntity.ok(jwtResponse);
 
+    }
+
+    @PostMapping("/forgot-password")
+    public  ResponseEntity<?> forgotPassword(@RequestHeader("Authorization") String authorization){
+        return passwordService.forgotPassword(authorization);
+    }
+
+    @PostMapping("/update-password")
+    public  ResponseEntity<?> updatePassword(@RequestHeader("Authorization") String authorization,@RequestParam("password") String password){
+        return passwordService.updatePassword(authorization, password);
     }
 
     private Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {
