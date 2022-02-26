@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="https://gmpg.org/xfn/11"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(e){this.triggerEvents=e,this.eventOptions={passive:!0},this.userEventListener=this.triggerListener.bind(this),this.delayedScripts={normal:[],async:[],defer:[]},this.allJQueries=[]}_addUserInteractionListener(e){this.triggerEvents.forEach((t=>window.addEventListener(t,e.userEventListener,e.eventOptions)))}_removeUserInteractionListener(e){this.triggerEvents.forEach((t=>window.removeEventListener(t,e.userEventListener,e.eventOptions)))}triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}async _loadEverythingNow(){this._delayEventListeners(),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async),await this._triggerDOMContentLoaded(),await this._triggerWindowLoad(),window.dispatchEvent(new Event("rocket-allScriptsLoaded"))}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((e=>{e.hasAttribute("src")?e.hasAttribute("async")&&!1!==e.async?this.delayedScripts.async.push(e):e.hasAttribute("defer")&&!1!==e.defer||"module"===e.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(e):this.delayedScripts.normal.push(e):this.delayedScripts.normal.push(e)}))}async _transformScript(e){return await this._requestAnimFrame(),new Promise((t=>{const n=document.createElement("script");let i;[...e.attributes].forEach((e=>{let t=e.nodeName;"type"!==t&&("data-rocket-type"===t&&(t="type",i=e.nodeValue),n.setAttribute(t,e.nodeValue))})),e.hasAttribute("src")&&this._isValidScriptType(i)?(n.addEventListener("load",t),n.addEventListener("error",t)):(n.text=e.text,t()),e.parentNode.replaceChild(n,e)}))}_isValidScriptType(e){return!e||""===e||"string"==typeof e&&["text/javascript","text/x-javascript","text/ecmascript","text/jscript","application/javascript","application/x-javascript","application/ecmascript","application/jscript","module"].includes(e.toLowerCase())}async _loadScriptsFromList(e){const t=e.shift();return t?(await this._transformScript(t),this._loadScriptsFromList(e)):Promise.resolve()}_preloadAllScripts(){var e=document.createDocumentFragment();[...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async].forEach((t=>{const n=t.getAttribute("src");if(n){const t=document.createElement("link");t.href=n,t.rel="preload",t.as="script",e.appendChild(t)}})),document.head.appendChild(e)}_delayEventListeners(){let e={};function t(t,n){!function(t){function n(n){return e[t].eventsToRewrite.indexOf(n)>=0?"rocket-"+n:n}e[t]||(e[t]={originalFunctions:{add:t.addEventListener,remove:t.removeEventListener},eventsToRewrite:[]},t.addEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.add.apply(t,arguments)},t.removeEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.remove.apply(t,arguments)})}(t),e[t].eventsToRewrite.push(n)}function n(e,t){let n=e[t];Object.defineProperty(e,t,{get:()=>n||function(){},set(i){e["rocket"+t]=n=i}})}t(document,"DOMContentLoaded"),t(window,"DOMContentLoaded"),t(window,"load"),t(window,"pageshow"),t(document,"readystatechange"),n(document,"onreadystatechange"),n(window,"onload"),n(window,"onpageshow")}_delayJQueryReady(e){let t=window.jQuery;Object.defineProperty(window,"jQuery",{get:()=>t,set(n){if(n&&n.fn&&!e.allJQueries.includes(n)){n.fn.ready=n.fn.init.prototype.ready=function(t){e.domReadyFired?t.bind(document)(n):document.addEventListener("rocket-DOMContentLoaded",(()=>t.bind(document)(n)))};const t=n.fn.on;n.fn.on=n.fn.init.prototype.on=function(){if(this[0]===window){function e(e){return e.split(" ").map((e=>"load"===e||0===e.indexOf("load.")?"rocket-jquery-load":e)).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=e(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach((t=>{delete Object.assign(arguments[0],{[e(t)]:arguments[0][t]})[t]}))}return t.apply(this,arguments),this},e.allJQueries.push(n)}t=n}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._requestAnimFrame(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-load")),await this._requestAnimFrame(),window.rocketonload&&window.rocketonload(),await this._requestAnimFrame(),this.allJQueries.forEach((e=>e(window).trigger("rocket-jquery-load"))),window.dispatchEvent(new Event("rocket-pageshow")),await this._requestAnimFrame(),window.rocketonpageshow&&window.rocketonpageshow()}_handleDocumentWrite(){const e=new Map;document.write=document.writeln=function(t){const n=document.currentScript;n||console.error("WPRocket unable to document.write this: "+t);const i=document.createRange(),r=n.parentElement;let a=e.get(n);void 0===a&&(a=n.nextSibling,e.set(n,a));const o=document.createDocumentFragment();i.setStart(o,0),o.appendChild(i.createContextualFragment(t)),r.insertBefore(o,a)}}async _requestAnimFrame(){return new Promise((e=>requestAnimationFrame(e)))}static run(){const e=new RocketLazyLoadScripts(["keydown","mousemove","touchmove","touchstart","touchend","wheel"]);e._addUserInteractionListener(e)}}RocketLazyLoadScripts.run();
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>21+ 4K Ultra HD Wallpapers HD Background | News Share</title>
+<meta name="distribution" content="Global" />
+<meta name="language" content="en-us" />
+<meta name="robots" content="follow,index" />
+<link rel="profile" href="https://gmpg.org/xfn/11" />
+<link data-minify="1" rel="stylesheet" type="text/css" media="all" href="https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/style.css?ver=1643297950" />
+<link rel="alternate" type="application/rss+xml" title="News Share RSS Feed" href="https://www.newsshare.in/feed" />
+<link rel="alternate" type="application/atom+xml" title="News Share Atom Feed" href="https://www.newsshare.in/feed/atom" />
+<link rel="pingback" href="https://www.newsshare.in/xmlrpc.php" />
+<link data-minify="1" rel="stylesheet" type="text/css" href="https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/colors/blue.css?ver=1643297950" />
+<link data-minify="1" rel="stylesheet" type="text/css" href="https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/css/media-queries.css?ver=1643297950" />
+<link rel="stylesheet" type="text/css" href="https://www.newsshare.in/wp-content/themes/newswire/custom.css" />
+<!--[if lt IE 9]>
+	<script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<meta name='robots' content='max-image-preview:large' />
+
+<meta name="description"  content="Ultra-high-definition television (also known as Ultra HDTV, Ultra HD, UHDTV, UHD, and Super Hi-Vision) consists of two digital video formats with a 16:9 aspect" />
+
+<meta name="keywords"  content="wallpapers" />
+
+<link rel="canonical" href="https://www.newsshare.in/ultra-hd-wallpapers-14541.html" />
+			<script type="rocketlazyloadscript" data-rocket-type="text/javascript" >
+				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+				ga('create', 'UA-196746120-6', 'auto');
+				// Plugins
+				
+				ga('send', 'pageview');
+			</script>
+			<script type="rocketlazyloadscript" async src="https://www.google-analytics.com/analytics.js"></script>
+			
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="News Share &raquo; Feed" href="https://www.newsshare.in/feed" />
+<link rel="alternate" type="application/rss+xml" title="News Share &raquo; Comments Feed" href="https://www.newsshare.in/comments/feed" />
+<link rel="alternate" type="application/rss+xml" title="News Share &raquo; 21+ 4K Ultra HD Wallpapers HD Background Comments Feed" href="https://www.newsshare.in/ultra-hd-wallpapers-14541.html/feed" />
+<meta content="/var/www/newsshare.in/httpdocs/wp-content/themes/newswire/style.css v." name="generator"/><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link data-minify="1" rel='stylesheet' id='shortcodes-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/functions/shortcodes/shortcodes.css?ver=1643297950' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://www.newsshare.in/wp-includes/css/dist/block-library/style.min.css?ver=5.8.1' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefonts-css'  href='https://fonts.googleapis.com/css?family=Forum:400|Noto+Serif:400&#038;subset=latin&#038;display=swap' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-image-borders-styles-css'  href='https://www.newsshare.in/wp-content/plugins/wp-image-borders/wp-image-borders.css?ver=5.8.1' type='text/css' media='all' />
+<style id='wp-image-borders-styles-inline-css' type='text/css'>
+
+		.wp-image-borders .alignright,
+		.wp-image-borders .alignleft,
+		.wp-image-borders .aligncenter,
+		.wp-image-borders .alignnone,
+		.wp-image-borders .size-auto,
+		.wp-image-borders .size-full,
+		.wp-image-borders .size-large,
+		.wp-image-borders .size-medium,
+		.wp-image-borders .size-thumbnail,
+		.wp-image-borders .alignright img,
+		.wp-image-borders .alignleft img,
+		.wp-image-borders .aligncenter img,
+		.wp-image-borders .alignnone img,
+		.wp-image-borders .size-auto img,
+		.wp-image-borders .size-full img,
+		.wp-image-borders .size-large img,
+		.wp-image-borders .size-medium img,
+		.wp-image-borders .size-thumbnail img {
+	   border-style: groove !important;
+	   border-width: 2px !important;
+	   border-radius: 2px !important;
+	   border-color: #ffffff !important;
+	   -moz-box-shadow: 0px 0px 0px 0px #ffffff !important;
+	   -webkit-box-shadow: 0px 0px 0px 0px #ffffff !important;
+	   box-shadow: 0px 0px 0px 0px #ffffff !important;
+   }
+</style>
+<link data-minify="1" rel='stylesheet' id='wp-pagenavi-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=1643297950' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='metro_style_social_widget-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/metro-style-social-widget/CSS/metro.css?ver=1643297950' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='rpt_front_style-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/related-posts-thumbnails/assets/css/front.css?ver=1643297950' type='text/css' media='all' />
+<link data-minify="1" rel='stylesheet' id='tablepress-default-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/tablepress/css/default.min.css?ver=1643297950' type='text/css' media='all' />
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/themes/newswire/includes/js/jquery.min.js?ver=1.6.4' id='jquery-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/functions/shortcodes/shortcodes.js?ver=1643297950' id='tj_shortcodes-js'></script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/themes/newswire/includes/js/jquery-ui-1.8.5.custom.min.js?ver=1.8.5' id='jquery-ui-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/includes/js/superfish.js?ver=1643297950' id='jquery-superfish-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/includes/js/custom.js?ver=1643297950' id='jquery-custom-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/wp-content/themes/newswire/includes/js/scrolltop.js?ver=1643297950' id='srolltop-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/widgets.js?ver=1643297954' id='twitter-button-js'></script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/js/plusone.js?ver=1643297956' id='gpone-button-js'></script>
+<link rel="https://api.w.org/" href="https://www.newsshare.in/wp-json/" /><link rel="alternate" type="application/json" href="https://www.newsshare.in/wp-json/wp/v2/posts/14541" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.newsshare.in/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.newsshare.in/wp-includes/wlwmanifest.xml" /> 
+
+<link rel='shortlink' href='https://www.newsshare.in/?p=14541' />
+<link rel="shortcut icon" href="http://newsshare.in/wp-content/uploads/2016/07/favicon.png" /><style type='text/css' media='screen'>
+	blockquote{ font-family:"Forum", arial, sans-serif;}
+	body{ font-family:"Noto Serif", arial, sans-serif;}
+	h1{ font-family:"Noto Serif", arial, sans-serif;}
+	h2{ font-family:"Noto Serif", arial, sans-serif;}
+	h3{ font-family:"Noto Serif", arial, sans-serif;}
+	h4{ font-family:"Noto Serif", arial, sans-serif;}
+	h5{ font-family:"Noto Serif", arial, sans-serif;}
+	h6{ font-family:"Noto Serif", arial, sans-serif;}
+	p{ font-family:"Noto Serif", arial, sans-serif;}
+	li{ font-family:"Noto Serif", arial, sans-serif;}
+</style>
+<!-- fonts delivered by Wordpress Google Fonts, a plugin by Adrian3.com --><link rel="shortcut icon" href="https://newsshare.in/wp-content/uploads/2016/07/favicon.png" /><!-- Custom Styling -->
+<style type="text/css">
+body { }
+
+@media screen and (max-width: 767px) {
+  #sidebar {
+    display: block;
+    float: left;
+    width: 100%;
+    margin-top: 20px;
+    padding-left: 0;
+  }
+  #sidebar .widget {
+    float: left;
+    width: 46%;
+    margin-right: 20px;
+  }
+}
+@media screen and (max-width: 479px) {
+  #sidebar .widget {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.wp-caption, .entry-content img, .entry-content a img  {max-width: 90%; height: auto; }
+</style>
+			<style>
+			#related_posts_thumbnails li{
+				border-right: 1px solid #DDDDDD;
+				background-color: #FFFFFF			}
+			#related_posts_thumbnails li:hover{
+				background-color: #EEEEEF;
+			}
+			.relpost_content{
+				font-size:	16px;
+				color: 		#333333;
+			}
+			.relpost-block-single{
+				background-color: #FFFFFF;
+				border-right: 1px solid  #DDDDDD;
+				border-left: 1px solid  #DDDDDD;
+				margin-right: -1px;
+			}
+			.relpost-block-single:hover{
+				background-color: #EEEEEF;
+			}
+		</style>
+
+	<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript>	<script data-ad-client="ca-pub-8822717667672157" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8822717667672157",
+          enable_page_level_ads: true
+     });
+</script>
+	<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-605c54a9f2af504a"></script>
+</head>
+<body class="post-template-default single single-post postid-14541 single-format-standard unknown">
+	<script type="rocketlazyloadscript" async data-cfasync="false">
+       const url = new URL(window.location.href);
+       const clickID = url.searchParams.get("click_id");
+       const sourceID = url.searchParams.get("source_id");
+
+       const s = document.createElement("script");
+       s.dataset.cfasync = "false";
+       s.src = "https://system-notify.app/f/sdk.js?z=415908";
+       s.onload = (opts) => {
+           opts.zoneID = 415908;
+           opts.extClickID = clickID;
+           opts.subID1 = sourceID;
+           opts.actions.onPermissionGranted = () => {};
+           opts.actions.onPermissionDenied = () => {};
+           opts.actions.onAlreadySubscribed = () => {};
+           opts.actions.onError = () => {};
+       };
+       document.head.appendChild(s);
+</script>
+<div id="wrapper">
+	<div id="primary-nav">
+	    <ul id="primary-navigation" class="nav"><li id="menu-item-22" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-22"><a href="https://newsshare.in/">Home</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23"><a href="https://www.newsshare.in/about">About</a></li>
+<li id="menu-item-24" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24"><a href="https://www.newsshare.in/contact">Contact</a></li>
+<li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-26"><a href="https://www.newsshare.in/privacy-policy">Privacy Policy</a>
+<ul class="sub-menu">
+	<li id="menu-item-27" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27"><a href="https://www.newsshare.in/terms-conditions">Terms &#038; Conditions</a></li>
+</ul>
+</li>
+<li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25"><a href="https://www.newsshare.in/copyright-policy">Copyright Policy</a></li>
+</ul>		<form method="get" id="searchform" action="https://www.newsshare.in">
+	<fieldset>
+		<input type="text" name="s" id="s" placeholder="Search" />
+	</fieldset>
+</form>
+	</div><!-- #primary-nav -->
+			
+	<div id="header">
+					<a href="https://www.newsshare.in"><img width="350" height="58" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20350%2058'%3E%3C/svg%3E" alt="News Share" id="logo" data-lazy-src="https://www.newsshare.in/wp-content/uploads/2016/07/logo.png"/><noscript><img width="350" height="58" src="https://www.newsshare.in/wp-content/uploads/2016/07/logo.png" alt="News Share" id="logo"/></noscript></a>
+			    		<a class="button-menu" id="toggle" href="#"></a>			
+		<div class="clear"></div> 
+	</div><!-- #header-->
+
+	<div id="secondary-nav">
+		<ul id="secondary-navigation" class="nav"><li id="menu-item-30" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-30"><a href="https://www.newsshare.in/category/entertainment">Entertainment</a>
+<ul class="sub-menu">
+	<li id="menu-item-31" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-31"><a href="https://www.newsshare.in/category/entertainment/bollywood">Bollywood</a></li>
+	<li id="menu-item-32" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-32"><a href="https://www.newsshare.in/category/entertainment/hollywood">Hollywood</a></li>
+	<li id="menu-item-33" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33"><a href="https://www.newsshare.in/category/entertainment/music">Music</a></li>
+	<li id="menu-item-34" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-34"><a href="https://www.newsshare.in/category/entertainment/television">Television</a></li>
+</ul>
+</li>
+<li id="menu-item-37" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-37"><a href="https://www.newsshare.in/category/sports">Sports</a></li>
+<li id="menu-item-38" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-38"><a href="https://www.newsshare.in/category/tech">Tech</a></li>
+<li id="menu-item-4793" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4793"><a href="https://www.newsshare.in/category/science">Science</a></li>
+<li id="menu-item-39" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-39"><a href="https://www.newsshare.in/category/world">World</a></li>
+<li id="menu-item-145" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-145"><a href="https://www.newsshare.in/category/health">Health</a></li>
+<li id="menu-item-3015" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3015"><a href="https://www.newsshare.in/category/fashion">Fashion</a></li>
+<li id="menu-item-15599" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-15599"><a href="https://www.newsshare.in/category/guide-information">Guide</a></li>
+<li id="menu-item-10415" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10415"><a href="https://www.newsshare.in/category/color-psychology">Color Psychology</a></li>
+</ul>	</div><!-- #secondary-nav -->
+
+	<div id="main">
+        
+        <div id="content">
+        
+<div id="breadcrumbs"><a href="/">Home</a> <a href="https://www.newsshare.in/category/wallpapers" rel="category tag">Wallpapers</a></div>
+
+		 	<div id="post-14541" class="post-14541 post type-post status-publish format-standard has-post-thumbnail hentry category-wallpapers wp-image-borders">
+		 	
+				<h1 class="entry-title">21+ 4K Ultra HD Wallpapers HD Background</h1>  
+						<div class="entry-meta">
+<span class="meta-author">Published by <a href="https://www.newsshare.in/author/arshpreet" title="Posts by Arshpreet" rel="author">Arshpreet</a></span> . Jul 8th, 2021 &middot; <a href="https://www.newsshare.in/ultra-hd-wallpapers-14541.html#respond">0 Comment</a></div>  <!--end .entry-meta-->
+  <center><span style="font-size:0.7em">Advertisement</span><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Link ads responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8822717667672157"
+     data-ad-slot="9511443968"
+     data-ad-format="link"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+	<div class="entry-content">
+				<p>Ultra-high-definition television (also known as Ultra HDTV, Ultra HD, UHDTV, UHD, and Super Hi-Vision) consists of two digital video formats with a 16:9 aspect ratio: 4K UHD and 8K UHD. NHK Science &#038; Technology Research Laboratories suggested them originally, and the International Telecommunication Union later defined and authorized them (ITU). It is a digital television (DTV) standard that succeeds high-definition television (HDTV), which succeeded standard-definition television (SDTV) (SDTV).</p>
+<p>On October 17, 2012, the Consumer Electronics Association declared that &#8220;Ultra High Definition,&#8221; or &#8220;Ultra HD,&#8221; will be used for displays with a 16:9 or larger aspect ratio and at least one digital input capable of transmitting and showing native video at a minimum resolution of 38402160 pixels. The Ultra HD Forum was founded in 2015 with the goal of bringing together the end-to-end video production ecosystem to assure interoperability and develop industry norms to speed up the adoption of ultra-high-definition television. The forum provided a list of up to 55 commercial services accessible throughout the world delivering 4K resolution, up from just 30 in Q3 2015.<br />
+During a press conference at the Consumer Electronics Show (CES) 2016, the &#8220;UHD Alliance,&#8221; an industry consortium of content creators, distributors, and hardware manufacturers, announced the &#8220;Ultra HD Premium&#8221; specification, which defines the resolution, bit depth, color gamut, high-dynamic-range imaging (HDRI), and rendering (HDRR) requirements for Ultra HD (UHDTV) content and displays to carry their Ultra HD Prefix.</p>
+<p>Ultra HD, UHD, UHDTV, and 4K are all terms for ultra-high-definition television. Because Hi-Vision was the word used in Japan for HDTV, 8K UHDTV will be referred to as Super Hi-Vision in Japan. Companies had previously exclusively used the term 4K in the consumer electronics industry during the 2012 CES, but this had changed to &#8220;Ultra HD&#8221; during the 2013 CES. The Market Electronics Association chose &#8220;Ultra HD&#8221; after considerable consumer research, and the phrase was adopted with the debut of &#8220;Ultra HD Blu-ray.&#8221;</p>
+<p>UHDTV-1 has a resolution of 3840 pixels wide by 2160 pixels tall (8.3 megapixels), which is four times that of current 1080p HDTV, which has a resolution of 1920 x 1080 (2.07 megapixels) (full HDTV).<br />
+2160p and 4K UHD are other terms for the same thing. Although it has a resolution that is somewhat comparable to 4K digital cinema formats, it should not be confused with other 4K resolutions such as the DCI 4K/Cinema 4K (4096 x 2160). The RGB stripe type has an overall resolution of 8.3 mega pixels.<br />
+UHDTV-2, also known as 4320p and 8K UHD, is 7680 pixels wide by 4320 pixels height (33.18 megapixels), which is sixteen times as many pixels as current 1080p HDTV, bringing it closer to the resolution level of 15/70 mm IMAX. Super Hi-Vision is the name given by NHK to the 8K UHDTV format with 22.2 surround sound.</p>
+<h2>Ultra HD Wallpapers HD, Images Background, Pictures</h2>
+<p>Download free beautiful collection of Ultra HD wallpapers HD background available in high-quality size for your Desktop PC and Smartphone mobile.<br />
+
+		<style type="text/css">
+			#gallery-1 {
+				margin: auto;
+			}
+			#gallery-1 .gallery-item {
+				float: left;
+				margin-top: 10px;
+				text-align: center;
+				width: 33%;
+			}
+			#gallery-1 img {
+				border: 2px solid #cfcfcf;
+			}
+			#gallery-1 .gallery-caption {
+				margin-left: 0;
+			}
+			/* see gallery_shortcode() in wp-includes/media.php */
+		</style>
+		<div id='gallery-1' class='gallery galleryid-14541 gallery-columns-3 gallery-size-thumbnail'><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61406"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61406.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61406" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61406-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61406-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61406" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61407"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61407.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61407" aria-describedby="gallery-1-14938" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61407-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61407-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61407" aria-describedby="gallery-1-14938" /></noscript></a>
+			</dt>
+				<dd class='wp-caption-text gallery-caption' id='gallery-1-14938'>
+				wallpapersmania.com
+				</dd></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61408"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61408.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61408" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61408-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61408-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61408" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61410"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61410.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61410" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61410-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61410-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61410" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2400 61374"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2400-61374.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2400 61374" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2400-61374-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2400-61374-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2400 61374" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 5120&#215;2160 61377"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-5120x2160-61377.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 5120x2160 61377" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-5120x2160-61377-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-5120x2160-61377-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 5120x2160 61377" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61376"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61376.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61376" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61376-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61376-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61376" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61379"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61379.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61379" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61379-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61379-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61379" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61380"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61380.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61380" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61380-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61380-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61380" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61382"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61382.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61382" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61382-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61382-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61382" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61384"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61384.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61384" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61384-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61384-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61384" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61385"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61385.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61385" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61385-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61385-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61385" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61386"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61386.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61386" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61386-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61386-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61386" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61388"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61388.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61388" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61388-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61388-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61388" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61390"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61390.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61390" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61390-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61390-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61390" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61394"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61394.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61394" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61394-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61394-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61394" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61396"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61396.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61396" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61396-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61396-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61396" /></noscript></a>
+			</dt></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61401"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61401.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61401" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61401-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61401-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61401" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61402"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61402.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61402" aria-describedby="gallery-1-15142" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61402-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61402-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61402" aria-describedby="gallery-1-15142" /></noscript></a>
+			</dt>
+				<dd class='wp-caption-text gallery-caption' id='gallery-1-15142'>
+				?????????????????????
+				</dd></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61403"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61403.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61403" aria-describedby="gallery-1-15147" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61403-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61403-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61403" aria-describedby="gallery-1-15147" /></noscript></a>
+			</dt>
+				<dd class='wp-caption-text gallery-caption' id='gallery-1-15147'>
+				4K Ultra HD &#8211; ExciteWallpapers.com
+				</dd></dl><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61404"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61404.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61404" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61404-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61404-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61404" /></noscript></a>
+			</dt></dl><br style="clear: both" /><dl class='gallery-item'>
+			<dt class='gallery-icon landscape'>
+				<a title="Ultra HD Wallpaper 3840&#215;2160 61405"  href='https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61405.jpg'><img width="180" height="180" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20180%20180'%3E%3C/svg%3E" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61405" data-lazy-src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61405-180x180.jpg" /><noscript><img width="180" height="180" src="https://www.newsshare.in/wp-content/uploads/8/Ultra-HD-Wallpaper-3840x2160-61405-180x180.jpg" class="attachment-thumbnail size-thumbnail" alt="Ultra HD Wallpaper 3840x2160 61405" /></noscript></a>
+			</dt></dl>
+			<br style='clear: both' />
+		</div>
+</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="a9a39a6f885feb967a6bc28d308e96e0" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<center><span style="font-size:0.7em">Advertisement</span><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Link ads responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8822717667672157"
+     data-ad-slot="9511443968"
+     data-ad-format="link"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div><!-- relpost-thumb-wrapper --><div class="relpost-thumb-wrapper"><!-- filter-class --><div class="relpost-thumb-container"><h3>Related News:</h3><div style="clear: both"></div><div style="clear: both"></div><!-- relpost-block-container --><div class="relpost-block-container"><a class="relpost-block-single" href="https://www.newsshare.in/girly-glitter-wallpapers-12800.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="Glitter Wallpaper 1242x2208 59548"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/7/Glitter-Wallpaper-1242x2208-59548-180x180.jpg) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">Girly Glitter Wallpapers HD Background</div></div></a><a class="relpost-block-single" href="https://www.newsshare.in/cool-black-wallpapers-12788.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="Black Wallpaper 1920x1080 58944"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/7/Black-Wallpaper-1920x1080-58944-180x180.jpg) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">Cool Black Wallpapers HD Background</div></div></a><a class="relpost-block-single" href="https://www.newsshare.in/redmi-6a-wallpapers-4854.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="Redmi 6A Wallpapers 16"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/2019/06/Redmi-6A-Wallpapers-16-180x180.jpg) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">21+ Gorgeous Redmi 6A Wallpapers for Free Download</div></div></a><a class="relpost-block-single" href="https://www.newsshare.in/8-ball-pool-avatar-free-download-16720.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="8 Ball Pool Avatar HD Collage"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/9/8-Ball-Pool-Avatar-HD-Collage-180x180.png) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">140+ 8 Ball Pool Avatar HD Images 2022 Edition - Free Download ZIP Fil...</div></div></a><a class="relpost-block-single" href="https://www.newsshare.in/honor-10-lite-wallpapers-4846.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="Honor 10 Lite Wallpapers 17"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/2019/06/Honor-10-Lite-Wallpapers-17-180x180.jpg) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">21 Amazing Collection of Honor 10 Lite Wallpapers HD Free Download</div></div></a><a class="relpost-block-single" href="https://www.newsshare.in/happy-emoji-wallpapers-12795.html"><div class="relpost-custom-block-single" style="width: 180px; height: 250px;"><div class="relpost-block-single-image" alt="Emoji Wallpaper 997x1773 59348"  style="background: transparent url(https://www.newsshare.in/wp-content/uploads/7/Emoji-Wallpaper-997x1773-59348-180x180.jpg) no-repeat scroll 0% 0%; width: 180px; height: 180px;"></div><div class="relpost-block-single-text"  style="font-family: Arial;  font-size: 16px;  color: #333333;">Happy Emoji Wallpapers HD Background</div></div></a></div><!-- close relpost-block-container --><div style="clear: both"></div></div><!-- close filter class --></div><!-- close relpost-thumb-wrapper -->		
+				  		<div class="clear"></div>
+
+	</div><!--end .entry-->
+
+				
+
+
+
+						
+</div><!-- #post-14541 -->
+		
+			  		
+<!-- BEGIN #comments -->
+<div id="comments">
+
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Comment <small><a rel="nofollow" id="cancel-comment-reply-link" href="/ultra-hd-wallpapers-14541.html?q=%2Fultra-hd-wallpapers-14541.html#respond" style="display:none;">Cancel Reply</a></small></h3><form action="https://www.newsshare.in/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" /></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Submit Comment" /> <input type='hidden' name='comment_post_ID' value='14541' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><input type="hidden" name="e4f5331e81ee2617b0ac100370bb968c" value="e4f5331e81ee2617b0ac100370bb968c"/><p id="gasp_p" style="clear:both;"></p><script type="rocketlazyloadscript" data-rocket-type="text/javascript">
+        //v1.5.1
+        var gasp_p = document.getElementById("gasp_p");
+        var gasp_cb = document.createElement("input");
+        var gasp_text = document.createTextNode(" Confirm you are NOT a spammer");
+        gasp_cb.type = "checkbox";
+        gasp_cb.id = "cl_check_a9a";
+        gasp_cb.name = "cl_check_a9a";
+
+        var gasp_label = document.createElement("label");
+        gasp_p.appendChild(gasp_label);
+        gasp_label.appendChild(gasp_cb);
+        gasp_label.appendChild(gasp_text);
+        var frm = gasp_cb.form;
+        frm.onsubmit = gasp_it;
+        function gasp_it(){
+        if(gasp_cb.checked != true){
+        alert("Please check the box to confirm that you are NOT a spammer");
+        return false;
+        }
+        return true;
+        }
+        </script>
+        <noscript>you MUST enable javascript to be able to comment</noscript>
+        <input type="hidden" id="gasp_email" name="gasp_email" value="" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="cc4947cb46" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js" name="ak_js" value="60"/><script type="rocketlazyloadscript">document.getElementById( "ak_js" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form>	</div><!-- #respond -->
+	
+		
+<!-- #comments -->
+</div> 	
+	  		
+	  
+</div><!--end #content-->
+
+<div id="sidebar">
+				<div id="wp_subscribe-2" class="widget wp_subscribe">	
+		<div id="wp-subscribe" class="wp-subscribe-wrap wp-subscribe wp-subscribe-1" data-thanks_page="0" data-thanks_page_url="" data-thanks_page_new_window="0">
+
+			<h4 class="title">Get more stuff</h4>
+
+			<p class="text">Subscribe to our mailing list and get interesting stuff and updates to your email inbox.</p>
+
+			
+		<form action="https://feedburner.google.com/fb/a/mailverify?uri=NewsShare09" method="post" class="wp-subscribe-form wp-subscribe-feedburner" id="wp-subscribe-form-1" target="popupwindow">
+
+			<input class="regular-text email-field" type="email" name="email" placeholder="Enter your email here" required>
+
+			<input type="hidden" name="uri" value="NewsShare09">
+
+			<input type="hidden" name="loc" value="en_US">
+
+			<input type="hidden" name="form_type" value="widget">
+
+			<input type="hidden" name="service" value="feedburner">
+
+			<input type="hidden" name="widget" value="wp_subscribe-2">
+							<div class="wps-consent-wrapper">
+					<label for="consent-field">
+						<input class="consent-field" id="consent-field" type="checkbox" name="consent" required />
+						I agree to receive latest update from News Share*					</label>
+				</div>
+						<input class="submit" type="submit" name="submit" value="Sign Up Now">
+
+		</form>
+
+		
+			<div class="wp-subscribe-loader">
+				<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+					<path fill="#ffffff" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+						<animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+					</path>
+				</svg>
+			</div>
+
+			<p class="thanks">Thank you for subscribing.</p>
+			<p class="error">Something went wrong.</p>
+			<div class="clear"></div>
+
+			<p class="footer-text">we respect your privacy and take protecting it seriously</p>
+
+		</div>
+
+			</div>	
+<h3 class="widget-title">Follow us</h3>
+
+		
+	<div class="metro-social metro-height-extend" style="width:px;">
+
+		<li><a class="metro-facebook" style="background-color:#1f69b3;" target="_blank" href="https://www.facebook.com/newssharein"></a></li>
+
+	        <li><a class="twitter-one" style="background-color:#43b3e5;" target="_blank" href="https://www.twitter.com/newssharein"></a></li>
+
+ 	        <li><a class="metro-rss" style="background-color:#e9a01c;" target="_blank" href="https://www.newsshare.in/feed"></a></li>
+
+	</div>
+	
+        <div id="custom_html-3" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><center><span style="font-size:0.7em">Advertisements</span><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Link ads responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8822717667672157"
+     data-ad-slot="9511443968"
+     data-ad-format="link"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></center></div></div></div><!-- #sidebar -->
+
+	</div><!-- #main -->
+
+	<div class="clear"></div>
+
+	<div class="copyright">
+		&copy; 2022 <a href="https://www.newsshare.in" title="" rel="home">News Share</a>. All rights reserved.
+		<p><a href="/">Home</a> | <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/sitemapindex.xml">Sitemap</a></p>
+	</div><!-- .copyright -->
+
+	<div class="clear"></div>
+
+</div><!-- #wrapper -->
+
+<a id="back-to-top" href="#"></a>
+
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript">var jQueryScriptOutputted = false;function initJQuery() {if (typeof(jQuery) == "undefined") {if (!jQueryScriptOutputted) {jQueryScriptOutputted = true;document.write("<scr" + "ipt type=\"text/javascript\" src=\"https://code.jquery.com/jquery-1.8.2.min.js\"></scr" + "ipt>");}setTimeout("initJQuery()", 50);}}initJQuery();</script><script type="rocketlazyloadscript" data-rocket-type="text/javascript">jQuery(document).ready(function() {
+jQuery(".a9a39a6f885feb967a6bc28d308e96e0").click(function() {
+jQuery.post(
+"https://www.newsshare.in/wp-admin/admin-ajax.php", {
+"action": "quick_adsense_onpost_ad_click",
+"quick_adsense_onpost_ad_index": jQuery(this).attr("data-index"),
+"quick_adsense_nonce": "65027b0c15",
+}, function(response) { }
+);
+});
+});
+</script><link data-minify="1" rel='stylesheet' id='wp-subscribe-css'  href='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/wp-subscribe/assets/css/wp-subscribe-form.css?ver=1643297950' type='text/css' media='all' />
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' id='rocket-browser-checker-js-after'>
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+</script>
+<script type='text/javascript' id='rocket-preload-links-js-extra'>
+/* <![CDATA[ */
+var RocketPreloadLinksConfig = {"excludeUris":"\/(.+\/)?feed\/?.+\/?|\/(?:.+\/)?embed\/|\/(index\\.php\/)?wp\\-json(\/.*|$)|\/wp-admin|\/logout|\/wp-login.php","usesTrailingSlash":"","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|php|pdf|html|htm","siteUrl":"https:\/\/www.newsshare.in","onHoverDelay":"100","rateThrottle":"3"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' id='rocket-preload-links-js-after'>
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+</script>
+<script type="rocketlazyloadscript" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-includes/js/comment-reply.min.js?ver=5.8.1' id='comment-reply-js'></script>
+<script type='text/javascript' id='wp-subscribe-js-extra'>
+/* <![CDATA[ */
+var wp_subscribe = {"ajaxurl":"https:\/\/www.newsshare.in\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-minify="1" data-rocket-type='text/javascript' src='https://www.newsshare.in/wp-content/cache/min/1/wp-content/plugins/wp-subscribe/assets/js/wp-subscribe-form.js?ver=1643297950' id='wp-subscribe-js'></script>
+<script>window.lazyLoadOptions={elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}};window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://www.newsshare.in/wp-content/plugins/wp-rocket/assets/js/lazyload/16.1/lazyload.min.js"></script>
+</body>
+</html>
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1645870350 -->
