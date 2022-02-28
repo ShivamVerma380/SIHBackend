@@ -60,7 +60,7 @@ public class FileUploadHelper {
         return uploadDir;
     }
 
-    public String  isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name) throws IOException{
+    public boolean isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name) throws IOException{
         boolean isUploaded=false;
         // String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\monument";
         //String uploadDir = new ClassPathResource("/static/image/monument/").getFile().getAbsolutePath();
@@ -81,7 +81,7 @@ public class FileUploadHelper {
             e.printStackTrace();
             isUploaded = false;
         }
-        return uploadDir;
+        return isUploaded;
     }
     
 }
