@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class BlobResponse {
     private String message;
-    private String profile_image;
+    private byte[] profile_image;
     public BlobResponse() {
     }
-    public BlobResponse(String message, String profile_image) {
+    public BlobResponse(String message, byte[] profile_image) {
         this.message = message;
         this.profile_image = profile_image;
     }
@@ -18,10 +18,10 @@ public class BlobResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-    public String getProfile_image() {
+    public byte[] getProfile_image() {
         return profile_image;
     }
-    public void setProfile_image(String profile_image) {
+    public void setProfile_image(byte[] profile_image) {
         this.profile_image = profile_image;
     }
     @Override

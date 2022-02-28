@@ -1,9 +1,14 @@
 package com.bootrestemailauth.userapi.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.http.HttpHeaders;
 import java.sql.Blob;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+
+import javax.imageio.ImageIO;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.UserDao;
@@ -14,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import com.bootrestemailauth.userapi.entities.UpdatePassword;
+
 import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -85,31 +91,7 @@ public class UserController {
 
     }
 
-    //New function try this image return karne ke liye hua toh god
-    @GetMapping("/profile-image")
-    public ResponseEntity<?> getProfileImage(  @RequestHeader("Authorization") String authorization){
-
-        try{
-            
-            String jwtToken = authorization.substring(7);
-            String email = jwtUtil.extractUsername(jwtToken);
-            jwtRequest = userDao.getUserRequestByuseremail(email);
-            // int blobLength = (int) jwtRequest.getImg().length();
-            // byte[] blobAsBytes = jwtRequest.getImg().getBytes(1, blobLength);
-            // String s = new String(blobAsBytes);
-            blobResponse.setMessage("Successfull");
-            blobResponse.setProfile_image(jwtRequest.getImgUrl());
-            // System.out.println(s);
-            return ResponseEntity.ok(blobResponse);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            blobResponse.setMessage(e.getMessage());
-            blobResponse.setProfile_image("");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(blobResponse);
-        }
-        
-    }
+    
 
     //Write code to update userDetails i.e. 1. Profile pic   2.User name 
     //Write code to forgotPassword
@@ -138,6 +120,35 @@ public class UserController {
             updatePassword.setMessage(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(updatePassword);
         }
+    }
+
+    @GetMapping(value="/profile-image")
+    public ResponseEntity<?> getProfileImage(@RequestHeader("Authorization") String Authorization){
+    
+        try{
+            
+            String jwtToken = Authorization.substring(7);
+            String email = jwtUtil.extractUsername(jwtToken);
+            jwtRequest = userDao.getUserRequestByuseremail(email);
+            int blobLength = (int) jwtRequest.getImg().length();
+            byte[] blobAsBytes = jwtRequest.getImg().getBytes(1, blobLength);
+            String s = new String(blobAsBytes);
+            ByteArrayInputStream bis = new ByteArrayInputStream(blobAsBytes);
+            BufferedImage bImage2 = ImageIO.read(bis);
+            ImageIO.write(bImage2, "jpg", new File("output.jpg") );
+            System.out.println("image created");
+            blobResponse.setMessage("Successfull");
+            blobResponse.setProfile_image(blobAsBytes);
+            System.out.println(s);
+            return ResponseEntity.ok(blobResponse);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            blobResponse.setMessage(e.getMessage());
+            blobResponse.setProfile_image(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(blobResponse);
+        }
+        
     }
 
     //Baaki codes like update profile images n all ya update name vagere baad mein add kardege...
