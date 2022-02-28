@@ -107,7 +107,7 @@ public class JwtController {
     
     //@Transactional //Without this error is coming
     @PostMapping("/register")
-    public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file, UserRequest userRequest2){
+    public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file){
         String imgUrl=null;
         
         if(role.equalsIgnoreCase("Admin")){
