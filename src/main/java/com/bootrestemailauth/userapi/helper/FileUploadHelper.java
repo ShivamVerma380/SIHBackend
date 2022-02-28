@@ -27,7 +27,7 @@ public class FileUploadHelper {
 
     }
 
-    public boolean isFileUploaded(MultipartFile multipartFile, String email, String role){
+    public String isFileUploaded(MultipartFile multipartFile, String email, String role){
         boolean isUploaded=false;
         //String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
         // String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
@@ -54,12 +54,13 @@ public class FileUploadHelper {
             }
         } catch (Exception e1) {
             // TODO Auto-generated catch block
+            uploadDir = null;
             e1.printStackTrace();
         }
-        return isUploaded;
+        return uploadDir;
     }
 
-    public boolean isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name) throws IOException{
+    public String  isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name) throws IOException{
         boolean isUploaded=false;
         // String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\monument";
         //String uploadDir = new ClassPathResource("/static/image/monument/").getFile().getAbsolutePath();
@@ -76,10 +77,11 @@ public class FileUploadHelper {
             Files.copy(multipartFile.getInputStream(),Paths.get(uploadDir+File.separator+monument_name+"_"+file_name+"."+ext),StandardCopyOption.REPLACE_EXISTING);
             isUploaded = true;
         }catch(Exception e){
+            uploadDir = null;
             e.printStackTrace();
             isUploaded = false;
         }
-        return isUploaded;
+        return uploadDir;
     }
     
 }

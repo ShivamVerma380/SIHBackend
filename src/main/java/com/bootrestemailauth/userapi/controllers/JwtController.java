@@ -119,7 +119,8 @@ public class JwtController {
                     jwtResponse.setMessage("This email id is already registered with user role");
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
                 }
-                if(fileUploadHelper.isFileUploaded(file, email, role)){
+                String uploadDir = fileUploadHelper.isFileUploaded(file, email, role);
+                if(uploadDir!=null){
     
                     String ext = file.getOriginalFilename();
                     int i=0;
@@ -129,7 +130,7 @@ public class JwtController {
     
                     ext = ext.substring(i+1);
     
-                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/admin/").path(email).path(".").path(ext).toUriString();
+                    imgUrl = uploadDir+email+"."+ext;
                     System.out.println(imgUrl);
                 }
 
@@ -183,8 +184,8 @@ public class JwtController {
                 }
 
                 
-
-                if(fileUploadHelper.isFileUploaded(file, email, role)){
+                String uploadDir = fileUploadHelper.isFileUploaded(file, email, role);
+                if(uploadDir!=null){
     
                     String ext = file.getOriginalFilename();
                     int i=0;
@@ -194,7 +195,7 @@ public class JwtController {
     
                     ext = ext.substring(i+1);
     
-                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/user/").path(email).path(".").path(ext).toUriString();
+                    imgUrl = uploadDir+email+"."+ext;
                 }
     
                 Session session = entityManager.unwrap(Session.class);
