@@ -27,7 +27,7 @@ public class FileUploadHelper {
 
     }
 
-    public String isFileUploaded(MultipartFile multipartFile, String email, String role){
+    public boolean isFileUploaded(MultipartFile multipartFile, String email, String role){
         boolean isUploaded=false;
         //String uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
         // String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image" + File.separator + role;
@@ -54,10 +54,10 @@ public class FileUploadHelper {
             }
         } catch (Exception e1) {
             // TODO Auto-generated catch block
-            uploadDir = null;
+
             e1.printStackTrace();
         }
-        return uploadDir;
+        return isUploaded;
     }
 
     public boolean isMonumentFileUploaded(MultipartFile multipartFile,String monument_name,String file_name) throws IOException{
