@@ -34,7 +34,7 @@ public class FileUploadHelper {
         String uploadDir;
         try {
             //uploadDir = new ClassPathResource("static/image/"+role+"/").getFile().getAbsolutePath();
-            uploadDir = Paths.get("src/main/resources/static/image/"+role).toAbsolutePath().toString();
+            uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/image/"+role).toAbsolutePath().toString();
             System.out.println(uploadDir);
             try{
                 String ext = multipartFile.getOriginalFilename();
@@ -63,7 +63,7 @@ public class FileUploadHelper {
         boolean isUploaded=false;
         // String uploadDir = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\monument";
         //String uploadDir = new ClassPathResource("/static/image/monument/").getFile().getAbsolutePath();
-        String uploadDir = Paths.get("src/main/resources/static/image/monument").toAbsolutePath().toString();
+        String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/image/monument").toAbsolutePath().toString();
         try{
             String ext = multipartFile.getOriginalFilename();
                 int i = 0;
