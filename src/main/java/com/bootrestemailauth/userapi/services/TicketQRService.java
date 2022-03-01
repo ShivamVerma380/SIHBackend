@@ -1,7 +1,10 @@
 package com.bootrestemailauth.userapi.services;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -17,10 +20,16 @@ import com.bootrestemailauth.userapi.entities.VisitedQrTicketsRequests;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.QRUploadHelper;
 
+import org.hibernate.Session;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
   
 
@@ -28,6 +37,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class TicketQRService {
     @Autowired
     public ResponseMessage responseMessage;
+
+    @PersistenceContext
+    public EntityManager entityManager;
 
     @Autowired
     public JwtUtil jwtUtil;
@@ -83,9 +95,12 @@ public class TicketQRService {
             int userID=userRequest.getId();
             if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date_of_visit)){
     
-                String QRUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/QRcode/").path(monumentID+"_"+userID+"_"+date_of_visit+".jpg").toUriString();
-                
-                ticketRequest.setQr_code(QRUrl);
+                MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
+                Session session = entityManager.unwrap(Session.class);
+    
+                Blob QRdata = session.getLobHelper().createBlob(multipartFile.getInputStream(),multipartFile.getSize());
+
+                ticketRequest.setQr_code(QRdata);
                 ticketRequest.setDate_of_visit(date_of_visit);
                 ticketRequest.setFare(fare);
                 ticketRequest.setMonument_id(monumentID);
@@ -100,9 +115,6 @@ public class TicketQRService {
                 responseMessage.setMessage("QR code not generated");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
             }
-
-            
-
 
         }
         catch(Exception e){

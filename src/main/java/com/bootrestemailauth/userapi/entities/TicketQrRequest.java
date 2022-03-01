@@ -1,4 +1,5 @@
 package com.bootrestemailauth.userapi.entities;
+import java.sql.Blob;
 import java.sql.Date;
 
 import javax.annotation.Generated;
@@ -7,7 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -33,14 +38,16 @@ public class TicketQrRequest {
     private int noOfTickets; 
 
 
+    @Lob
     @Column(name = "qr_code")
-    private String qr_code;
+    @JsonBackReference
+    private Blob qr_code;
 
     @Column(name="date_of_visit")
     private Date date_of_visit;
 
     public TicketQrRequest(int id,int user_id, int monument_id, double fare, int noOfTickets, 
-            String qr_code,Date date_of_visit) {
+            Blob qr_code,Date date_of_visit) {
         this.id = id;
         this.userId = user_id;
         this.monument_id = monument_id;
@@ -112,11 +119,11 @@ public class TicketQrRequest {
     }
 
     
-    public String getQr_code() {
+    public Blob getQr_code() {
         return qr_code;
     }
 
-    public void setQr_code(String qr_code) {
+    public void setQr_code(Blob qr_code) {
         this.qr_code = qr_code;
     }
 

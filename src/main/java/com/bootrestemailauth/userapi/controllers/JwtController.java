@@ -17,7 +17,6 @@ import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.entities.JwtResponse;
 import com.bootrestemailauth.userapi.entities.UpdatePassword;
-import com.bootrestemailauth.userapi.helper.FileUploadHelper;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
 import com.bootrestemailauth.userapi.services.CustomUserDetailsService;
@@ -91,9 +90,6 @@ public class JwtController {
     public JwtUtil jwtUtil;
 
     @Autowired
-    public FileUploadHelper fileUploadHelper;
-
-    @Autowired
     public PasswordService passwordService;
 
     
@@ -120,26 +116,15 @@ public class JwtController {
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
                 }
                 
-                if(fileUploadHelper.isFileUploaded(file, email, role)){
-    
-                    String ext = file.getOriginalFilename();
-                    int i=0;
-                    for(;i<ext.length();i++){
-                        if(ext.charAt(i)=='.') break;
-                    }
-    
-                    ext = ext.substring(i+1);
-    
-                    imgUrl =   ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/user/").path(email).path(".").path(ext).toUriString();
-                    System.out.println(imgUrl);
-                }
-
-                String encodedPassword = mySecurityConfig.passwordEncoder().encode(password);
                 
+                String encodedPassword = mySecurityConfig.passwordEncoder().encode(password);
+                Session session = entityManager.unwrap(Session.class);
+    
+                Blob imageData = session.getLobHelper().createBlob(file.getInputStream(),file.getSize());
                 admin.setEmail(email);
                 admin.setName(name);
                 admin.setPassword(encodedPassword);
-                admin.setImg_url(imgUrl);
+                admin.setImg(imageData);
                 admin.setAadhar_number(null);
                 admin.setPhoneNos(null);
                 System.out.println(admin.toString());
@@ -183,21 +168,6 @@ public class JwtController {
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
                 }
 
-                
-                
-                if(fileUploadHelper.isFileUploaded(file, email, role)){
-    
-                    String ext = file.getOriginalFilename();
-                    int i=0;
-                    for(;i<ext.length();i++){
-                        if(ext.charAt(i)=='.') break;
-                    }
-    
-                    ext = ext.substring(i+1);
-    
-                    imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/user/").path(email).path(".").path(ext).toUriString();
-                    //imgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-                }
     
                 Session session = entityManager.unwrap(Session.class);
     
@@ -213,7 +183,6 @@ public class JwtController {
                 userRequest.setPassword(encodedPassword);
                 userRequest.setName(name);
                 userRequest.setImg(imageData);
-                userRequest.setImgUrl(imgUrl);
     
                 UserRequest existingUser = userDao.getUserRequestByuseremail(email); // userDao.get_ClassName_By_variablename
                 if(existingUser!=null){

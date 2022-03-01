@@ -43,19 +43,15 @@ public class UserRequest {
     @JsonBackReference  // If ye nai lagaya toh blob image jackson exception throw karra n recursion hora
     private Blob img;
 
-    @Column(name="img_url")
-    private String imgUrl;
-
     public UserRequest() {
     }
 
-    public UserRequest(int id, String useremail, String name, String password, Blob img, String imgUrl) {
+    public UserRequest(int id, String useremail, String name, String password, Blob img) {
         this.id = id;
         this.useremail = useremail;
         this.name = name;
         this.password = password;
         this.img = img;
-        this.imgUrl = imgUrl;
     }
 
     public int getId() {
@@ -98,17 +94,10 @@ public class UserRequest {
         this.img = img;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 
     @Override
     public String toString() {
-        return "JwtRequest [id=" + id + ", img=" + img + ", imgUrl=" + imgUrl + ", name=" + name + ", password="
+        return "JwtRequest [id=" + id + ", img=" + img + ", name=" + name + ", password="
                 + password + ", useremail=" + useremail + "]";
     }    
 

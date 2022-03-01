@@ -34,19 +34,19 @@ public class QRUploadHelper {
     }  
     public boolean isQRUploaded(String msg,int monument_id,int user_id,Date date_of_visit) throws IOException{
         
-        String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code").toAbsolutePath().toString();
+        String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString();
         try{
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
             // Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("src/main/resources/static/Qr_code/default.jpg")));
             // Path targetDir = Paths.get("src/main/resources/static/image/QRcode/"); 
-            MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
-            Path targetDir = Paths.get("src/main/resources/static/image/QRcode/"); 
-            Path target = targetDir.resolve(monument_id+""+user_id+""+date_of_visit+".jpg");// create new path ending with `name` content
-            System.out.println("copying into " + target);
-            Files.copy(multipartFile.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
-            //uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+monument_id+""+user_id+""+date_of_visit+".jpg";
-            uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/image/QRcode/"+monument_id+""+user_id+""+date_of_visit+".jpg").toAbsolutePath().toString();
+            // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
+            // Path targetDir = Paths.get("src/main/resources/static/image/QRcode/"); 
+            // Path target = targetDir.resolve(monument_id+""+user_id+""+date_of_visit+".jpg");// create new path ending with `name` content
+            // System.out.println("copying into " + target);
+            // Files.copy(multipartFile.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+            // //uploadDir = "E:\\SIH\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+monument_id+""+user_id+""+date_of_visit+".jpg";
+            // uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/image/QRcode/"+monument_id+""+user_id+""+date_of_visit+".jpg").toAbsolutePath().toString();
             
             //Encoding charset to be used  
             String charset = "UTF-8";  

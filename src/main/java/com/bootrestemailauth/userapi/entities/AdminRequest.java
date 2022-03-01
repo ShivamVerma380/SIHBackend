@@ -1,11 +1,16 @@
 package com.bootrestemailauth.userapi.entities;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.springframework.stereotype.Component;
 
@@ -32,8 +37,10 @@ public class AdminRequest {
     @Column(name="admin_aadhar")
     private String aadhar_number;
 
+    @Lob
     @Column(name = "admin_image")
-    private String img_url;
+    @JsonBackReference
+    private Blob img;
 
     @Column(name = "admin_phone")
     private String phoneNos;
@@ -41,14 +48,14 @@ public class AdminRequest {
     public AdminRequest() {
     }
 
-    public AdminRequest(int id, String name, String email, String password, String aadhar_number, String img_url,
+    public AdminRequest(int id, String name, String email, String password, String aadhar_number, Blob img,
             String phoneNos) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.aadhar_number = aadhar_number;
-        this.img_url = img_url;
+        this.img = img;
         this.phoneNos = phoneNos;
     }
 
@@ -92,12 +99,12 @@ public class AdminRequest {
         this.aadhar_number = aadhar_number;
     }
 
-    public String getImg_url() {
-        return img_url;
+    public Blob getImg() {
+        return img;
     }
 
-    public void setImg_url(String img_url) {
-        this.img_url = img_url;
+    public void setImg(Blob img) {
+        this.img = img;
     }
 
     public String getPhoneNos() {
@@ -110,7 +117,7 @@ public class AdminRequest {
 
     @Override
     public String toString() {
-        return "Admin [aadhar_number=" + aadhar_number + ", email=" + email + ", id=" + id + ", img_url=" + img_url
+        return "Admin [aadhar_number=" + aadhar_number + ", email=" + email + ", id=" + id + ", img=" + img
                 + ", name=" + name + ", password=" + password + ", phoneNos=" + phoneNos + "]";
     }
     

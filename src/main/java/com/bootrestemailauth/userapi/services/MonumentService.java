@@ -15,7 +15,6 @@ import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
-import com.bootrestemailauth.userapi.helper.FileUploadHelper;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
 
@@ -47,9 +46,6 @@ public class MonumentService {
 
     @Autowired
     public MonumentDao monumentDao;
-
-    @Autowired
-    public FileUploadHelper fileUploadHelper;
 
     @PersistenceContext
     public EntityManager entityManager;
@@ -133,35 +129,15 @@ public class MonumentService {
 
             Session session = entityManager.unwrap(Session.class);
             Blob monumentPoaData = session.getLobHelper().createBlob(monument_poa.getInputStream(),monument_poa.getSize());
-            //monument.setMonumentPOA(monumentPoaData);
+            // monument.setMonumentPOA(monumentPoaData);
 
             //2a: Id code
              
             //2b: File upload and urls store
-            String monumentImgUrl ;
-            if(fileUploadHelper.isMonumentFileUploaded(monumentImage, monument_name, "image")){
-                String ext = monumentImage.getOriginalFilename();
-                int i=0;
-                for(;i<ext.length();i++){
-                    if(ext.charAt(i)=='.') break;
-                }
-    
-                ext = ext.substring(i+1);
-    
-                monumentImgUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/monument/").path(monument_name).path("_").path("image").path(".").path(ext).toUriString();
-
-                
-                
-                monument.setMonumentImageUrl(monumentImgUrl);
-                
-
-
-            }else{
-                responseMessage.setMessage("Problem in uploading images");
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(responseMessage);
-            }
-
-            MonumentRequest mon = new MonumentRequest(adminRequest.getId(), monument_name, monumentImgUrl, monumentPoaData, website, monument_type, monument_location);
+            Blob monumentImgData = session.getLobHelper().createBlob(monumentImage.getInputStream(),monumentImage.getSize());
+            // Blob monumentPreviewData = session.getLobHelper().createBlob(monumentImage.getInputStream(),monumentImage.getSize());
+            
+            MonumentRequest mon = new MonumentRequest(adminRequest.getId(), monument_name, monumentImgData, monumentPoaData, website, monument_type, monument_location);
             monumentDao.save(mon);
 
             //Step 3: Monument Verification Table se delete karna hai
@@ -196,22 +172,9 @@ public class MonumentService {
             }
 
             //video url generation
-            if(fileUploadHelper.isMonumentFileUploaded(video, monument_name, "video")){
-                String ext = video.getOriginalFilename();
-                int i=0;
-                for(;i<ext.length();i++){
-                    if(ext.charAt(i)=='.') break;
-                }
-    
-                ext = ext.substring(i+1);
-    
-                String monumentVideoUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/monument/").path(monument_name).path("_").path("video").path(".").path(ext).toUriString();
-
-                
-                
-                monument.setMonumentPreviewUrl(monumentVideoUrl);
-            }
-
+            Session session=entityManager.unwrap(Session.class);
+            Blob monumentPreviewData = session.getLobHelper().createBlob(video.getInputStream(),video.getSize());
+            monument.setMonumentPreview(monumentPreviewData);
             
             monument.setClosedDay(closed_day);
             monument.setClosingTime(closing_time);

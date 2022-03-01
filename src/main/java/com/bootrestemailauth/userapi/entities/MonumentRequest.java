@@ -28,8 +28,10 @@ public class MonumentRequest {
     @Column(name="admin_id",unique = false)
     private int adminId;
 
+    @Lob
     @Column(name="preview")
-    private String monumentPreviewUrl;
+    @JsonBackReference
+    private Blob monumentPreview;
 
     @Column(name = "start_time")
     private Time openingTime;
@@ -40,8 +42,10 @@ public class MonumentRequest {
     @Column(name="name",unique = true)
     private String monumentName;
 
-    @Column(name="image_url")
-    private String monumentImageUrl;
+    @Lob
+    @Column(name="image")
+    @JsonBackReference
+    private Blob monumentImage;
 
     @Lob
     @Column(name = "poa")
@@ -77,16 +81,13 @@ public class MonumentRequest {
 
     public MonumentRequest() {
     }
-    
-    
-    
-    
+   
 
-    public MonumentRequest( int adminId, String monumentName, String monumentImageUrl, Blob monumentPOA,
+    public MonumentRequest( int adminId, String monumentName, Blob monumentImageUrl, Blob monumentPOA,
             String websiteLink, String monumentType, String monumentLocation) {
         this.adminId = adminId;
         this.monumentName = monumentName;
-        this.monumentImageUrl = monumentImageUrl;
+        this.monumentImage = monumentImage;
         this.monumentPOA = monumentPOA;
         this.websiteLink = websiteLink;
         this.monumentType = monumentType;
@@ -97,17 +98,17 @@ public class MonumentRequest {
 
 
 
-    public MonumentRequest(int monumentId, int adminId, String monumentPreviewUrl, Time openingTime, Time closingTime,
-            String monumentName, String monumentImageUrl, Blob monumentPOA, String monumentDescription,
+    public MonumentRequest(int monumentId, int adminId, Blob monumentPreview, Time openingTime, Time closingTime,
+            String monumentName, Blob monumentImageUrl, Blob monumentPOA, String monumentDescription,
             double indianAdultFare, double indianChildFare, double foreignAdultFare, double foreignChildFare,
             String closedDay, String websiteLink, String monumentType, String monumentLocation) {
         this.monumentId = monumentId;
         this.adminId = adminId;
-        this.monumentPreviewUrl = monumentPreviewUrl;
+        this.monumentPreview = monumentPreview;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
         this.monumentName = monumentName;
-        this.monumentImageUrl = monumentImageUrl;
+        this.monumentImage = monumentImageUrl;
         this.monumentPOA = monumentPOA;
         this.monumentDescription = monumentDescription;
         this.indianAdultFare = indianAdultFare;
@@ -145,12 +146,12 @@ public class MonumentRequest {
         this.adminId = adminId;
     }
 
-    public String getMonumentPreviewUrl() {
-        return monumentPreviewUrl;
+    public Blob getMonumentPreview() {
+        return monumentPreview;
     }
 
-    public void setMonumentPreviewUrl(String monumentPreviewUrl) {
-        this.monumentPreviewUrl = monumentPreviewUrl;
+    public void setMonumentPreview(Blob monumentPreview) {
+        this.monumentPreview = monumentPreview;
     }
 
     public Time getOpeningTime() {
@@ -177,12 +178,12 @@ public class MonumentRequest {
         this.monumentName = monumentName;
     }
 
-    public String getMonumentImageUrl() {
-        return monumentImageUrl;
+    public Blob getMonumentImageUrl() {
+        return monumentImage;
     }
 
-    public void setMonumentImageUrl(String monumentImageUrl) {
-        this.monumentImageUrl = monumentImageUrl;
+    public void setMonumentImageUrl(Blob monumentImageUrl) {
+        this.monumentImage = monumentImageUrl;
     }
 
     public Blob getMonumentPOA() {
@@ -276,9 +277,9 @@ public class MonumentRequest {
         return "Monument [adminId=" + adminId + ", closedDay=" + closedDay + ", closingTime=" + closingTime
                 + ", foreignAdultFare=" + foreignAdultFare + ", foreignChildFare=" + foreignChildFare
                 + ", indianAdultFare=" + indianAdultFare + ", indianChildFare=" + indianChildFare
-                + ", monumentDescription=" + monumentDescription + ", monumentId=" + monumentId + ", monumentImageUrl="
-                + monumentImageUrl + ", monumentLocation=" + monumentLocation + ", monumentName=" + monumentName
-                + ", monumentPOA=" + monumentPOA + ", monumentPreviewUrl=" + monumentPreviewUrl + ", monumentType="
+                + ", monumentDescription=" + monumentDescription + ", monumentId=" + monumentId + ", monumentImage="
+                + monumentImage + ", monumentLocation=" + monumentLocation + ", monumentName=" + monumentName
+                + ", monumentPOA=" + monumentPOA + ", monumentPreview=" + monumentPreview + ", monumentType="
                 + monumentType + ", openingTime=" + openingTime + ", websiteLink=" + websiteLink + "]";
     }
 
