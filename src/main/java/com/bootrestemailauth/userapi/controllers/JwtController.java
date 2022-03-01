@@ -16,6 +16,7 @@ import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.entities.JwtResponse;
+import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.UpdatePassword;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
@@ -92,6 +93,8 @@ public class JwtController {
     @Autowired
     public PasswordService passwordService;
 
+    @Autowired
+    public ResponseMessage responseMessage;
     
 
     @GetMapping("/welcome")
@@ -104,7 +107,6 @@ public class JwtController {
     //@Transactional //Without this error is coming
     @PostMapping("/register")
     public ResponseEntity<?> addUser(@RequestParam("role") String role,@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("password") String password,@RequestParam("profile-image") MultipartFile file){
-        String imgUrl=null;
         
         if(role.equalsIgnoreCase("Admin")){
             try {
@@ -214,6 +216,37 @@ public class JwtController {
 
         
 
+    }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<?> addImage(@RequestHeader("Authorization") String authorization,@RequestParam("profile-image") MultipartFile imageFile){
+        try{
+            String token = authorization.substring(7);
+            String email_registered = jwtUtil.extractUsername(token);
+            System.out.println(email_registered);
+            UserRequest userDetails = userDao.getUserRequestByuseremail(email_registered);
+            System.out.println(userDetails);
+            Session session = entityManager.unwrap(Session.class);
+    
+            Blob imageData = session.getLobHelper().createBlob(imageFile.getInputStream(),imageFile.getSize());
+            System.out.println(imageData);
+            if(userDetails!=null){
+                userDetails.setImg(imageData);
+                userDao.save(userDetails);
+                responseMessage.setMessage("Image Uploaded Successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+            }
+            AdminRequest adminDetails= adminDao.getAdminRequestByemail(email_registered);
+            System.out.println(adminDetails);
+            adminDetails.setImg(imageData);
+            adminDao.save(adminDetails);
+            System.out.println(adminDetails);
+            responseMessage.setMessage("Image Uploaded Successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+        }catch(Exception e){
+            responseMessage.setMessage("Image not uploaded");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
+        }
     }
 
     @PostMapping("/login")
