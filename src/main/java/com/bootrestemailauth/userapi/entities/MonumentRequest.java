@@ -83,7 +83,7 @@ public class MonumentRequest {
     }
    
 
-    public MonumentRequest( int adminId, String monumentName, Blob monumentImageUrl, Blob monumentPOA,
+    public MonumentRequest( int adminId, String monumentName, Blob monumentImage, Blob monumentPOA,
             String websiteLink, String monumentType, String monumentLocation) {
         this.adminId = adminId;
         this.monumentName = monumentName;
