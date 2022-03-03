@@ -3,13 +3,17 @@ package com.bootrestemailauth.userapi.entities;
 import java.sql.Time;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class monumentResponse {
     private String monumentName;
     private String monumentDesc;
+    @JsonBackReference
     private byte[] monumentImg;
+    @JsonBackReference
     private byte[] monumentVideo;
     private String monumentLink;
     private Time startTime;
