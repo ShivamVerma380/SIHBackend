@@ -3,17 +3,20 @@ package com.bootrestemailauth.userapi.entities;
 import java.sql.Time;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 import org.springframework.stereotype.Component;
 
 @Component
+// @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class monumentResponse {
     private String monumentName;
     private String monumentDesc;
-    @JsonBackReference
+    // @JsonBackReference
     private byte[] monumentImg;
-    @JsonBackReference
+    // @JsonBackReference
     private byte[] monumentVideo;
     private String monumentLink;
     private Time startTime;

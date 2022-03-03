@@ -69,15 +69,22 @@ public class MonumentService {
             List<monumentResponse> mList = new ArrayList<>();
             if(monuments==null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            System.out.println(monuments.size());
             for(int i=0;i<monuments.size();i++){
                 int blobLength = (int) monuments.get(i).getMonumentImage().length();
                 byte[] blobAsBytes = monuments.get(i).getMonumentImage().getBytes(1, blobLength);
-                monumentresponse.setMonumentName(monuments.get(i).getMonumentName()); 
-                monumentresponse.setMonumentImg(blobAsBytes);
-                mList.add(monumentresponse);
-                
+                // System.out.println(monuments.get(i).getMonumentName());
+                String monImage = new String(blobAsBytes);
+                monumentResponse mResponse = new monumentResponse();
+                mResponse.setMonumentName(monuments.get(i).getMonumentName()); 
+                mResponse.setMonumentImg(blobAsBytes);
+                mList.add(mResponse);
+                // System.out.println(mList.get(i));
             }
-            return ResponseEntity.ok(monumentresponse);
+            for(int i = 0; i< mList.size(); i++){
+                System.out.println(mList.get(i).getMonumentName());
+            }
+            return ResponseEntity.ok(mList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
