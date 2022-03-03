@@ -2,6 +2,7 @@ package com.bootrestemailauth.userapi.entities;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,9 +80,11 @@ public class MonumentRequest {
     @Column(name = "location")
     private String monumentLocation;
 
+
     public MonumentRequest() {
     }
    
+
 
     public MonumentRequest( int adminId, String monumentName, Blob monumentImage, Blob monumentPOA,
             String websiteLink, String monumentType, String monumentLocation) {
@@ -95,20 +98,17 @@ public class MonumentRequest {
     }
 
 
-
-
-
     public MonumentRequest(int monumentId, int adminId, Blob monumentPreview, Time openingTime, Time closingTime,
-            String monumentName, Blob monumentImageUrl, Blob monumentPOA, String monumentDescription,
+            String monumentName, Blob monumentImage, Blob monumentPOA, String monumentDescription,
             double indianAdultFare, double indianChildFare, double foreignAdultFare, double foreignChildFare,
-            String closedDay, String websiteLink, String monumentType, String monumentLocation) {
+            String closedDay, String websiteLink, String monumentType, String monumentLocation, byte[] imageByte) {
         this.monumentId = monumentId;
         this.adminId = adminId;
         this.monumentPreview = monumentPreview;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
         this.monumentName = monumentName;
-        this.monumentImage = monumentImageUrl;
+        this.monumentImage = monumentImage;
         this.monumentPOA = monumentPOA;
         this.monumentDescription = monumentDescription;
         this.indianAdultFare = indianAdultFare;
@@ -119,6 +119,7 @@ public class MonumentRequest {
         this.websiteLink = websiteLink;
         this.monumentType = monumentType;
         this.monumentLocation = monumentLocation;
+
     }
 
 
@@ -178,12 +179,12 @@ public class MonumentRequest {
         this.monumentName = monumentName;
     }
 
-    public Blob getMonumentImageUrl() {
+    public Blob getMonumentImage() {
         return monumentImage;
     }
 
-    public void setMonumentImageUrl(Blob monumentImageUrl) {
-        this.monumentImage = monumentImageUrl;
+    public void setMonumentImage(Blob monumentImage) {
+        this.monumentImage = monumentImage;
     }
 
     public Blob getMonumentPOA() {
@@ -274,13 +275,13 @@ public class MonumentRequest {
 
     @Override
     public String toString() {
-        return "Monument [adminId=" + adminId + ", closedDay=" + closedDay + ", closingTime=" + closingTime
-                + ", foreignAdultFare=" + foreignAdultFare + ", foreignChildFare=" + foreignChildFare
-                + ", indianAdultFare=" + indianAdultFare + ", indianChildFare=" + indianChildFare
-                + ", monumentDescription=" + monumentDescription + ", monumentId=" + monumentId + ", monumentImage="
-                + monumentImage + ", monumentLocation=" + monumentLocation + ", monumentName=" + monumentName
-                + ", monumentPOA=" + monumentPOA + ", monumentPreview=" + monumentPreview + ", monumentType="
-                + monumentType + ", openingTime=" + openingTime + ", websiteLink=" + websiteLink + "]";
+        return "MonumentRequest [adminId=" + adminId + ", closedDay=" + closedDay + ", closingTime=" + closingTime
+                + ", foreignAdultFare=" + foreignAdultFare + ", foreignChildFare=" + foreignChildFare + "indianAdultFare=" + indianAdultFare + ", indianChildFare="
+                + indianChildFare + ", monumentDescription=" + monumentDescription + ", monumentId=" + monumentId
+                + ", monumentImage=" + monumentImage + ", monumentLocation=" + monumentLocation + ", monumentName="
+                + monumentName + ", monumentPOA=" + monumentPOA + ", monumentPreview=" + monumentPreview
+                + ", monumentType=" + monumentType + ", openingTime=" + openingTime + ", websiteLink=" + websiteLink
+                + "]";
     }
 
     

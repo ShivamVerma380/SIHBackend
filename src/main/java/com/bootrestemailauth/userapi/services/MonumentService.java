@@ -15,6 +15,7 @@ import com.bootrestemailauth.userapi.entities.AdminRequest;
 import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.MonumentVerificationRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
+import com.bootrestemailauth.userapi.entities.monumentResponse;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.LobHelper;
 
@@ -56,7 +57,8 @@ public class MonumentService {
     @Autowired
     public MonumentVerificationRequestDao monumentVerificationRequestDao;
 
-
+    @Autowired
+    public monumentResponse monumentresponse;
 
     @Autowired
     public LobHelper lobHelper;
@@ -64,9 +66,18 @@ public class MonumentService {
     public ResponseEntity<?> getAllMonuments(){
         try {
             List<MonumentRequest> monuments = (List<MonumentRequest>) monumentDao.findAll();
+            List<monumentResponse> mList = new ArrayList<>();
             if(monuments==null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            return ResponseEntity.ok(monuments);
+            for(int i=0;i<monuments.size();i++){
+                int blobLength = (int) monuments.get(i).getMonumentImage().length();
+                byte[] blobAsBytes = monuments.get(i).getMonumentImage().getBytes(1, blobLength);
+                monumentresponse.setMonumentName(monuments.get(i).getMonumentName()); 
+                monumentresponse.setMonumentImg(blobAsBytes);
+                mList.add(monumentresponse);
+                
+            }
+            return ResponseEntity.ok(monumentresponse);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -83,6 +94,9 @@ public class MonumentService {
             List<MonumentRequest> answer = new ArrayList<>();
             for(int i=0;i<monuments.size();i++){
                 if(monuments.get(i).getMonumentType().equalsIgnoreCase(type)){
+                    int blobLength = (int) monuments.get(i).getMonumentImage().length();
+                    byte[] blobAsBytes = monuments.get(i).getMonumentImage().getBytes(1, blobLength);
+                    
                     answer.add(monuments.get(i));
                 }
             }
