@@ -74,10 +74,22 @@ public class MonumentService {
                 int blobLength = (int) monuments.get(i).getMonumentImage().length();
                 byte[] blobAsBytes = monuments.get(i).getMonumentImage().getBytes(1, blobLength);
                 // System.out.println(monuments.get(i).getMonumentName());
-                String monImage = new String(blobAsBytes);
                 monumentResponse mResponse = new monumentResponse();
                 mResponse.setMonumentName(monuments.get(i).getMonumentName()); 
                 mResponse.setMonumentImg(blobAsBytes);
+                blobLength = (int) monuments.get(i).getMonumentPreview().length();
+                blobAsBytes = monuments.get(i).getMonumentPreview().getBytes(1, blobLength);
+                mResponse.setMonumentVideo(blobAsBytes); 
+                mResponse.setClosedDay(monuments.get(i).getClosedDay());
+                mResponse.setForeign_adult(monuments.get(i).getForeignAdultFare());
+                mResponse.setForeign_child(monuments.get(i).getForeignChildFare());
+                mResponse.setIndian_adult(monuments.get(i).getIndianAdultFare());
+                mResponse.setIndian_child(monuments.get(i).getIndianChildFare());
+                mResponse.setLocation(monuments.get(i).getMonumentLocation());
+                mResponse.setMonumentDesc(monuments.get(i).getMonumentDescription());
+                mResponse.setMonumentLink(monuments.get(i).getWebsiteLink());
+                mResponse.setStartTime(monuments.get(i).getOpeningTime());
+                mResponse.setCloseTime(monuments.get(i).getClosingTime());
                 mList.add(mResponse);
                 // System.out.println(mList.get(i));
             }

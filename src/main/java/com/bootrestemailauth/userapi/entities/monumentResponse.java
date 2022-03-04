@@ -26,19 +26,13 @@ public class monumentResponse {
     private double foreign_adult;
     private double foreign_child;
     private String location;
+    private String closedDay;
 
     
-    public monumentResponse() {
-    }
-
-    public monumentResponse(String monumentName, byte[] monumentImg) {
-        this.monumentName = monumentName;
-        this.monumentImg = monumentImg;
-    }
-
+    
     public monumentResponse(String monumentName, String monumentDesc, byte[] monumentImg, byte[] monumentVideo,
             String monumentLink, Time startTime, Time closeTime, double indian_adult, double indian_child,
-            double foreign_adult, double foreign_child, String location) {
+            double foreign_adult, double foreign_child, String location, String closedDay) {
         this.monumentName = monumentName;
         this.monumentDesc = monumentDesc;
         this.monumentImg = monumentImg;
@@ -51,7 +45,26 @@ public class monumentResponse {
         this.foreign_adult = foreign_adult;
         this.foreign_child = foreign_child;
         this.location = location;
+        this.closedDay = closedDay;
     }
+
+    public String getClosedDay() {
+        return closedDay;
+    }
+
+    public void setClosedDay(String closedDay) {
+        this.closedDay = closedDay;
+    }
+
+    public monumentResponse() {
+    }
+
+    public monumentResponse(String monumentName, byte[] monumentImg) {
+        this.monumentName = monumentName;
+        this.monumentImg = monumentImg;
+    }
+
+    
     public String getMonumentName() {
         return monumentName;
     }
@@ -124,15 +137,15 @@ public class monumentResponse {
     public void setLocation(String location) {
         this.location = location;
     }
+
     @Override
     public String toString() {
-        return "monumentResponse [closeTime=" + closeTime + ", foreign_adult=" + foreign_adult + ", foreign_child="
-                + foreign_child + ", indian_adult=" + indian_adult + ", indian_child=" + indian_child + ", location="
-                + location + ", monumentDesc=" + monumentDesc + ", monumentImg=" + Arrays.toString(monumentImg)
-                + ", monumentLink=" + monumentLink + ", monumentName=" + monumentName + ", monumentVideo="
-                + Arrays.toString(monumentVideo) + ", startTime=" + startTime + "]";
+        return "monumentResponse [closeTime=" + closeTime + ", closedDay=" + closedDay + ", foreign_adult="
+                + foreign_adult + ", foreign_child=" + foreign_child + ", indian_adult=" + indian_adult
+                + ", indian_child=" + indian_child + ", location=" + location + ", monumentDesc=" + monumentDesc
+                + ", monumentImg=" + Arrays.toString(monumentImg) + ", monumentLink=" + monumentLink + ", monumentName="
+                + monumentName + ", monumentVideo=" + Arrays.toString(monumentVideo) + ", startTime=" + startTime + "]";
     }
-
     
 
 }
