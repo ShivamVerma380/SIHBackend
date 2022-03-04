@@ -77,7 +77,7 @@ public class MonumentService {
                 monumentResponse mResponse = new monumentResponse();
                 mResponse.setMonumentName(monuments.get(i).getMonumentName()); 
                 mResponse.setMonumentImg(blobAsBytes);
-                blobLength = (int) monuments.get(i).getMonumentPreview().length();
+                //blobLength = (int) monuments.get(i).getMonumentPreview().length();
                 // blobAsBytes = monuments.get(i).getMonumentPreview().getBytes(1, blobLength);
                 // mResponse.setMonumentVideo(blobAsBytes); 
                 mResponse.setClosedDay(monuments.get(i).getClosedDay());
