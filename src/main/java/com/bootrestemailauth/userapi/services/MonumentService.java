@@ -58,7 +58,7 @@ public class MonumentService {
     public MonumentVerificationRequestDao monumentVerificationRequestDao;
 
     @Autowired
-    public monumentResponse monumentresponse;
+    public monumentResponse mresponse;
 
     @Autowired
     public LobHelper lobHelper;
@@ -78,8 +78,8 @@ public class MonumentService {
                 mResponse.setMonumentName(monuments.get(i).getMonumentName()); 
                 mResponse.setMonumentImg(blobAsBytes);
                 blobLength = (int) monuments.get(i).getMonumentPreview().length();
-                blobAsBytes = monuments.get(i).getMonumentPreview().getBytes(1, blobLength);
-                mResponse.setMonumentVideo(blobAsBytes); 
+                // blobAsBytes = monuments.get(i).getMonumentPreview().getBytes(1, blobLength);
+                // mResponse.setMonumentVideo(blobAsBytes); 
                 mResponse.setClosedDay(monuments.get(i).getClosedDay());
                 mResponse.setForeign_adult(monuments.get(i).getForeignAdultFare());
                 mResponse.setForeign_child(monuments.get(i).getForeignChildFare());
@@ -102,6 +102,23 @@ public class MonumentService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         
+    }
+
+    public ResponseEntity<?> getMonumentVideo(String name){
+        try {
+            MonumentRequest monumentRequest = monumentDao.getMonumentRequestBymonumentName(name);
+            if(monumentRequest!=null){
+                int blobLength = (int) monumentRequest.getMonumentPreview().length();
+                byte[] blobAsBytes = monumentRequest.getMonumentPreview().getBytes(1, blobLength);
+                mresponse.setMonumentVideo(blobAsBytes);
+                
+            }
+            return ResponseEntity.ok(mresponse); 
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     public ResponseEntity<?> getMonumentsByType(String type){

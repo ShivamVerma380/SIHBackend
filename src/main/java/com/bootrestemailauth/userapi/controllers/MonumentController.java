@@ -20,6 +20,12 @@ public class MonumentController {
         return monumentService.getAllMonuments();
     }
 
+    @GetMapping("/monument/{name}")
+    public ResponseEntity<?> getMonumentVideo(@PathVariable("name") String name){
+        return monumentService.getMonumentVideo(name);
+
+    }
+
     @GetMapping("/monuments/{type}")
     public ResponseEntity<?> getMonumentByType(@PathVariable("type") String type){
         return monumentService.getMonumentsByType(type);

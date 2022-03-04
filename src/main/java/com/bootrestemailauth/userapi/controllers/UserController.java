@@ -124,9 +124,8 @@ public class UserController {
 
     @GetMapping(value="/profile-image")
     public ResponseEntity<?> getProfileImage(@RequestHeader("Authorization") String Authorization){
-    
-        try{
-            
+
+        try{ 
             String jwtToken = Authorization.substring(7);
             String email = jwtUtil.extractUsername(jwtToken);
             jwtRequest = userDao.getUserRequestByuseremail(email);
@@ -148,7 +147,7 @@ public class UserController {
             blobResponse.setProfile_image(null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(blobResponse);
         }
-        
+    
     }
 
     //Baaki codes like update profile images n all ya update name vagere baad mein add kardege...
