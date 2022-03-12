@@ -1,5 +1,7 @@
 package com.bootrestemailauth.userapi.services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
@@ -12,6 +14,7 @@ import com.bootrestemailauth.userapi.dao.MonumentDao;
 import com.bootrestemailauth.userapi.dao.TicketQRDetailsDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.dao.VisitedQrTicketDao;
+import com.bootrestemailauth.userapi.entities.BlobResponse;
 import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.TicketQrRequest;
@@ -21,6 +24,8 @@ import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.QRUploadHelper;
 
 import org.hibernate.Session;
+
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -37,6 +42,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class TicketQRService {
     @Autowired
     public ResponseMessage responseMessage;
+
+    @Autowired
+    public BlobResponse blobResponse;
 
     @PersistenceContext
     public EntityManager entityManager;
@@ -108,8 +116,26 @@ public class TicketQRService {
                 ticketRequest.setUser_id(userID);
 
                 ticketQRDetailsDao.save(ticketRequest);
-                responseMessage.setMessage("QR generated successfully!!");
-                return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+                try{ 
+                    
+                    
+                    int blobLength = (int) ticketRequest.getQr_code().length();
+                    byte[] blobAsBytes = ticketRequest.getQr_code().getBytes(1, blobLength);
+                
+                    blobResponse.setMessage("Ticket QR generated successfully");
+
+                    blobResponse.setProfile_image(blobAsBytes);
+                    
+                    return ResponseEntity.ok(blobResponse);
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    blobResponse.setMessage(e.getMessage());
+                    blobResponse.setProfile_image(null);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(blobResponse);
+                }
+                // responseMessage.setMessage("QR generated successfully!!");
+                // return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
             }
             else{
                 responseMessage.setMessage("QR code not generated");
