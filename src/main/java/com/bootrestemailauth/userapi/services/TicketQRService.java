@@ -78,7 +78,7 @@ public class TicketQRService {
 
     @Autowired
     public QRUploadHelper qRUploadHelper;
-    public ResponseEntity<?> addTicketQR(String authorization, String monument_name,int no_of_tickets, double fare, int indian_adult, int indian_child, int foreign_adult, int foreign_child, int males, int females, Date date_of_visit){
+    public ResponseEntity<?> addTicketQR(String authorization, String monument_name,int no_of_tickets, double fare, int indian_adult, int indian_child, int foreign_adult, int foreign_child, int males, int females, String date_of_visit){
         try{
 
             String jwtToken = authorization.substring(7);
@@ -107,9 +107,9 @@ public class TicketQRService {
                 Session session = entityManager.unwrap(Session.class);
     
                 Blob QRdata = session.getLobHelper().createBlob(multipartFile.getInputStream(),multipartFile.getSize());
-
+                Date date=Date.valueOf(date_of_visit);//converting string into sql date.
                 ticketRequest.setQr_code(QRdata);
-                ticketRequest.setDate_of_visit(date_of_visit);
+                ticketRequest.setDate_of_visit(date);
                 ticketRequest.setFare(fare);
                 ticketRequest.setMonument_id(monumentID);
                 ticketRequest.setNoOfTickets(no_of_tickets);
@@ -151,7 +151,7 @@ public class TicketQRService {
     }
 
 
-    public ResponseEntity<?> removeQRticket(String authorization,String monument_name,Date date_of_visit){
+    public ResponseEntity<?> removeQRticket(String authorization,String monument_name,String date_of_visit){
         try {
             String jwtToken = authorization.substring(7);
             String registered_email = jwtUtil.extractUsername(jwtToken);
@@ -176,7 +176,8 @@ public class TicketQRService {
                 System.out.println("Current Date Id +"+current_date+"\nReq Date Id:"+date_of_visit);
                 if(current_monument_id==monumentRequest.getMonumentId() && (current_date.compareTo(date_of_visit)==0)){
                     System.out.println("In if lopp\n\n");
-                    visitedQrTicketsRequests.setDate_of_visit(date_of_visit);
+                    Date date=Date.valueOf(date_of_visit);//converting string into sql date.
+                    visitedQrTicketsRequests.setDate_of_visit(date);
                     visitedQrTicketsRequests.setFare(qrList.get(i).getFare());
                     visitedQrTicketsRequests.setMonument_id(current_monument_id);
                     visitedQrTicketsRequests.setNoOfTickets(qrList.get(i).getNoOfTickets());
