@@ -44,7 +44,7 @@ public class TicketInfoService{
     @Autowired
     public TicketDao ticketDao;
     
-    public ResponseEntity<?> addTicket(String authorization, String monument_name, Date visit_date, String verificationId,String gender, String age,String nationality){
+    public ResponseEntity<?> addTicket(String authorization, String monument_name, String visit_date, String verificationId,String gender, String age,String nationality){
         try{
 
             String jwtToken = authorization.substring(7);
