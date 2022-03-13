@@ -19,7 +19,7 @@ public class TicketController {
     public TicketInfoService ticketInfoService;
 
     @PostMapping("/add-ticket")
-    public ResponseEntity<?> addTicketInfo(@RequestHeader("Authorization") String authorization, @RequestParam("monument_name") String monument_name, @RequestParam("date_of_visit") Date visit_date, @RequestParam("verification_id") String verificationId, @RequestParam("gender") String gender, @RequestParam("age") String age, @RequestParam("nationality") String nationality){
+    public ResponseEntity<?> addTicketInfo(@RequestHeader("Authorization") String authorization, @RequestParam("monument_name") String monument_name, @RequestParam("date_of_visit") String visit_date, @RequestParam("verification_id") String verificationId, @RequestParam("gender") String gender, @RequestParam("age") String age, @RequestParam("nationality") String nationality){
 
         return ticketInfoService.addTicket(authorization, monument_name, visit_date, verificationId, gender, age, nationality);
 
