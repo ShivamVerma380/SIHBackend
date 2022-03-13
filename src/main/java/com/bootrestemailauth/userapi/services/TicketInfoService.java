@@ -61,8 +61,8 @@ public class TicketInfoService{
 
             int monumentID = monumentRequest.getMonumentId();
             int userID = userRequest.getId();
-            
-            TicketRequest newticket = new TicketRequest(monumentID, userID, visit_date, verificationId ,gender,age, nationality);
+            Date date=Date.valueOf(visit_date);//converting string into sql date.
+            TicketRequest newticket = new TicketRequest(monumentID, userID, date, verificationId ,gender,age, nationality);
             
             // ticketRequest.setMonument_id(monumentID);
             // ticketRequest.setUser_id(userID);
