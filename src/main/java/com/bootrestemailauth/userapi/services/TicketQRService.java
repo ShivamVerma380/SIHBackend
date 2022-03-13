@@ -164,7 +164,7 @@ public class TicketQRService {
             monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
             List<TicketQrRequest> qrList= ticketQRDetailsDao.getTicketQrRequestByuserId(userRequest.getId());
 
-
+            Date date=Date.valueOf(date_of_visit);//converting string into sql date.
             System.out.println(qrList.toString());
             for(int i=0;i<qrList.size();i++){
 
@@ -173,10 +173,10 @@ public class TicketQRService {
                 Date current_date = qrList.get(i).getDate_of_visit();
                 int req_monId = monumentRequest.getMonumentId();
                 System.out.println("Current Monument Id +"+current_monument_id+"\nReq monument Id:"+monumentRequest.getMonumentId());
-                System.out.println("Current Date Id +"+current_date+"\nReq Date Id:"+date_of_visit);
-                if(current_monument_id==monumentRequest.getMonumentId() && (current_date.compareTo(date_of_visit)==0)){
+                System.out.println("Current Date Id +"+current_date+"\nReq Date Id:"+date);
+                if(current_monument_id==monumentRequest.getMonumentId() && (current_date.compareTo(date)==0)){
                     System.out.println("In if lopp\n\n");
-                    Date date=Date.valueOf(date_of_visit);//converting string into sql date.
+                    
                     visitedQrTicketsRequests.setDate_of_visit(date);
                     visitedQrTicketsRequests.setFare(qrList.get(i).getFare());
                     visitedQrTicketsRequests.setMonument_id(current_monument_id);
