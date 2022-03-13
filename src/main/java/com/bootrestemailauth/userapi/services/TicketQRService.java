@@ -89,7 +89,7 @@ public class TicketQRService {
                 responseMessage.setMessage("User does not exist with this token");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMessage);
             }
-
+            Date date=Date.valueOf(date_of_visit);//converting string into sql date.
             String msg = "Monument Name: "+monument_name;
             if(indian_adult != 0) msg += "\nNumber of Indian Adults: "+indian_adult;
             if(foreign_adult != 0) msg += "\nNumber of Foreign Adults: "+foreign_adult;
@@ -97,17 +97,17 @@ public class TicketQRService {
             if(foreign_child != 0) msg += "\nNumber of Foreign Adults: "+foreign_child;
             if(males != 0) msg += "\nNumber of Male gender count: "+males;
             if(females != 0) msg += "\nNumber of Female gender count: "+females;
-            msg += "\nNumber of Tickets: "+no_of_tickets+"\nCalculated Fare: "+fare+"\nDate of Visit: "+date_of_visit+"\nBILL AMOUNT: PAID ONLINE";
+            msg += "\nNumber of Tickets: "+no_of_tickets+"\nCalculated Fare: "+fare+"\nDate of Visit: "+date+"\nBILL AMOUNT: PAID ONLINE";
             monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
             int monumentID=monumentRequest.getMonumentId();
             int userID=userRequest.getId();
-            if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date_of_visit)){
+            if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date)){
     
                 MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
                 Session session = entityManager.unwrap(Session.class);
     
                 Blob QRdata = session.getLobHelper().createBlob(multipartFile.getInputStream(),multipartFile.getSize());
-                Date date=Date.valueOf(date_of_visit);//converting string into sql date.
+                
                 ticketRequest.setQr_code(QRdata);
                 ticketRequest.setDate_of_visit(date);
                 ticketRequest.setFare(fare);
