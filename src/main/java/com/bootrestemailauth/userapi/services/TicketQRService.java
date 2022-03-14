@@ -93,8 +93,8 @@ public class TicketQRService {
             String msg = "Monument Name: "+monument_name;
             if(indian_adult != 0) msg += "\nNumber of Indian Adults: "+indian_adult;
             if(foreign_adult != 0) msg += "\nNumber of Foreign Adults: "+foreign_adult;
-            if(indian_child != 0) msg += "\nNumber of Indian child: "+indian_child;
-            if(foreign_child != 0) msg += "\nNumber of Foreign Adults: "+foreign_child;
+            if(indian_child != 0) msg += "\nNumber of Indian Childs: "+indian_child;
+            if(foreign_child != 0) msg += "\nNumber of Foreign Childs: "+foreign_child;
             if(males != 0) msg += "\nNumber of Male gender count: "+males;
             if(females != 0) msg += "\nNumber of Female gender count: "+females;
             msg += "\nNumber of Tickets: "+no_of_tickets+"\nCalculated Fare: "+fare+"\nDate of Visit: "+date+"\nBILL AMOUNT: PAID ONLINE";
