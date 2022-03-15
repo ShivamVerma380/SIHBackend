@@ -248,4 +248,22 @@ public class MonumentService {
 
     }
 
+    public ResponseEntity<?> isVerifiedMonument(String monument_name) {
+        try {
+            
+            monument = monumentDao.getMonumentRequestBymonumentName(monument_name);
+            if(monument == null){
+                responseMessage.setMessage("false");
+                return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+            }
+            responseMessage.setMessage("true");
+            return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
+        }
+    }
+
 }
