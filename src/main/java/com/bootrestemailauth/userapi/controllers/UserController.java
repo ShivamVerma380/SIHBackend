@@ -3,7 +3,6 @@ package com.bootrestemailauth.userapi.controllers;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.net.http.HttpHeaders;
 import java.sql.Blob;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
