@@ -120,6 +120,10 @@ public class AdminController {
 
     }
 
+    @PostMapping("/admin/report-user")
+    public ResponseEntity<?> reportUser(@RequestHeader("Authorization")String authorization,@RequestParam("user_email")String user_email){
+        return adminService.reportuser(authorization, user_email);
+    }
     // @GetMapping("/monuments/{type}")
     // public ResponseEntity<?>(@PathVariable("type") String type){
     //     return monumentService.getMonumentsByType(type);

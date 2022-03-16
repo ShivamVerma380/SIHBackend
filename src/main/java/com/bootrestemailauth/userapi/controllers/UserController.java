@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.entities.BlobResponse;
+import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -54,6 +55,9 @@ public class UserController {
 
     @Autowired
     public MySecurityConfig mySecurityConfig;
+
+    @Autowired
+    public ResponseMessage responseMessage;
 
     
     @GetMapping("/users")
@@ -150,5 +154,32 @@ public class UserController {
     }
 
     //Baaki codes like update profile images n all ya update name vagere baad mein add kardege...
+
+    @GetMapping("/user/check-flag-count")
+    public ResponseEntity<?> checkFlagCount(@RequestHeader("Authorization")String authorization){
+        try {
+
+            String token = authorization.substring(7);
+            String user_email = jwtUtil.extractUsername(token);
+            
+            
+            jwtRequest = userDao.getUserRequestByuseremail(user_email);
+            if(jwtRequest==null){
+                responseMessage.setMessage("User does not exist");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMessage);
+            }
+            if(jwtRequest.getRed_flag_count()>=2){
+                userDao.delete(jwtRequest);
+                responseMessage.setMessage("User deleted successfully");
+                return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+            }
+            responseMessage.setMessage("Flag count:"+jwtRequest.getRed_flag_count());
+            return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
+        }
+    }
 
 }
