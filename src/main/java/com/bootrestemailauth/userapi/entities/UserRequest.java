@@ -43,6 +43,9 @@ public class UserRequest {
     @JsonBackReference  // If ye nai lagaya toh blob image jackson exception throw karra n recursion hora
     private Blob img;
 
+    @Column(name = "red_flag_count")
+    private int red_flag_count;
+
     public UserRequest() {
     }
 
@@ -94,11 +97,24 @@ public class UserRequest {
         this.img = img;
     }
 
+    public int getRed_flag_count() {
+        return red_flag_count;
+    }
+
+    public void setRed_flag_count(int red_flag_count) {
+        this.red_flag_count = red_flag_count;
+    }
 
     @Override
     public String toString() {
-        return "JwtRequest [id=" + id + ", img=" + img + ", name=" + name + ", password="
-                + password + ", useremail=" + useremail + "]";
-    }    
+        return "UserRequest [id=" + id + ", img=" + img + ", name=" + name + ", password=" + password
+                + ", red_flag_count=" + red_flag_count + ", useremail=" + useremail + "]";
+    }
+
+    
+
+    
+
+    
 
 }

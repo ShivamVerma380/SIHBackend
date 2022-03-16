@@ -181,10 +181,12 @@ public class JwtController {
                 String encodedPassword = mySecurityConfig.passwordEncoder().encode(password); // bcrypt encoded password
                 
                 // userRequest.setId(12);
+                
                 userRequest.setUseremail(email);
                 userRequest.setPassword(encodedPassword);
                 userRequest.setName(name);
                 userRequest.setImg(imageData);
+                userRequest.setRed_flag_count(0);
     
                 UserRequest existingUser = userDao.getUserRequestByuseremail(email); // userDao.get_ClassName_By_variablename
                 if(existingUser!=null){

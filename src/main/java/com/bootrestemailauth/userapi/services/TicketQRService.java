@@ -98,6 +98,8 @@ public class TicketQRService {
             if(males != 0) msg += "\nNumber of Male gender count: "+males;
             if(females != 0) msg += "\nNumber of Female gender count: "+females;
             msg += "\nNumber of Tickets: "+no_of_tickets+"\nCalculated Fare: "+fare+"\nDate of Visit: "+date+"\nBILL AMOUNT: PAID ONLINE";
+            msg += "\nBooked by:"+userRequest.getUseremail();
+
             monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
             int monumentID=monumentRequest.getMonumentId();
             int userID=userRequest.getId();
