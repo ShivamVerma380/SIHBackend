@@ -145,15 +145,10 @@ public class MonumentService {
     }
 
 
-    public ResponseEntity<?> addMonument(String authorization,String monument_name, String website,MultipartFile monumentImage, String monument_location, MultipartFile monument_poa, String monument_type,String admin_aadhar,String admin_phone){
+    public ResponseEntity<?> addMonument(String email,String monument_name, String website,MultipartFile monumentImage, String monument_location, MultipartFile monument_poa, String monument_type,String admin_aadhar,String admin_phone){
 
         try {
-            
-            
-            String jwtToken = authorization.substring(7);
-            String registered_email = jwtUtil.extractUsername(jwtToken);
-
-            adminRequest = adminDao.getAdminRequestByemail(registered_email);
+            adminRequest = adminDao.getAdminRequestByemail(email);
 
             if(adminRequest==null){
                 responseMessage.setMessage("User is not allowed to access this!!");
