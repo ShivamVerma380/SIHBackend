@@ -36,7 +36,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/home/ec2-user/SIHBackend/src/main/resources/static/image/user/**","/home/ec2-user/SIHBackend/src/main/resources/static/image/*.*","/home/ec2-user/SIHBackend/src/main/resources/static/image/admin/**","/home/ec2-user/SIHBackend/src/main/resources/static/image/monument/**","/home/ec2-user/SIHBackend/src/main/resources/static/image/QRCode/**","/home/ec2-user/SIHBackend/src/main/resources/static/QR_code/**","/image/user/**","/register","/verify-email","/image/admin/**","/image/monument/**","/image/QRcode/**","/Qr_code/**").permitAll() //one doubt of image returning
+                .antMatchers("/image/user/**","/register","/verify-email","/image/admin/**","/image/monument/**","/image/QRcode/**","/Qr_code/**").permitAll() //one doubt of image returning
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
