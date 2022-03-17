@@ -10,8 +10,10 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.imageio.ImageIO;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
+import com.bootrestemailauth.userapi.dao.BlockedUsersDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.entities.BlobResponse;
+import com.bootrestemailauth.userapi.entities.BlockedUsers;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
@@ -58,6 +60,12 @@ public class UserController {
 
     @Autowired
     public ResponseMessage responseMessage;
+
+    @Autowired
+    public BlockedUsers blocked_users;
+
+    @Autowired
+    public BlockedUsersDao blockedUsersDao;
 
     
     @GetMapping("/users")
@@ -170,7 +178,9 @@ public class UserController {
             }
             if(jwtRequest.getRed_flag_count()>=2){
                 userDao.delete(jwtRequest);
-                responseMessage.setMessage("User deleted successfully");
+                blocked_users.setEmail(jwtRequest.getUseremail());
+                blockedUsersDao.save(blocked_users);
+                responseMessage.setMessage("User blocked successfully");
                 return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
             }
             responseMessage.setMessage("Flag count:"+jwtRequest.getRed_flag_count());

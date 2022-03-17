@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.AdminDao;
+import com.bootrestemailauth.userapi.dao.BlockedUsersDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
 import com.bootrestemailauth.userapi.entities.AdminRequest;
+import com.bootrestemailauth.userapi.entities.BlockedUsers;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.entities.JwtResponse;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
@@ -96,6 +98,11 @@ public class JwtController {
     @Autowired
     public ResponseMessage responseMessage;
     
+    @Autowired
+    public BlockedUsers blockedUsers;
+    
+    @Autowired
+    public BlockedUsersDao blockedUsersDao;
 
     @GetMapping("/welcome")
     public ResponseEntity<String> welcome(){
@@ -161,6 +168,14 @@ public class JwtController {
             return ResponseEntity.ok(jwtResponse);
         }else{
             try {
+
+                blockedUsers = blockedUsersDao.getBlockedUsersByemail(email);
+                if(blockedUsers!=null){
+                    jwtResponse.setToken(null);
+                    jwtResponse.setMessage("This email id has been blocked for fake booking of tickets");
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(jwtResponse);
+                }
+                
 
                 admin1 = adminDao.getAdminRequestByemail(email);
 
