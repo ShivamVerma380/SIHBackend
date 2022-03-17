@@ -121,8 +121,8 @@ public class AdminController {
     }
 
     @PostMapping("/admin/report-user")
-    public ResponseEntity<?> reportUser(@RequestHeader("Authorization")String authorization,@RequestParam("user_email")String user_email){
-        return adminService.reportuser(authorization, user_email);
+    public ResponseEntity<?> reportUser(@RequestHeader("Authorization")String authorization,@RequestParam("user_email")String user_email,@RequestParam("monument_name") String monument_name,@RequestParam("date_of_visit") String date_of_visit ,@RequestParam("qr_scan") MultipartFile qrScan,@RequestParam("photo") MultipartFile usersPhoto,@RequestParam("verification_photo")MultipartFile verificationId){
+        return adminService.reportuser(authorization, user_email,monument_name,date_of_visit,qrScan,usersPhoto,verificationId);
     }
     // @GetMapping("/monuments/{type}")
     // public ResponseEntity<?>(@PathVariable("type") String type){
