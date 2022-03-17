@@ -74,7 +74,7 @@ public class EmailVerificationService {
 
 
 
-            String message = "Welcome to our App...\n Here is your OTP:"+otp;
+            String message = "Welcome to Heritage India...\n Here is your OTP:"+otp;
 
             m.setText(message);
 
