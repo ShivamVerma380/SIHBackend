@@ -105,8 +105,12 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add-monument")
-    public ResponseEntity<?> monumentInfo(@RequestHeader("Authorization")String authorization, @RequestParam("monument_name") String monument_name,@RequestParam("monument_preview")MultipartFile video,@RequestParam("opening_time") Time opening_time,@RequestParam("closing_time") Time closing_time ,@RequestParam("description") String description,@RequestParam("indian_adult") double indian_adult,@RequestParam("indian_child") double indian_child,@RequestParam("foreign_adult") double foreign_adult,@RequestParam("foreign_child") double foreign_child,@RequestParam("closed_day") String closed_day){
-        return monumentService.addmonumentInfo(authorization, monument_name, video, opening_time, closing_time, description, indian_adult, indian_child, foreign_adult, foreign_child, closed_day);
+    public ResponseEntity<?> monumentInfo(@RequestHeader("Authorization")String authorization, @RequestParam("monument_name") String monument_name,@RequestParam("monument_preview")MultipartFile video,@RequestParam("opening_time") String opening_time,@RequestParam("closing_time") String closing_time ,@RequestParam("description") String description,@RequestParam("indian_adult") double indian_adult,@RequestParam("indian_child") double indian_child,@RequestParam("foreign_adult") double foreign_adult,@RequestParam("foreign_child") double foreign_child,@RequestParam("closed_day") String closed_day){
+        opening_time = opening_time.substring(0, 5)+":00";
+        closing_time = closing_time.substring(0, 5)+":00";
+        Time start = Time.valueOf(opening_time);
+        Time close = Time.valueOf(closing_time);
+        return monumentService.addmonumentInfo(authorization, monument_name, video, start, close, description, indian_adult, indian_child, foreign_adult, foreign_child, closed_day);
     }
     
     @GetMapping("/admin/monuments")
