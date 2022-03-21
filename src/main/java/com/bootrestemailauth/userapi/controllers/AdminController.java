@@ -110,6 +110,7 @@ public class AdminController {
         closing_time = closing_time.substring(0, 5)+":00";
         Time start = Time.valueOf(opening_time);
         Time close = Time.valueOf(closing_time);
+        System.out.println(start+""+close);
         return monumentService.addmonumentInfo(authorization, monument_name, video, start, close, description, indian_adult, indian_child, foreign_adult, foreign_child, closed_day);
     }
     
