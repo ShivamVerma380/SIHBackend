@@ -105,7 +105,7 @@ public class TicketQRService {
             int userID=userRequest.getId();
             if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date)){
     
-                MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
+                MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
                 Session session = entityManager.unwrap(Session.class);
     
                 Blob QRdata = session.getLobHelper().createBlob(multipartFile.getInputStream(),multipartFile.getSize());

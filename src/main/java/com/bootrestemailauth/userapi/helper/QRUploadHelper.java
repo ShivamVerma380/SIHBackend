@@ -1,5 +1,6 @@
 package com.bootrestemailauth.userapi.helper;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,14 +12,20 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import org.apache.pdfbox.contentstream.operator.graphics.GraphicsOperatorProcessor;
+import org.hibernate.validator.internal.util.privilegedactions.GetClassLoader;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,13 +36,43 @@ public class QRUploadHelper {
     {  
         //the BitMatrix class represents the 2D matrix of bits  
         //MultiFormatWriter is a factory class that finds the appropriate Writer subclass for the BarcodeFormat requested and encodes the barcode with the supplied contents.  
-        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);  
-        MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));  
+        // BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);  
+        // MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));  
+        try{
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, 400, 400);
+            MatrixToImageConfig imageConfig = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
+          
+           BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
+           File file = new File("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\heritage_logo.jpg");
+            // Getting logo image
+            BufferedImage logoImage = ImageIO.read(file);
+            int finalImageHeight = qrImage.getHeight() - logoImage.getHeight();
+            int finalImageWidth = qrImage.getWidth() - logoImage.getWidth();
+            //Merging both images 
+            BufferedImage finalImage = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
+
+
+            Graphics2D graphics = (Graphics2D) finalImage.getGraphics();
+            graphics.drawImage(qrImage, 0, 0, null);
+            graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            graphics.drawImage(logoImage, (int) Math.round(finalImageWidth / 2), (int) Math.round(finalImageHeight / 2), null);
+             
+            ImageIO.write(finalImage, "png", new File(path));
+         
+        System.out.println("QR Code with Logo Generated Successfully");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
     }  
     public boolean isQRUploaded(String msg,int monument_id,int user_id,Date date_of_visit) throws IOException{
         
-        String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString();
+        //String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString();
+        
         try{
+            String uploadDir = Paths.get("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString();
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
             // Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("src/main/resources/static/Qr_code/default.jpg")));
