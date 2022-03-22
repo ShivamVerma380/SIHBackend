@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class QRUploadHelper {
             MatrixToImageConfig imageConfig = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
           
            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
-           File file = new File("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\heritage_logo.jpg");
+           File file = new File(Paths.get("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
             // Getting logo image
             BufferedImage logoImage = ImageIO.read(file);
             int finalImageHeight = qrImage.getHeight() - logoImage.getHeight();
