@@ -30,6 +30,8 @@ import org.hibernate.validator.internal.util.privilegedactions.GetClassLoader;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import ch.qos.logback.core.pattern.color.BlackCompositeConverter;
 @Component
 public class QRUploadHelper {
 
@@ -41,7 +43,7 @@ public class QRUploadHelper {
         // MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));  
         try{
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE,400, 400);
-            MatrixToImageConfig imageConfig = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
+            MatrixToImageConfig imageConfig = new MatrixToImageConfig(-16578564, -1);
           
            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
            File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
@@ -51,6 +53,10 @@ public class QRUploadHelper {
             int finalImageWidth = qrImage.getWidth() - logoImage.getWidth();
             //Merging both images 
             BufferedImage finalImage = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
+            int pixels[] = {0,0,0};
+            //finalImage.setRGB(0, 0, finalImageWidth ,finalImageHeight,pixels,0,finalImageWidth);
+            
+
 
 
             Graphics2D graphics = (Graphics2D) finalImage.getGraphics();

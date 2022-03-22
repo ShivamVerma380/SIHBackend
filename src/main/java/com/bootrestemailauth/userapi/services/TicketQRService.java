@@ -80,7 +80,6 @@ public class TicketQRService {
     public QRUploadHelper qRUploadHelper;
     public ResponseEntity<?> addTicketQR(String authorization, String monument_name,int no_of_tickets, double fare, int indian_adult, int indian_child, int foreign_adult, int foreign_child, int males, int females, String date_of_visit){
         try{
-
             String jwtToken = authorization.substring(7);
             String registered_email = jwtUtil.extractUsername(jwtToken);
             userRequest = userDao.getUserRequestByuseremail(registered_email);
