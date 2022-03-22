@@ -44,7 +44,7 @@ public class QRUploadHelper {
             MatrixToImageConfig imageConfig = new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE);
           
            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
-           File file = new File(Paths.get("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
+           File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
             // Getting logo image
             BufferedImage logoImage = ImageIO.read(file);
             int finalImageHeight = qrImage.getHeight() - logoImage.getHeight();
@@ -73,7 +73,7 @@ public class QRUploadHelper {
         //String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString();
         
         try{
-            String uploadDir = Paths.get("C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend_final\\src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString();
+            String uploadDir = Paths.get("src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString();
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
             // Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("src/main/resources/static/Qr_code/default.jpg")));

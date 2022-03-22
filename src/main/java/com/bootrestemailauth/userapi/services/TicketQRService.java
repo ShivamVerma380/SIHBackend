@@ -105,7 +105,7 @@ public class TicketQRService {
             int userID=userRequest.getId();
             if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date)){
     
-                MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString())));
+                MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString())));
                 Session session = entityManager.unwrap(Session.class);
     
                 Blob QRdata = session.getLobHelper().createBlob(multipartFile.getInputStream(),multipartFile.getSize());
@@ -189,7 +189,7 @@ public class TicketQRService {
                     visitedQrTicketDao.save(visitedQrTicketsRequests);
                     ticketQRDetailsDao.delete(qrList.get(i));
                     //String QRUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/QRcode/").path(current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg").toUriString();
-                   String QRUrl = "C:\\Users\\shiva\\SpringBoot-VSCode\\SIHBackend\\src\\main\\resources\\static\\image\\QRcode\\"+current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg";
+                   String QRUrl = "src\\main\\resources\\static\\image\\QRcode\\"+current_monument_id+"_"+userRequest.getId()+"_"+date_of_visit+".jpg";
                     Files.deleteIfExists(Paths.get(QRUrl));
                 }
             }
