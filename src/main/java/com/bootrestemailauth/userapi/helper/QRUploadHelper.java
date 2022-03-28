@@ -10,12 +10,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import java.sql.Date;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 
+import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -27,6 +29,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import org.apache.pdfbox.contentstream.operator.graphics.GraphicsOperatorProcessor;
 import org.hibernate.validator.internal.util.privilegedactions.GetClassLoader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +37,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ch.qos.logback.core.pattern.color.BlackCompositeConverter;
 @Component
 public class QRUploadHelper {
+    
+
+    @Autowired
+    public MySecurityConfig mySecurityConfig;
 
     public static void generateQRcode(String data, String path, String charset, Map map, int h, int w) throws WriterException, IOException  
     {  
@@ -43,7 +50,7 @@ public class QRUploadHelper {
         // MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));  
         try{
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE,400, 400);
-            MatrixToImageConfig imageConfig = new MatrixToImageConfig(-16578564, -1);
+            MatrixToImageConfig imageConfig = new MatrixToImageConfig(-16578564, -3345409);  // -3345409
           
            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
            File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
@@ -53,7 +60,7 @@ public class QRUploadHelper {
             int finalImageWidth = qrImage.getWidth() - logoImage.getWidth();
             //Merging both images 
             BufferedImage finalImage = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
-            int pixels[] = {0,0,0};
+            //int pixels[] = {0,0,0};
             //finalImage.setRGB(0, 0, finalImageWidth ,finalImageHeight,pixels,0,finalImageWidth);
             
 
@@ -97,6 +104,9 @@ public class QRUploadHelper {
             Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();  
             //generates QR code with Low level(L) error correction capability  
             hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);  
+
+            //String encodedMessage = mySecurityConfig.passwordEncoder().encode(msg);
+            //String encodedMessage = Base64.getEncoder().encodeToString(msg.getBytes());
             //invoking the user-defined method that creates the QR code  
             generateQRcode(msg, uploadDir, charset, hashMap, 200, 200);//increase or decrease height and width accodingly   
             //prints if the QR code is generated   

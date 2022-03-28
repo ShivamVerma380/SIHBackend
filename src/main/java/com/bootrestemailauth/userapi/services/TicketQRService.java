@@ -10,6 +10,7 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
+import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.MonumentDao;
 import com.bootrestemailauth.userapi.dao.TicketQRDetailsDao;
 import com.bootrestemailauth.userapi.dao.UserDao;
@@ -23,6 +24,7 @@ import com.bootrestemailauth.userapi.entities.VisitedQrTicketsRequests;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 import com.bootrestemailauth.userapi.helper.QRUploadHelper;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.Session;
 
 import javax.imageio.ImageIO;
@@ -77,6 +79,9 @@ public class TicketQRService {
     public VisitedQrTicketDao visitedQrTicketDao;
 
     @Autowired
+    public MySecurityConfig mySecurityConfig;
+
+    @Autowired
     public QRUploadHelper qRUploadHelper;
     public ResponseEntity<?> addTicketQR(String authorization, String monument_name,int no_of_tickets, double fare, int indian_adult, int indian_child, int foreign_adult, int foreign_child, int males, int females, String date_of_visit){
         try{
@@ -102,7 +107,9 @@ public class TicketQRService {
             monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
             int monumentID=monumentRequest.getMonumentId();
             int userID=userRequest.getId();
-            if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date)){
+            String encoded = mySecurityConfig.passwordEncoder().encode(msg);
+
+            if(qRUploadHelper.isQRUploaded(encoded,monumentID,userID,date)){
     
                 MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString())));
                 Session session = entityManager.unwrap(Session.class);
