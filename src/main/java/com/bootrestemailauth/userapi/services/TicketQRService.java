@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.bootrestemailauth.userapi.config.MySecurityConfig;
 import com.bootrestemailauth.userapi.dao.MonumentDao;
@@ -128,9 +129,15 @@ public class TicketQRService {
                     
                     int blobLength = (int) ticketRequest.getQr_code().length();
                     byte[] blobAsBytes = ticketRequest.getQr_code().getBytes(1, blobLength);
-                
-                    blobResponse.setMessage("Ticket QR generated successfully");
+                    
+                    Random random = new Random();
+                    int number = random.nextInt(999999);
 
+                    String otp = String.format("%06d", number);
+
+
+                    blobResponse.setMessage("OTP:"+otp);
+                    
                     blobResponse.setProfile_image(blobAsBytes);
                     
                     return ResponseEntity.ok(blobResponse);
