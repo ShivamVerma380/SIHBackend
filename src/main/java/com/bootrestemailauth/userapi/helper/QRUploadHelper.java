@@ -53,7 +53,7 @@ public class QRUploadHelper {
             MatrixToImageConfig imageConfig = new MatrixToImageConfig(-16578564, -3345409);  // -3345409
           
            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
-           File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\heritage_logo.jpg").toAbsolutePath().toString());
+           File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\paryatan.jpeg").toAbsolutePath().toString());
             // Getting logo image
             BufferedImage logoImage = ImageIO.read(file);
             int finalImageHeight = qrImage.getHeight() - logoImage.getHeight();

@@ -107,9 +107,8 @@ public class TicketQRService {
             monumentRequest = monumentDao.getMonumentRequestBymonumentName(monument_name);
             int monumentID=monumentRequest.getMonumentId();
             int userID=userRequest.getId();
-            String encoded = mySecurityConfig.passwordEncoder().encode(msg);
 
-            if(qRUploadHelper.isQRUploaded(encoded,monumentID,userID,date)){
+            if(qRUploadHelper.isQRUploaded(msg,monumentID,userID,date)){
     
                 MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File(Paths.get("src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString())));
                 Session session = entityManager.unwrap(Session.class);
