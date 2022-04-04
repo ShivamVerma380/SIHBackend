@@ -20,8 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserReviewsService {
 
-    @Autowired
-    public UserReviews userReviews;
+    
     
     @Autowired
     public UserReviewsDao userReviewsDao;
@@ -64,6 +63,7 @@ public class UserReviewsService {
                 }
             }
             if(flag){
+                UserReviews userReviews = new UserReviews(); 
                 userReviews.setUserid(userRequest.getId());
                 userReviews.setMonumentid(monumentRequest.getMonumentId());
                 userReviews.setDate_of_visit(date);
