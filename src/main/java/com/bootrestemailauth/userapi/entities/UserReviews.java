@@ -1,5 +1,7 @@
 package com.bootrestemailauth.userapi.entities;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,61 +16,73 @@ public class UserReviews {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id")
-    public int review_id;
+    public int id;
 
     @Column(name = "user_id")
-    public int user_id;
+    public int userid;
 
     @Column(name = "monument_id")
-    public int monument_id;
+    public int monumentid;
+
+    @Column(name = "user_rating")
+    private int user_rating;
 
     @Column(name = "date_of_visit")
-    private int rating;
-
+    private Date date_of_visit;
+    
     @Column(name = "user_review")
     private String review;
 
     public UserReviews() {
     }
 
-    public UserReviews(int review_id, int user_id, int monument_id, int rating, String review) {
-        this.review_id = review_id;
-        this.user_id = user_id;
-        this.monument_id = monument_id;
-        this.rating = rating;
+    public UserReviews(int id, int userid, int monumentid, int user_rating, Date date_of_visit, String review) {
+        this.id = id;
+        this.userid = userid;
+        this.monumentid = monumentid;
+        this.user_rating = user_rating;
+        this.date_of_visit = date_of_visit;
         this.review = review;
     }
 
-    public int getReview_id() {
-        return review_id;
+    public int getId() {
+        return id;
     }
 
-    public void setReview_id(int review_id) {
-        this.review_id = review_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
-    public int getMonument_id() {
-        return monument_id;
+    public int getMonumentid() {
+        return monumentid;
     }
 
-    public void setMonument_id(int monument_id) {
-        this.monument_id = monument_id;
+    public void setMonumentid(int monumentid) {
+        this.monumentid = monumentid;
     }
 
-    public int getRating() {
-        return rating;
+    public int getUser_rating() {
+        return user_rating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setUser_rating(int user_rating) {
+        this.user_rating = user_rating;
+    }
+
+    public Date getDate_of_visit() {
+        return date_of_visit;
+    }
+
+    public void setDate_of_visit(Date date_of_visit) {
+        this.date_of_visit = date_of_visit;
     }
 
     public String getReview() {
@@ -81,10 +95,11 @@ public class UserReviews {
 
     @Override
     public String toString() {
-        return "UserReviews [monument_id=" + monument_id + ", rating=" + rating + ", review=" + review + ", review_id="
-                + review_id + ", user_id=" + user_id + "]";
+        return "UserReviews [date_of_visit=" + date_of_visit + ", id=" + id + ", monumentid=" + monumentid + ", review="
+                + review + ", user_rating=" + user_rating + ", userid=" + userid + "]";
     }
 
+    
 
 
     
