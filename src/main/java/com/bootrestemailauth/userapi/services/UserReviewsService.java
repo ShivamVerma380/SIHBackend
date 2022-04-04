@@ -1,6 +1,7 @@
 package com.bootrestemailauth.userapi.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bootrestemailauth.userapi.dao.MonumentDao;
@@ -10,6 +11,7 @@ import com.bootrestemailauth.userapi.entities.MonumentRequest;
 import com.bootrestemailauth.userapi.entities.ResponseMessage;
 import com.bootrestemailauth.userapi.entities.UserRequest;
 import com.bootrestemailauth.userapi.entities.UserReviews;
+import com.bootrestemailauth.userapi.entities.UserReviewsResponse;
 import com.bootrestemailauth.userapi.helper.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserReviewsService {
 
-    
+    @Autowired
+    public UserReviews userReviews;
     
     @Autowired
     public UserReviewsDao userReviewsDao;
@@ -43,6 +46,9 @@ public class UserReviewsService {
     @Autowired
     public ResponseMessage responseMessage;
 
+    @Autowired
+    public UserReviewsResponse userReviewsResponse;
+
     public ResponseEntity<?> addReview(String auth,String monument_name,String date_of_visit,int rating,String review){
 
         try {
@@ -63,7 +69,6 @@ public class UserReviewsService {
                 }
             }
             if(flag){
-                UserReviews userReviews = new UserReviews(); 
                 userReviews.setUserid(userRequest.getId());
                 userReviews.setMonumentid(monumentRequest.getMonumentId());
                 userReviews.setDate_of_visit(date);
@@ -87,7 +92,17 @@ public class UserReviewsService {
             List<UserReviews> list;
             if(monumentRequest!=null){
                 list = (List<UserReviews>)userReviewsDao.getUserReviewsBymonumentid(monumentRequest.getMonumentId());
-                return ResponseEntity.ok().body(list);
+                List<UserReviewsResponse> reviews = new ArrayList<>();
+                for(int i=0;i<list.size();i++){
+                    userRequest = userDao.getUserRequestById(list.get(i).getUserid());
+                    
+
+                    userReviewsResponse.setUserName(userRequest.getName());
+                    userReviewsResponse.setUserRating(list.get(i).getUser_rating());
+                    userReviewsResponse.setDate_of_visit(list.get(i).getDate_of_visit().toString());
+                    userReviewsResponse.setUserReview(list.get(i).getReview());
+                }
+                return ResponseEntity.ok().body(reviews);
             }
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
