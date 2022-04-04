@@ -26,15 +26,9 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
-import org.apache.pdfbox.contentstream.operator.graphics.GraphicsOperatorProcessor;
-import org.hibernate.validator.internal.util.privilegedactions.GetClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-import ch.qos.logback.core.pattern.color.BlackCompositeConverter;
 @Component
 public class QRUploadHelper {
     
@@ -48,12 +42,13 @@ public class QRUploadHelper {
         //MultiFormatWriter is a factory class that finds the appropriate Writer subclass for the BarcodeFormat requested and encodes the barcode with the supplied contents.  
         // BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);  
         // MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));  
-        try{
+        try{ 
+
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE,400, 400);
             MatrixToImageConfig imageConfig = new MatrixToImageConfig(-16578564, -3345409);  // -3345409
-          
-           BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
-           File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\paryatan.jpeg").toAbsolutePath().toString());
+        
+            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, imageConfig);
+            File file = new File(Paths.get("src\\main\\resources\\static\\Qr_code\\paryatan.jpg").toAbsolutePath().toString());
             // Getting logo image
             BufferedImage logoImage = ImageIO.read(file);
             int finalImageHeight = qrImage.getHeight() - logoImage.getHeight();
@@ -64,16 +59,13 @@ public class QRUploadHelper {
             //finalImage.setRGB(0, 0, finalImageWidth ,finalImageHeight,pixels,0,finalImageWidth);
             
 
-
-
             Graphics2D graphics = (Graphics2D) finalImage.getGraphics();
             graphics.drawImage(qrImage, 0, 0, null);
             graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
             graphics.drawImage(logoImage, (int) Math.round(finalImageWidth / 2), (int) Math.round(finalImageHeight / 2), null);
-             
+            
             ImageIO.write(finalImage, "png", new File(path));
-         
-        System.out.println("QR Code with Logo Generated Successfully");
+            System.out.println("QR Code with Logo Generated Successfully");
 
         }catch(Exception e){
             e.printStackTrace();
@@ -86,6 +78,9 @@ public class QRUploadHelper {
         //String uploadDir = Paths.get("/home/ec2-user/SIHBackend/src/main/resources/static/Qr_code/default.jpg").toAbsolutePath().toString();
         
         try{
+            msg=encryption(msg);
+            // msg = Base64.getEncoder().encodeToString(msg.getBytes());
+            System.out.println(msg);
             String uploadDir = Paths.get("src\\main\\resources\\static\\Qr_code\\default.jpg").toAbsolutePath().toString();
             // MultipartFile multipartFile = new MockMultipartFile("default.jpg", new FileInputStream(new File("E:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg")));
             // Path targetDir = Paths.get("E:/SIH/SIHBackend/src/main/resources/static/image/QRcode/"); 
@@ -112,12 +107,176 @@ public class QRUploadHelper {
             //prints if the QR code is generated   
             // Path source = Paths.get("D:/SIH/SIHBackend/src/main/resources/static/Qr_code/default.jpg"); //original file
             System.out.println("QR Code created successfully.");  
-
+            String res = decryption(msg);
+            System.out.println(res);
             return true;
 
         }catch(Exception e){
             e.printStackTrace();
             return false;
         }
+    }
+    public static String encryption(String s)
+    {
+
+        int l = s.length();
+
+        int b = (int) Math.ceil(Math.sqrt(l));
+
+        int a = (int) Math.floor(Math.sqrt(l));
+
+        String encrypted = "";
+
+        if (b * a < l)
+
+        {
+
+            if (Math.min(b, a) == b) 
+
+            {
+
+                b = b + 1;
+
+            }
+
+            else
+
+            {
+
+                a = a + 1;
+
+            }
+
+        }
+    
+
+        // Matrix to generate the 
+
+        // Encrypted String
+
+        char [][]arr = new char[a][b];
+
+        int k = 0;
+
+        
+
+        // Fill the matrix row-wise
+
+        for (int j = 0; j < a; j++) 
+
+        {
+
+            for (int i = 0; i < b; i++) 
+
+            {
+
+                if (k < l)
+
+                {
+
+                    arr[j][i] = s.charAt(k);
+
+                }
+
+                k++;
+
+            }
+
+        }
+    
+
+        // Loop to generate 
+
+        // encrypted String
+
+        for (int j = 0; j < b; j++) 
+
+        {
+
+            for (int i = 0; i < a; i++) 
+
+            {
+
+                encrypted = encrypted + 
+
+                            arr[i][j];
+
+            }
+
+        }
+
+        return encrypted;
+    }
+    
+    // Function to decrypt the String
+
+    public static String decryption(String s)
+    {
+
+        int l = s.length();
+
+        int b = (int) Math.ceil(Math.sqrt(l));
+
+        int a = (int) Math.floor(Math.sqrt(l));
+
+        String decrypted="";
+    
+
+        // Matrix to generate the 
+
+        // Encrypted String
+
+        char [][]arr = new char[a][b];
+
+        int k = 0;
+
+        
+
+        // Fill the matrix column-wise
+
+        for (int j = 0; j < b; j++) 
+
+        {
+
+            for (int i = 0; i < a; i++) 
+
+            {
+
+                if (k < l)
+
+                {
+
+                    arr[j][i] = s.charAt(k);
+
+                }
+
+                k++;
+
+            }
+
+        }
+    
+
+        // Loop to generate 
+
+        // decrypted String
+
+        for (int j = 0; j < a; j++) 
+
+        {
+
+            for (int i = 0; i < b; i++) 
+
+            {
+
+                decrypted = decrypted + 
+
+                            arr[i][j];
+
+            }
+
+        }
+
+        return decrypted;
     }
 }
