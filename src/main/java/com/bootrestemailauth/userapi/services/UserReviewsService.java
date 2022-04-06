@@ -95,12 +95,14 @@ public class UserReviewsService {
                 List<UserReviewsResponse> reviews = new ArrayList<>();
                 for(int i=0;i<list.size();i++){
                     userRequest = userDao.getUserRequestById(list.get(i).getUserid());
-                    
+                    UserReviewsResponse userReviewsResponse = new UserReviewsResponse();
+
 
                     userReviewsResponse.setUserName(userRequest.getName());
                     userReviewsResponse.setUserRating(list.get(i).getUser_rating());
                     userReviewsResponse.setDate_of_visit(list.get(i).getDate_of_visit().toString());
                     userReviewsResponse.setUserReview(list.get(i).getReview());
+                    reviews.add(userReviewsResponse);
                 }
                 return ResponseEntity.ok().body(reviews);
             }
