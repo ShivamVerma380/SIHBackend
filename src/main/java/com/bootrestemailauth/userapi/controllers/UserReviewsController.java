@@ -21,12 +21,12 @@ public class UserReviewsController {
         return userReviewsService.addReview(auth, monument_name, date_of_visit, rating, review);
     }
 
-    @GetMapping("/review/monument")
+    @PostMapping("/review/monument")
     public ResponseEntity<?> getMonumentReview(@RequestParam("monument_name") String monument_name){
         return userReviewsService.getMonumentReviews(monument_name);
     }
 
-    @GetMapping("/review/user")
+    @PostMapping("/review/user")
     public ResponseEntity<?> getUserReview(@RequestHeader("Authorization") String auth){
         return userReviewsService.getUserReviews(auth);
     }
