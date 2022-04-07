@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 
 @Entity
+@Component
 @Table(name = "live_stream")
 public class LiveStreamDetails {
     @Id
