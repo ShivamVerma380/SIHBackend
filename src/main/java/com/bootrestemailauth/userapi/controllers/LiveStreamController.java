@@ -96,4 +96,16 @@ public class LiveStreamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+    @GetMapping("/getLiveStream/{monument}")
+    public ResponseEntity<?> getResourceUri(@PathVariable("monument") String monument_name){
+        try{
+            LiveStreamDetails liveStream = liveStreamDao.getLiveStreamDetailsBymonumentname(monument_name);
+            responseMessage.setMessage(liveStream.getResource());
+            return ResponseEntity.ok().body(responseMessage);
+        }catch(Exception e){
+            e.printStackTrace();
+            responseMessage.setMessage(e.getMessage());
+            return ResponseEntity.internalServerError().body(responseMessage);
+        }
+    }
 }
