@@ -53,6 +53,7 @@ public class MonumentRequest {
     @JsonBackReference
     private Blob monumentPOA;
 
+    @Lob
     @Column(name = "description")
     private String monumentDescription;
 
