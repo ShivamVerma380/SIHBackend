@@ -56,7 +56,7 @@ public class LiveStreamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMessage);
         }
     }
-    @GetMapping("/getAllLiveSchedules")
+    @GetMapping("/get-all-live-schedules")
     public ResponseEntity<?> getAllLiveSchedules(){
         try{
             List<LiveStreamSchedule> livestreamlist = new ArrayList<>();
